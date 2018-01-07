@@ -3,8 +3,10 @@
 """"""
 
 import pyglet
+import swine
 
-window = pyglet.window.Window()
+# window = pyglet.window.Window()
+window = swine.Window()
 
 while True:
     pyglet.clock.tick()

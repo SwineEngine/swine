@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """"""
 
+from .window import Window
 from .loop import *
 
 __title__ = "swine"
