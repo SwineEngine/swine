@@ -9,6 +9,7 @@ class Window(pyglet.window.Window):
         # type: (str) -> None
         pyglet.window.Window.__init__(self, style=style, vsync=vsync)
 
+        self._title = ""
         self._icon = None
         self._fullscreen = False
         self._min_size = (0, 0)
@@ -22,15 +23,16 @@ class Window(pyglet.window.Window):
         :param title:
         :return:
         """
+        self._title = title
         self.set_caption(title)
 
-        return self.get_caption()
+        return self._title
 
     def icon(self, image):
         # type: (pyglet.image.AbstractImage) -> str
         """
         Sets and returns the icon of the window.
-        
+
         :param image:
         :return:
         """
@@ -105,6 +107,16 @@ class Window(pyglet.window.Window):
         self.set_location(x, y)
 
         return self.get_location()
+
+    def mainloop(self):
+        while True:
+            pyglet.clock.tick()
+
+            for window in pyglet.app.windows:
+                window.switch_to()
+                window.dispatch_events()
+                window.dispatch_event('on_draw')
+                window.flip()
 
     def on_draw(self):
         self.clear()

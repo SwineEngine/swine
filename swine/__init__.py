@@ -3,7 +3,6 @@
 """"""
 
 from .window import Window
-from .loop import *
 
 __title__ = "swine"
 
