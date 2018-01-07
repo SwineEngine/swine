@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """"""
 
+from .loop import *
+
 __title__ = "swine"
 
 __author__ = "DeflatedPickle/Dibbo"
