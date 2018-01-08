@@ -3,6 +3,7 @@
 """"""
 
 from .window import Window
+from .scene import Scene
 from .gui import *
 
 __title__ = "swine"

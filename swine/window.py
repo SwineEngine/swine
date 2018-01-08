@@ -17,6 +17,9 @@ class Window(pyglet.window.Window):
         self._max_size = (0, 0)
 
         self._loop = True
+        
+        self.scene_list = []
+        self.active_scene = 0
 
     def title(self, title):
         # type: (str) -> str
@@ -120,3 +123,9 @@ class Window(pyglet.window.Window):
                 window.dispatch_events()
                 window.dispatch_event('on_draw')
                 window.flip()
+                
+    def on_draw(self):
+        self.clear()
+
+        for item in self.scene_list[self.active_scene].draw_list:
+            item.draw()
