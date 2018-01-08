@@ -4,6 +4,7 @@
 
 import pyglet
 
+
 class Window(pyglet.window.Window):
     def __init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
         # type: (str) -> None
@@ -14,6 +15,8 @@ class Window(pyglet.window.Window):
         self._fullscreen = False
         self._min_size = (0, 0)
         self._max_size = (0, 0)
+
+        self._loop = True
 
     def title(self, title):
         # type: (str) -> str
@@ -109,7 +112,7 @@ class Window(pyglet.window.Window):
         return self.get_location()
 
     def mainloop(self):
-        while True:
+        while self._loop:
             pyglet.clock.tick()
 
             for window in pyglet.app.windows:
