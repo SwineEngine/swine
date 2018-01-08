@@ -10,7 +10,7 @@ class Scene(object):
         # type: (Window) -> None
         self.window = window
 
-        self.index = 0
+        self.id = len(self.window.scene_list)
         self.draw_list = []
 
         self.window.scene_list.append(self)

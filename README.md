@@ -12,5 +12,5 @@ A Python game engine written atop of Pyglet.
 | Collision | 0% |
 | Game Objects | 0% |
 | Scenes | 100% |
-| Draw automation | 0% |
+| Draw automation | 100% |
 | Globals | 0% |
