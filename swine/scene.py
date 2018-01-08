@@ -8,9 +8,9 @@ from swine import Window
 class Scene(object):
     def __init__(self, window):
         # type: (Window) -> None
-        self.window = window
+        self._window = window
 
-        self.id = len(self.window.scene_list)
+        self.id = len(self._window.scene_list)
         self.draw_list = []
 
-        self.window.scene_list.append(self)
+        self._window.scene_list.append(self)

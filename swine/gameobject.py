@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 """"""
 
+from swine import Scene
+
 
 class GameObject(object):
     def __init__(self, scene):
-        self.scene = scene
+        # type: (Scene) -> None
+        self._scene = scene
 
-        self.id = len(self.scene.draw_list)
+        self.id = len(self._scene.draw_list)
         self.tags = []

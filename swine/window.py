@@ -9,6 +9,9 @@ class Window(pyglet.window.Window):
     def __init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
         # type: (str) -> None
         pyglet.window.Window.__init__(self, resizable=resizable, vsync=vsync, style=style)
+        self._resizeable = resizable
+        self._vsync = vsync
+        self._style = style
 
         self._title = ""
         self._icon = None

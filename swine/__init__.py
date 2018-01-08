@@ -4,6 +4,7 @@
 
 from .window import Window
 from .scene import Scene
+from .gameobject import GameObject
 from .gui import *
 
 __title__ = "swine"
