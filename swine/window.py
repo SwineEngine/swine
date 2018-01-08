@@ -117,6 +117,3 @@ class Window(pyglet.window.Window):
                 window.dispatch_events()
                 window.dispatch_event('on_draw')
                 window.flip()
-
-    def on_draw(self):
-        self.clear()
