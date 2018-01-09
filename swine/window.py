@@ -130,5 +130,4 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
 
-        for item in self.scene_list[self.active_scene].draw_list:
-            item.draw()
+        self.scene_list[self.active_scene].batch.draw()

@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """"""
 
+import pyglet
+
 from swine import Window
 
 
@@ -11,6 +13,7 @@ class Scene(object):
         self._window = window
 
         self.id = len(self._window.scene_list)
+        self.batch = pyglet.graphics.Batch()
         self.draw_list = []
 
         self._window.scene_list.append(self)

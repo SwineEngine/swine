@@ -9,7 +9,7 @@ from swine import Scene
 class Label(pyglet.text.Label):
     def __init__(self, scene, text, x, y):
         # type: (Scene, str, int, int) -> None
-        pyglet.text.Label.__init__(self, text=text, x=x, y=y)
+        pyglet.text.Label.__init__(self, text=text, x=x, y=y, batch=scene.batch)
         self._scene = scene
         self._text = text
         self._x = x
