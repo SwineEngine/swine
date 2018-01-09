@@ -19,8 +19,4 @@ class Scene(object):
 
         self._window.scene_list.append(self)
 
-    def update(self):
-        for item in self.object_list:
-            pyglet.clock.schedule_interval(item.update, 1 / FPS)
-
 

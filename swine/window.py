@@ -130,5 +130,4 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
 
-        self.scene_list[self.active_scene].update()
         self.scene_list[self.active_scene].batch.draw()

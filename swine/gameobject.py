@@ -2,16 +2,21 @@
 # -*- coding: utf-8 -*-
 """"""
 
-from swine import Scene
+import pyglet
+
+from swine import FPS, Scene
 
 
 class GameObject(object):
     def __init__(self, scene):
         # type: (Scene) -> None
         self._scene = scene
+        self.window = self._scene._window
 
         self.id = len(self._scene.object_list)
         self.tags = []
+
+        pyglet.clock.schedule_interval(self.update, 1 / FPS)
 
         self.start()
 

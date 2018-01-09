@@ -6,3 +6,4 @@ FONT_FAMILY = "Courier"
 FONT_SIZE = 12
 
 FPS = 60
+FPS_LIMIT = 60
