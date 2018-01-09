@@ -5,7 +5,6 @@
 import pyglet
 
 from swine import Window
-from swine import FPS
 
 
 class Scene(object):

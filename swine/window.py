@@ -28,6 +28,8 @@ class Window(pyglet.window.Window):
 
         pyglet.clock.set_fps_limit(FPS_LIMIT)
 
+        # self.icon(pyglet.image.load("swine.png"))
+
     def title(self, title):
         # type: (str) -> str
         """

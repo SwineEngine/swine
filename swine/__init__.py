@@ -6,6 +6,7 @@ from .globals import *
 from .window import Window
 from .scene import Scene
 from .gameobject import GameObject
+from .sprite import Sprite
 from .gui import *
 
 __title__ = "swine"
