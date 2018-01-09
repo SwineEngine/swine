@@ -13,7 +13,7 @@ label_two = swine.gui.Label(scene_two, text="Bye World!", x=window.width // 2, y
 
 class FPS(swine.gui.Label):
     def update(self, event=None):
-        self.text = str(pyglet.clock.get_fps())
+        self.text = str(round(pyglet.clock.get_fps(), 1))
 
 
 fps = FPS(scene_one, x=10, y=10)

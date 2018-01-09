@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """"""
 
-from .window import Window
 from .globals import *
+from .window import Window
 from .scene import Scene
 from .gameobject import GameObject
 from .gui import *

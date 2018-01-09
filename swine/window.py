@@ -4,6 +4,8 @@
 
 import pyglet
 
+from swine import FPS_LIMIT
+
 
 class Window(pyglet.window.Window):
     def __init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
@@ -23,6 +25,8 @@ class Window(pyglet.window.Window):
         
         self.scene_list = []
         self.active_scene = 0
+
+        pyglet.clock.set_fps_limit(FPS_LIMIT)
 
     def title(self, title):
         # type: (str) -> str
