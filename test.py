@@ -72,6 +72,9 @@ class Pig(swine.Sprite):
             self.x += self.speed
             self.scale_x = 1
 
+    def on_key_press(self, symbol, modifiers):
+        print(key.symbol_string(symbol))
+
 
 pig = Pig()
 

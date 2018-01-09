@@ -143,3 +143,19 @@ class Window(pyglet.window.Window):
         self.clear()
 
         self.scene_list[self.active_scene].batch.draw()
+
+    def on_key_press(self, symbol, modifiers):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_key_press(symbol, modifiers)
+
+    def on_key_release(self, symbol, modifiers):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_key_release(symbol, modifiers)
+
+    def on_text(self, text):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_text(text)
+
+    def on_text_motion(self, motion):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_text_motion(motion)

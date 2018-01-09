@@ -28,3 +28,15 @@ class GameObject(object):
 
     def update(self, event=None):
         pass
+
+    def on_key_press(self, symbol, modifiers):
+        pass
+
+    def on_key_release(self, symbol, modifiers):
+        pass
+
+    def on_text(self, text):
+        pass
+
+    def on_text_motion(self, motion):
+        pass
