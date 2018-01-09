@@ -1,5 +1,6 @@
 import swine
 import pyglet
+from pyglet.window import key
 
 window = swine.Window()
 window.title("Test")
@@ -38,12 +39,39 @@ class AnimatedLabel(swine.gui.Label):
 
 anim_label = AnimatedLabel(scene_one, x=window.width // 2, y=window.height // 2 - 30)
 
-image = pyglet.image.load("swine/swine.png")
-# texture = image.get_texture()
-# texture.width = 64
-# texture.height = 64
 
-sprite = swine.Sprite(scene_one, image, 6)
+class Pig(swine.Sprite):
+    image = pyglet.image.load("swine/swine.png")
+    image.anchor_x = image.width // 2
+    image.anchor_y = image.height // 2
+
+    def __init__(self):
+        swine.Sprite.__init__(self, scene_one, Pig.image, 6)
+
+        self.scale_x = 1
+        self.speed = 3
+
+    def update(self, event=None):
+        if self.keys[key.W]:
+            # print("W")
+            self.y += self.speed
+
+        if self.keys[key.A]:
+            # print("A")
+            self.x -= self.speed
+            self.scale_x = -1
+
+        if self.keys[key.S]:
+            # print("S")
+            self.y -= self.speed
+
+        if self.keys[key.D]:
+            # print("D")
+            self.x += self.speed
+            self.scale_x = 1
+
+
+pig = Pig()
 
 
 window.mainloop()
