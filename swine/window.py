@@ -124,6 +124,8 @@ class Window(pyglet.window.Window):
         return self.get_location()
 
     def mainloop(self):
+        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST)
+
         while self._loop:
             pyglet.clock.tick()
 
