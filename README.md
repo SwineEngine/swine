@@ -16,4 +16,5 @@ A Python game engine written atop of Pyglet.
 | Globals | 10% |
 | Update Methods | 100% |
 | Start Method | 100% |
+| Render Layers | 0% |
 | Documentation | 0% |
