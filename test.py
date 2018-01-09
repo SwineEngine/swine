@@ -8,7 +8,7 @@ window.title("Test")
 scene_one = swine.Scene(window)
 scene_two = swine.Scene(window)
 
-label_one = swine.gui.Label(scene_one, text="Hello World!", x=window.width // 2, y=window.height // 2)
+label_one = swine.gui.Label(scene_one, text="Hello World!", x=window.width // 2, y=window.height // 2, layer=2)
 label_two = swine.gui.Label(scene_two, text="Bye World!", x=window.width // 2, y=window.height // 2)
 
 
@@ -21,9 +21,11 @@ fps = FPS(scene_one, x=10, y=10)
 
 
 class AnimatedLabel(swine.gui.Label):
+    def __init__(self, scene, x, y):
+        swine.gui.Label.__init__(self, scene, text="", x=x, y=y, layer=0)
+
     def start(self, event=None):
-        self.frames = ["|+----|", "|-+---|", "|--+--|", "|---+-|", "|----+|",
-                       "|---+-|", "|--+--|", "|-+---|"]
+        self.frames = ["[+---------]", "[-+--------]", "[--+-------]", "[---+------]", "[----+-----]", "[-----+----]", "[------+---]", "[-------+--]", "[--------+-]", "[---------+]"]
 
         self.current = 0
 
@@ -46,7 +48,9 @@ class Pig(swine.Sprite):
     image.anchor_y = image.height // 2
 
     def __init__(self):
-        swine.Sprite.__init__(self, scene_one, Pig.image, 6)
+        swine.Sprite.__init__(self, scene_one, Pig.image, 6, layer=1)
+        self.x = self.window.width // 2
+        self.y = self.window.height // 2
 
         self.scale_x = 1
         self.speed = 3

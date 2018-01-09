@@ -21,8 +21,8 @@ class Window(pyglet.window.Window):
         self._min_size = (0, 0)
         self._max_size = (0, 0)
 
-        self.keys = pyglet.window.key.KeyStateHandler()
-        self.push_handlers(self.keys)
+        self._keys = pyglet.window.key.KeyStateHandler()
+        self.push_handlers(self._keys)
 
         self._loop = True
         

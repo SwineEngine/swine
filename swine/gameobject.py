@@ -8,11 +8,13 @@ from swine import FPS, Scene
 
 
 class GameObject(object):
-    def __init__(self, scene):
+    def __init__(self, scene, layer=0):
         # type: (Scene) -> None
         self._scene = scene
+        self._layer = layer
+
         self.window = self._scene._window
-        self.keys = self.window.keys
+        self.keys = self.window._keys
 
         self.id = len(self._scene.object_list)
         self.tags = []
