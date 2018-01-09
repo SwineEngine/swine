@@ -16,4 +16,4 @@ class Sprite(GameObject):
         self.image = image
 
         self.sprite = pyglet.sprite.Sprite(img=self.image, batch=scene.batch)
-        self._scene.draw_list.append(self.sprite)
+        self._scene.object_list.append(self.sprite)

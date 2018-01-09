@@ -3,6 +3,7 @@
 """"""
 
 from .window import Window
+from .globals import *
 from .scene import Scene
 from .gameobject import GameObject
 from .gui import *

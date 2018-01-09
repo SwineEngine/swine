@@ -3,10 +3,10 @@
 """"""
 
 import pyglet
-from swine import Scene
+from swine import GameObject, Scene
 
 
-class Label(pyglet.text.Label):
+class Label(GameObject, pyglet.text.Label):
     def __init__(self, scene, text, x, y):
         # type: (Scene, str, int, int) -> None
         pyglet.text.Label.__init__(self, text=text, x=x, y=y, batch=scene.batch)
@@ -15,4 +15,7 @@ class Label(pyglet.text.Label):
         self._x = x
         self._y = y
 
-        self._scene.draw_list.append(self)
+        self._scene.object_list.append(self)
+
+    def update(self, event=None):
+        self.x += 1

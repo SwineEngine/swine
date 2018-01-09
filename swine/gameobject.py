@@ -10,5 +10,13 @@ class GameObject(object):
         # type: (Scene) -> None
         self._scene = scene
 
-        self.id = len(self._scene.draw_list)
+        self.id = len(self._scene.object_list)
         self.tags = []
+
+        self.start()
+
+    def start(self, event=None):
+        pass
+
+    def update(self, event=None):
+        pass

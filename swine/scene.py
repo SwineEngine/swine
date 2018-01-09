@@ -5,6 +5,7 @@
 import pyglet
 
 from swine import Window
+from swine import FPS
 
 
 class Scene(object):
@@ -14,6 +15,12 @@ class Scene(object):
 
         self.id = len(self._window.scene_list)
         self.batch = pyglet.graphics.Batch()
-        self.draw_list = []
+        self.object_list = []
 
         self._window.scene_list.append(self)
+
+    def update(self):
+        for item in self.object_list:
+            pyglet.clock.schedule_interval(item.update, 1 / FPS)
+
+
