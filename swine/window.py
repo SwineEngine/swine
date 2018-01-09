@@ -3,6 +3,7 @@
 """"""
 
 import pyglet
+import os
 
 from swine import FPS_LIMIT
 
@@ -31,7 +32,7 @@ class Window(pyglet.window.Window):
 
         pyglet.clock.set_fps_limit(FPS_LIMIT)
 
-        # self.icon(pyglet.image.load("swine.png"))
+        self.icon(pyglet.image.load(os.path.join("\\".join(__file__.split("\\")[0:-1]), "swine.png")))
 
     def title(self, title):
         # type: (str) -> str

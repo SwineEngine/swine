@@ -23,8 +23,6 @@ fps = FPS(scene_one, x=10, y=10)
 class AnimatedLabel(swine.gui.Label):
     def __init__(self, scene, x, y):
         swine.gui.Label.__init__(self, scene, text="", x=x, y=y, layer=0)
-
-    def start(self, event=None):
         self.frames = ["[+---------]", "[-+--------]", "[--+-------]", "[---+------]", "[----+-----]", "[-----+----]", "[------+---]", "[-------+--]", "[--------+-]", "[---------+]"]
 
         self.current = 0
