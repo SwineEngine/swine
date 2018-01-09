@@ -39,11 +39,11 @@ class AnimatedLabel(swine.gui.Label):
 anim_label = AnimatedLabel(scene_one, x=window.width // 2, y=window.height // 2 - 30)
 
 image = pyglet.image.load("swine/swine.png")
-texture = image.get_texture()
-texture.width = 64
-texture.height = 64
+# texture = image.get_texture()
+# texture.width = 64
+# texture.height = 64
 
-sprite = swine.Sprite(scene_one, image)
+sprite = swine.Sprite(scene_one, image, 6)
 
 
 window.mainloop()
