@@ -6,11 +6,14 @@ A Python game engine written atop of Pyglet.
 | ---- | -------- |
 | Main loop | 100% |
 | Window creation | 50% |
-| Sprites | 0% |
+| Sprites | 10% |
 | Sounds | 0% |
-| GUI | 0% |
+| GUI | 3% |
 | Collision | 0% |
-| Game Objects | 0% |
+| Game Objects | 20% |
 | Scenes | 100% |
 | Draw automation | 100% |
-| Globals | 0% |
+| Globals | 10% |
+| Update Methods | 100% |
+| Start Method | 100% |
+| Documentation | 0% |
