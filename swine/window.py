@@ -21,6 +21,9 @@ class Window(pyglet.window.Window):
         self._min_size = (0, 0)
         self._max_size = (0, 0)
 
+        self.keys = pyglet.window.key.KeyStateHandler()
+        self.push_handlers(self.keys)
+
         self._loop = True
         
         self.scene_list = []

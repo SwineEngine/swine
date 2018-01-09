@@ -12,6 +12,7 @@ class GameObject(object):
         # type: (Scene) -> None
         self._scene = scene
         self.window = self._scene._window
+        self.keys = self.window.keys
 
         self.id = len(self._scene.object_list)
         self.tags = []
