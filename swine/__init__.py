@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 """"""
 
+import json
+import os
+
 from .globals import *
 from .window import Window
 from .scene import Scene
@@ -9,14 +12,20 @@ from .gameobject import GameObject
 from .sprite import Sprite
 from .gui import *
 
-__title__ = "swine"
+with open(os.path.join(os.path.dirname(__file__), "info.json")) as info:
+    info_json = json.load(info)
 
-__author__ = "DeflatedPickle/Dibbo"
-__copyright__ = "Copyright (c) 2018 Dibbo"
-__credits__ = ["DeflatedPickle/Dibbo"]
+    __title__ = info_json["name"]
 
-__license__ = "MIT"
-__version__ = "1.10.0"
-__maintainer__ = "DeflatedPickle/Dibbo"
-__email__ = "DeflatedPickle@gmail.com"
-__status__ = "Development"
+    __author__ = info_json["author"]
+    __copyright__ = info_json["copyright"]
+    __credits__ = info_json["credits"]
+
+    __license__ = info_json["license"]
+    __version__ = info_json["version"]
+    __maintainer__ = info_json["maintainer"]
+    __email__ = info_json["author_email"]
+    __status__ = info_json["status"]
+
+del json
+del os

@@ -1,0 +1,24 @@
+{
+  "name": "swine",
+  "version": "1.10.0",
+  "description": "A Python game engine written atop of Pyglet.",
+  "author": "DeflatedPickle/Dibbo",
+  "author_email": "DeflatedPickle@gmail.com",
+  "url": "https://github.com/DeflatedPickle/Swine",
+  "license": "MIT",
+  "classifiers": [
+      "Intended Audience :: Developers",
+      "License :: OSI Approved :: MIT License",
+      "Programming Language :: Python :: 3.4",
+      "Programming Language :: Python :: 3.5",
+      "Programming Language :: Python :: 3.6"
+  ],
+  "keywords": ["swine", "game", "engine", "game engine"],
+  "packages": ["swine"],
+
+  "copyright": "Copyright (c) 2018 Dibbo",
+  "credits": ["DeflatedPickle/Dibbo"],
+
+  "maintainer": "DeflatedPickle/Dibbo",
+  "status": "Development"
+}
