@@ -51,7 +51,7 @@ class Pig(swine.Sprite):
         self.y = self.window.height // 2
 
         self.scale_x = 1
-        self.speed = 3
+        self.speed = 5
 
     def update(self, event=None):
         if self.keys[key.W]:
