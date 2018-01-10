@@ -19,4 +19,5 @@ A Python game engine written atop of Pyglet.
 | Render Layers | 100% |
 | Prefabs | 0% |
 | Children/Parents | 0% |
+| Tags | 1% |
 | Documentation | 0% |
