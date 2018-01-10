@@ -1,8 +1,8 @@
 build:
-	python3 setup,py sdist
+	python setup.py sdist
 
 build_wheel:
-	python3 setup.py bdist_wheel
+	python setup.py bdist_wheel
 
 install: clean build
 	pip3 install dist/*
@@ -10,5 +10,5 @@ install: clean build
 clean:
 	rm -rf dist/
 
-upload:
+upload: clean build build_wheel
 	twine upload dist/*

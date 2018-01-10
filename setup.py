@@ -6,7 +6,7 @@ import json
 from setuptools import setup
 
 with open("swine/info.json") as info:
-    info_json = json.loads(info)
+    info_json = json.load(info)
 
     setup(name=info_json["name"],
           version=info_json["version"],
