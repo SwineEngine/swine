@@ -1,6 +1,7 @@
 import swine
 import pyglet
 from pyglet.window import key
+from pyglet.window import mouse
 
 window = swine.Window()
 window.title("Test")
@@ -74,6 +75,9 @@ class Pig(swine.Sprite):
 
     def on_key_press(self, symbol, modifiers):
         print(key.symbol_string(symbol))
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        print(mouse.buttons_string(button))
 
 
 pig = Pig()

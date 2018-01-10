@@ -159,3 +159,27 @@ class Window(pyglet.window.Window):
     def on_text_motion(self, motion):
         for item in self.scene_list[self.active_scene].object_list:
             item.on_text_motion(motion)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_mouse_motion(x, y, dx, dy)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_mouse_press(x, y, button, modifiers)
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_mouse_release(x, y, button, modifiers)
+
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_mouse_drag(x, y, dx, dy, buttons, modifiers)
+
+    def on_mouse_enter(self, x, y):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_mouse_enter(x, y)
+
+    def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.on_mouse_scroll(x, y, scroll_x, scroll_y)
