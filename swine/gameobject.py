@@ -20,13 +20,14 @@ class GameObject(object):
         self.tags = []
 
         pyglet.clock.schedule_interval(self.update, 1 / FPS)
+        # pyglet.clock.schedule(self.update)
 
         self.start()
 
-    def start(self, event=None):
+    def start(self):
         pass
 
-    def update(self, event=None):
+    def update(self, dt=None):
         pass
 
     def on_key_press(self, symbol, modifiers):

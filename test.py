@@ -13,12 +13,12 @@ label_one = swine.gui.Label(scene_one, text="Hello World!", x=window.width // 2,
 label_two = swine.gui.Label(scene_two, text="Bye World!", x=window.width // 2, y=window.height // 2)
 
 
-class FPS(swine.gui.Label):
-    def update(self, event=None):
+class FPSLabel(swine.gui.Label):
+    def update(self, dt=None):
         self.text = str(round(pyglet.clock.get_fps(), 1))
 
 
-fps = FPS(scene_one, x=10, y=10)
+fps = FPSLabel(scene_one, x=10, y=10)
 
 
 class AnimatedLabel(swine.gui.Label):
@@ -28,7 +28,7 @@ class AnimatedLabel(swine.gui.Label):
 
         self.current = 0
 
-    def update(self, event=None):
+    def update(self, dt=None):
         if self.current < len(self.frames) - 1:
             self.current += 1
 
@@ -52,25 +52,29 @@ class Pig(swine.Sprite):
         self.y = self.window.height // 2
 
         self.scale_x = 1
-        self.speed = 5
 
-    def update(self, event=None):
+    def update(self, dt=None):
+        speed = dt * swine.FPS
+
+        if self.keys[key.LSHIFT]:
+            speed *= 2
+
         if self.keys[key.W]:
             # print("W")
-            self.y += self.speed
+            self.y += speed
 
         if self.keys[key.A]:
             # print("A")
-            self.x -= self.speed
+            self.x -= speed
             self.scale_x = -1
 
         if self.keys[key.S]:
             # print("S")
-            self.y -= self.speed
+            self.y -= speed
 
         if self.keys[key.D]:
             # print("D")
-            self.x += self.speed
+            self.x += speed
             self.scale_x = 1
 
     def on_key_press(self, symbol, modifiers):
