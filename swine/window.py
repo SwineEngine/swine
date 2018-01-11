@@ -34,6 +34,8 @@ class Window(pyglet.window.Window):
 
         self.icon(pyglet.image.load(os.path.join(os.path.dirname(__file__), "swine.png")))
 
+        self.clock = pyglet.clock.get_default()
+
     def title(self, title):
         # type: (str) -> str
         """
