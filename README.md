@@ -24,4 +24,5 @@ With Python installed, and added to your PATH, open up the terminal and type `pi
 | Children/Parents | 0% |
 | Tags | 1% |
 | Physics | 0% |
+| Modding API | 0% |
 | Documentation | 0% |
