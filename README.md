@@ -1,5 +1,5 @@
 # Swine
-A Python game engine written atop of Pyglet.
+A Python game engine, written atop of Pyglet.
 
 ## Installing
 With Python installed, and added to your PATH, open up the terminal and type `pip3 install swine`.
