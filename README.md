@@ -25,4 +25,5 @@ With Python installed, and added to your PATH, open up the terminal and type `pi
 | Tags | 1% |
 | Physics | 0% |
 | Modding API | 0% |
+| In-Game Terminal | 0% |
 | Documentation | 0% |
