@@ -17,4 +17,5 @@ with open("swine/info.json") as info:
           license=info_json["license"],
           classifiers=info_json["classifiers"],
           keywords=info_json["keywords"],
-          packages=info_json["packages"])
+          packages=info_json["packages"],
+          install_requires=["pyglet"])
