@@ -136,10 +136,21 @@ class Window(pyglet.window.Window):
             pyglet.clock.tick()
 
             for window in pyglet.app.windows:
-                window.switch_to()
-                window.dispatch_events()
-                window.dispatch_event('on_draw')
-                window.flip()
+                try:
+                    window.switch_to()
+                    window.dispatch_events()
+                    window.dispatch_event('on_draw')
+                    window.flip()
+
+                except AttributeError:
+                    pass
+
+    def close(self):
+        self._loop = False
+        pyglet.window.Window.close(self)
+
+    def on_close(self):
+        self.close()
                 
     def on_draw(self):
         self.clear()
