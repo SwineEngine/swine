@@ -4,8 +4,6 @@
 
 import math
 
-import pyglet
-
 from swine import GameObject, Scene
 from .polygon import Polygon
 

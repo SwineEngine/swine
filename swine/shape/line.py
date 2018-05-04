@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 """"""
 
-import pyglet
-
 from swine import GameObject, Scene
 from .rectangle import Rectangle
 
