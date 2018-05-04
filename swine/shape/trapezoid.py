@@ -22,6 +22,8 @@ class Trapezoid(Polygon):
             tr = x + width
             br = x - expand
 
-        points = [tl, y, bl, y,
-                  tr, y + height, br, y + height]
+        points = [tl, y,  # Top left
+                  bl, y,  # Bottom left
+                  tr, y + height,  # Top right
+                  br, y + height]  # Bottom right
         Polygon.__init__(self, scene, fill, 4, x, y, layer, points, colours=colours)

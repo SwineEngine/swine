@@ -18,6 +18,7 @@ class Triangle(Polygon):
         elif tip_placement == "right":
             tip = width
 
-        points = [x, y, x + width, y,
-                  x + tip, y + height]
+        points = [x, y,  # Bottom left
+                  x + width, y,  # Bottom right
+                  x + tip, y + height]  # Tip
         Polygon.__init__(self, scene, fill, 3, x, y, layer, points, colours=colours)
