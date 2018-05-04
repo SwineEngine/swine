@@ -11,3 +11,4 @@ from .parallelogram import Parallelogram
 from .circle import Circle
 from .ellipse import Ellipse
 from .trapezoid import Trapezoid
+from .rhombus import Rhombus
