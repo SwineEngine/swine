@@ -89,5 +89,6 @@ pig = Pig()
 line = swine.Line(scene_one, 100, 5, 100, 50, 0, [swine.RED])
 rect = swine.Rectangle(scene_one, 100, 50, True, 50, 50, 0, swine.GREEN)
 squ = swine.Square(scene_one, 50, True, 25, 20, 0, [swine.BLUE, swine.RED])
+tri = swine.Triangle(scene_one, 50, 70, False, 20, 120, 0, [swine.RED, swine.GREEN, swine.BLUE])
 
 window.mainloop()
