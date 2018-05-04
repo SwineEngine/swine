@@ -5,26 +5,19 @@
 import pyglet
 
 from swine import GameObject, Scene
+from .polygon import Polygon
 
 
-class Line(GameObject):
-    def __init__(self, scene, width, height, x=0, y=0, layer=0, *colours):
+class Line(Polygon):
+    def __init__(self, scene,  height, thickness=1, x=0, y=0, layer=0, *colours):
         # type: (Scene, int, int, int, int, int, list[str]) -> None
         GameObject.__init__(self, scene=scene)
-        self._layer = layer
-        self._scene = scene
-        self._x = x
-        self._y = y
+        points = [x, y, x, y + height]
 
-        required_colours = 2
+        for i in range(thickness):
+            points.append(x + i)
+            points.append(y)
+            points.append(x + i)
+            points.append(y + height)
 
-        if len(colours) < required_colours:
-            colours += colours
-
-        colours = tuple(sum(colours, ()))
-
-        scene.batch.add(2, pyglet.gl.GL_LINES, None,
-                        ('v2i', (x, y, x + width, y + height)),
-                        ('c3B', colours))
-
-        self._scene.object_list.append(self)
+        Polygon.__init__(self, scene, False, 2 + (thickness * 2), x, y, layer, points, colours=colours)
