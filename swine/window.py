@@ -155,7 +155,8 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
 
-        self.scene_list[self.active_scene].batch.draw()
+        for batch in self.scene_list[self.active_scene].batch_list:
+            batch.draw()
 
     def on_key_press(self, symbol, modifiers):
         for item in self.scene_list[self.active_scene].object_list:

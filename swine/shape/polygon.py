@@ -23,8 +23,10 @@ class Polygon(GameObject):
         else:
             mode = pyglet.gl.GL_LINE_LOOP
 
-        scene.batch.add(point_total, mode, None,
-                        ('v2i', points),
-                        ('c3B', colours))
+        self.batch = pyglet.graphics.Batch()
+        self.batch.add(point_total, mode, None,
+                       ('v2i', points),
+                       ('c3B', colours))
+        self._scene.batch_list.append(self.batch)
 
         self._scene.object_list.append(self)
