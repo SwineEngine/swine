@@ -92,5 +92,6 @@ squ = swine.Square(scene_one, 50, True, 25, 20, 0, [swine.BLUE, swine.RED])
 tri = swine.Triangle(scene_one, 50, 70, "center", False, 20, 120, 0, [swine.RED, swine.GREEN, swine.BLUE])
 par = swine.Parallelogram(scene_one, 70, 50, 10, "right", True, 200, 50, 0, [swine.BLUE])
 cir = swine.Circle(scene_one, 50, 25, False, 180, 180, 0, [swine.RED, swine.BLUE, swine.GREEN, swine.BLUE, swine.RED] * (25 // 5))
+ell = swine.Ellipse(scene_one, 50, 25, 25, True, 125, 150, 0, swine.GREEN)
 
 window.mainloop()
