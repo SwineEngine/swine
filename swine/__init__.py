@@ -6,6 +6,7 @@ import json
 import os
 
 from .globals import *
+from .colours import *
 from .window import Window
 from .scene import Scene
 from .gameobject import GameObject
