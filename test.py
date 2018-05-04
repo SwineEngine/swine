@@ -86,8 +86,8 @@ class Pig(swine.Sprite):
 
 pig = Pig()
 
-line = swine.Line(scene_one, 100, 5, 100, 50, 0, swine.RED)
+line = swine.Line(scene_one, 100, 5, 100, 50, 0, [swine.RED])
 rect = swine.Rectangle(scene_one, 100, 50, True, 50, 50, 0, swine.GREEN)
-squ = swine.Square(scene_one, 50, True, 25, 20, 0, swine.BLUE)
+squ = swine.Square(scene_one, 50, True, 25, 20, 0, [swine.BLUE, swine.RED])
 
 window.mainloop()

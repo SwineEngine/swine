@@ -16,7 +16,13 @@ class Polygon(GameObject):
         self._x = x
         self._y = y
 
-        colours *= point_total
+        if isinstance(colours, list):
+            while len(colours) < point_total:
+                colours.append(colours[-1])
+
+            colours = tuple(sum(colours, ()))
+        elif isinstance(colours, tuple):
+            colours *= point_total
 
         if fill:
             mode = pyglet.gl.GL_POLYGON
