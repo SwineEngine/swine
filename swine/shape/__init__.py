@@ -8,3 +8,4 @@ from .rectangle import Rectangle
 from .square import Square
 from .triangle import Triangle
 from .parallelogram import Parallelogram
+from .circle import Circle
