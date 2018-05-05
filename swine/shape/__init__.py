@@ -12,3 +12,4 @@ from .circle import Circle
 from .ellipse import Ellipse
 from .trapezoid import Trapezoid
 from .rhombus import Rhombus
+from .pentagon import Pentagon
