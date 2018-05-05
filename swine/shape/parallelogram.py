@@ -22,8 +22,8 @@ class Parallelogram(Polygon):
             tr = x + width + skew
             br = x + skew
 
-        points = [tl, y,  # Top left
-                  bl, y,  # Bottom left
+        points = [tl, y,  # Bottom left
+                  bl, y,  # Bottom right
                   tr, y + height,  # Top right
-                  br, y + height]  # Bottom right
+                  br, y + height]  # Top left
         Polygon.__init__(self, scene, fill, 4, x, y, layer, points, colours=colours)
