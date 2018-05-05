@@ -42,3 +42,5 @@ class Polygon(GameObject):
 
         return colours
 
+    def colour(self, colours=[]):
+        self._shape.colors = self._colour_handler(colours)
