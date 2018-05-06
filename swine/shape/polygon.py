@@ -16,6 +16,7 @@ class Polygon(GameObject):
         self._point_total = point_total
         self._x = x
         self._y = y
+        self._points = points
         self._colours = self._colour_handler(colours)
 
         if fill:
@@ -44,3 +45,5 @@ class Polygon(GameObject):
 
     def colour(self, colours=[]):
         self._shape.colors = self._colour_handler(colours)
+
+        return colours
