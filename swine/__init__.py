@@ -11,8 +11,8 @@ from .window import Window
 from .scene import Scene
 from .gameobject import GameObject
 from .sprite import Sprite
-from .gui import *
-from .shape import *
+# from .gui import *
+# from .shape import *
 
 with open(os.path.join(os.path.dirname(__file__), "info.json")) as info:
     info_json = json.load(info)
