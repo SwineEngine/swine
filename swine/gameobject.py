@@ -13,6 +13,8 @@ class GameObject(object):
         self._scene = scene
         self._layer = layer
 
+        self.direction = 0
+
         self.window = self._scene._window
         self.keys = self.window._keys
 

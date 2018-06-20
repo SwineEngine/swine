@@ -30,11 +30,10 @@ class Window(pyglet.window.Window):
         self.scene_list = []
         self.active_scene = 0
 
-        pyglet.clock.set_fps_limit(FPS_LIMIT)
-
         self.icon(pyglet.image.load(os.path.join(os.path.dirname(__file__), "swine.png")))
 
         self.clock = pyglet.clock.get_default()
+        self.clock.set_fps_limit(FPS_LIMIT)
 
     def title(self, title):
         # type: (str) -> str
@@ -197,3 +196,6 @@ class Window(pyglet.window.Window):
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
         for item in self.scene_list[self.active_scene].object_list:
             item.on_mouse_scroll(x, y, scroll_x, scroll_y)
+
+    def scene(self):
+        return self.scene_list[self.active_scene]
