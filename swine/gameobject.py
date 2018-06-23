@@ -4,25 +4,27 @@
 
 import pyglet
 
-from swine import FPS, Scene
+from swine import FPS, Scene, Direction
 
 
 class GameObject(object):
     def __init__(self, scene, layer=0):
         # type: (Scene) -> None
-        self._scene = scene
-        self._layer = layer
+        self.scene = scene
+        self.layer = layer
 
-        self.direction = 0
+        self.direction = Direction.RIGHT
 
-        self.window = self._scene._window
-        self.keys = self.window._keys
+        self.window = self.scene.window
+        self.keys = self.window.keys
 
-        self.id = len(self._scene.object_list)
+        self.id = len(self.scene.object_list)
         self.tags = []
 
-        pyglet.clock.schedule_interval(self.update, 1 / FPS)
+        self._interval = pyglet.clock.schedule_interval(self.update, 1 / FPS)
         # pyglet.clock.schedule(self.update)
+
+        self.scene.object_list.append(self)
 
         self.start()
 
@@ -61,3 +63,9 @@ class GameObject(object):
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
         pass
+
+    #####
+
+    def destroy(self):
+        pyglet.clock.unschedule(self._interval)
+        self.scene.object_list.remove(self)

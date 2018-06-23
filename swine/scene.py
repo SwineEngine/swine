@@ -8,20 +8,20 @@ from swine import Window
 
 
 class Scene(object):
-    def __init__(self, window, layers=25):
+    def __init__(self, window, layer_count=25):
         # type: (Window) -> None
-        self._window = window
-        self._layers = layers
+        self.window = window
+        self.layer_count = layer_count
 
-        self.id = len(self._window.scene_list)
+        self.id = len(self.window.scene_list)
         self.batch = pyglet.graphics.Batch()
         self.batch_list = [self.batch]
         self.object_list = []
 
         self.layers = []
-        for number in range(self._layers):
+        for number in range(self.layer_count):
             self.layers.append(pyglet.graphics.OrderedGroup(number))
 
-        self._window.scene_list.append(self)
+        self.window.scene_list.append(self)
 
 

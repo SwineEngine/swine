@@ -22,8 +22,8 @@ class Window(pyglet.window.Window):
         self._min_size = (0, 0)
         self._max_size = (0, 0)
 
-        self._keys = pyglet.window.key.KeyStateHandler()
-        self.push_handlers(self._keys)
+        self.keys = pyglet.window.key.KeyStateHandler()
+        self.push_handlers(self.keys)
 
         self._loop = True
         
@@ -134,15 +134,19 @@ class Window(pyglet.window.Window):
         while self._loop:
             pyglet.clock.tick()
 
-            for window in pyglet.app.windows:
-                try:
-                    window.switch_to()
-                    window.dispatch_events()
-                    window.dispatch_event('on_draw')
-                    window.flip()
+            try:
+                for window in pyglet.app.windows:
+                    try:
+                        window.switch_to()
+                        window.dispatch_events()
+                        window.dispatch_event('on_draw')
+                        window.flip()
 
-                except AttributeError:
-                    pass
+                    except AttributeError:
+                        pass
+
+            except RuntimeError:
+                pass
 
     def close(self):
         self._loop = False
