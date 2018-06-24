@@ -5,4 +5,5 @@
 from .label import Label
 
 from .widget import Widget
+from .button import Button
 from .window import Window
