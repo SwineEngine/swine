@@ -2,6 +2,7 @@ import swine
 import swine.gui
 import swine.shape
 
+import kytten
 import pyglet
 from pyglet.window import key
 from pyglet.window import mouse
@@ -99,5 +100,9 @@ ell = swine.shape.Ellipse(scene_one, 50, 25, 25, True, 125, 150, 0, swine.GREEN)
 tra = swine.shape.Trapezoid(scene_one, 70, 50, 25, "out", True, 70, 200, 0, swine.RED)
 rho = swine.shape.Rhombus(scene_one, 50, 100, True, 50, 250, 0, swine.GREEN)
 pen = swine.shape.Pentagon(scene_one, 50, 50, True, 125, 280, 0, swine.RED)
+window2 = swine.gui.Window(scene_one, "Window",
+                           kytten.VerticalLayout([
+                               kytten.Button("Click!", on_click=click)
+                           ]), 50, -50)
 
 window.mainloop()
