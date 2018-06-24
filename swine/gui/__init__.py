@@ -4,4 +4,5 @@
 
 from .label import Label
 
+from .widget import Widget
 from .window import Window
