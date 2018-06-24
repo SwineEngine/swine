@@ -28,6 +28,11 @@ class Window(pyglet.window.Window):
         self.push_handlers(self.keys)
 
         self._loop = True
+
+        self._middle = [self.width / 2, self.height / 2]
+
+        self._mouse_x = 0
+        self._mouse_y = 0
         
         self.scene_list = []
         self.active_scene = 0
@@ -187,6 +192,9 @@ class Window(pyglet.window.Window):
             item.text_motion(motion)
 
     def on_mouse_motion(self, x, y, dx, dy):
+        self._mouse_x = x
+        self._mouse_y = y
+
         for item in self.scene_list[self.active_scene].object_list:
             item.mouse_motion(x, y, dx, dy)
 
@@ -219,3 +227,6 @@ class Window(pyglet.window.Window):
 
     def scene(self):
         return self.scene_list[self.active_scene]
+
+    def mouse_position(self):
+        return -(self._middle[0] - self._mouse_x), -(self._middle[1] - self._mouse_y)
