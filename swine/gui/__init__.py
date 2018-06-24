@@ -9,4 +9,5 @@ from .button import Button
 from .checkbox import Checkbox
 from .entry import Entry
 from .slider import Slider
+from .dropdown import Dropdown
 from .window import Window

@@ -110,6 +110,7 @@ button = swine.gui.Button(scene_one, "Click!", command=click, x=50)
 checkbox = swine.gui.Checkbox(scene_one, "Check", x=-50, y=50)
 entry = swine.gui.Entry(scene_one, "Entry", x=70, y=50)
 slider = swine.gui.Slider(scene_one, y=-70)
+dropdown = swine.gui.Dropdown(scene_one, ["One", "Two", "Three"], x=-60, y=-20)
 
 window2 = swine.gui.Window(scene_one, "Window",
                            kytten.VerticalLayout([

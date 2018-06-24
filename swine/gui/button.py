@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """"""
 
-from kytten.button import Button as KButton
+from kytten import Button as KButton
 
 from .widget import Widget
 
