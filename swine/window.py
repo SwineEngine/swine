@@ -45,6 +45,7 @@ class Window(pyglet.window.Window):
         self.clock = pyglet.clock.get_default()
         self.clock.set_fps_limit(Globals.FPS_LIMIT)
         self.clock.schedule(self.update)
+        # self.clock.schedule_interval(self.update, 1 / Globals.FPS)
 
         self.register_event_type("on_update")
 
@@ -227,6 +228,8 @@ class Window(pyglet.window.Window):
 
     def update(self, dt):
         self.dispatch_event("on_update", dt)
+
+        self.scene().space.step(dt)
 
     def scene(self):
         return self.scene_list[self.active_scene]

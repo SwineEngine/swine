@@ -6,15 +6,29 @@ import kytten
 import pyglet
 from pyglet.window import key
 from pyglet.window import mouse
+import pymunk
+from pymunk.pyglet_util import DrawOptions
 
 window = swine.Window()
 window.title("Test")
 
-scene_one = swine.Scene(window)
-scene_two = swine.Scene(window)
+options = DrawOptions()
 
-label_one = swine.gui.Label(scene_one, text="Hello World!", x=window.width // 2, y=window.height // 2, layer=2)
-label_two = swine.gui.Label(scene_two, text="Bye World!", x=window.width // 2, y=window.height // 2)
+window_draw = window.on_draw
+
+
+def on_draw():
+    window_draw()
+    scene_one.space.debug_draw(options)
+
+
+# window.on_draw = on_draw
+
+scene_one = swine.Scene(window, gravity=pymunk.Vec2d(0, -900), drag=0.1)
+# scene_two = swine.Scene(window)
+
+# label_one = swine.gui.Label(scene_one, text="Hello World!", x=window.width // 2, y=window.height // 2, layer=2)
+# label_two = swine.gui.Label(scene_two, text="Bye World!", x=window.width // 2, y=window.height // 2)
 
 
 class FPSLabel(swine.gui.Label):
@@ -42,53 +56,117 @@ class AnimatedLabel(swine.gui.Label):
         self.text = self.frames[self.current]
 
 
-anim_label = AnimatedLabel(scene_one, x=window.width // 2, y=window.height // 2 - 30)
+# anim_label = AnimatedLabel(scene_one, x=window.width // 2, y=window.height // 2 - 30)
 
 
-class Pig(swine.Sprite):
+class Pig(swine.PhysicsSprite):
     image = pyglet.image.load("swine/swine.png")
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
     def __init__(self):
-        swine.Sprite.__init__(self, scene_one, Pig.image, 6, layer=1)
-        self.x = self.window.width // 2
-        self.y = self.window.height // 2
+        swine.PhysicsSprite.__init__(self, scene_one, Pig.image, 6, layer=1)
+        # self.x = self.window.width // 2
+        # self.y = self.window.height // 2
+        self.body.position = self.window.width // 2, self.window.height // 2
+        self.shape.elasticity = 0.5
 
         self.scale_x = 1
 
+        self.is_grounded = False
+
+        self.count_flip = False
+        self.flip_counter = 60
+        self.is_flipping = False
+        self.flip_direction = None
+
     def update(self, dt=None):
-        speed = dt * swine.Globals.FPS
+        speed = 300  # dt * swine.Globals.FPS
+
+        force = pymunk.Vec2d(0, 0)
 
         if self.keys[key.LSHIFT]:
             speed *= 2
 
-        if self.keys[key.W]:
-            # print("W")
-            self.y += speed
-
         if self.keys[key.A]:
             # print("A")
-            self.x -= speed
+            # self.body.force = pymunk.Vec2d(-speed, 0)
+            force.x = -speed
             self.scale_x = -1
-
-        if self.keys[key.S]:
-            # print("S")
-            self.y -= speed
 
         if self.keys[key.D]:
             # print("D")
-            self.x += speed
+            # self.body.force = pymunk.Vec2d(speed, 0)
+            force.x = speed
             self.scale_x = 1
 
-    def key_press(self, symbol, modifiers):
-        print(key.symbol_string(symbol))
+        if self.keys[key.SPACE]:
+            # print("W")
+            # self.body.force = pymunk.Vec2d(0, 4000)
+            if self.is_grounded:
+                self.body.velocity = pymunk.Vec2d(force.x, speed)
 
-    def mouse_press(self, x, y, button, modifiers):
-        print(mouse.buttons_string(button))
+        self.body.force = force
+
+        if -4 < self.body.angle < -3 or 4 > self.body.angle > 3:
+            # print("The pig has been flipped!")
+            self.count_flip = True
+            self.is_grounded = False
+
+        else:
+            self.count_flip = False
+            self.flip_counter = 60
+            self.flip_direction = None
+
+        if self.count_flip:
+            self.flip_counter -= 1
+
+        if self.flip_counter <= 0:
+            self.count_flip = False
+            self.flip_counter = 60
+
+            self.body.velocity = pymunk.Vec2d(0, speed * 4)
+
+            self.is_flipping = True
+
+        if self.is_flipping:
+            if self.body.angle < 0:
+                self.body.angle += 0.05
+
+            elif self.body.angle > 0:
+                self.body.angle -= 0.05
+
+    def collision_enter(self, collider):
+        self.is_grounded = True
+
+        self.is_flipping = False
+
+    def collision_exit(self, collider):
+        self.is_grounded = False
+
+    # def key_press(self, symbol, modifiers):
+    #     print(key.symbol_string(symbol))
+    #
+    # def mouse_press(self, x, y, button, modifiers):
+    #     print(mouse.buttons_string(button))
 
 
 pig = Pig()
+
+box = pymunk.Segment(scene_one.space.static_body, (10, 80), (600, 80), 3)
+box.friction = 0.5
+box.elasticity = 0.8
+scene_one.space.add(box)
+
+box = pymunk.Segment(scene_one.space.static_body, (500, 10), (600, 400), 3)
+box.friction = 0.5
+box.elasticity = 0.8
+scene_one.space.add(box)
+
+box = pymunk.Segment(scene_one.space.static_body, (100, 10), (10, 400), 3)
+box.friction = 0.5
+box.elasticity = 0.8
+scene_one.space.add(box)
 
 # line = swine.shape.Line(scene_one, 100, 5, 100, 50, 0, [swine.RED])
 # rect = swine.shape.Rectangle(scene_one, 100, 50, True, 50, 50, 0, swine.GREEN)
@@ -146,11 +224,14 @@ def click(event=None):
 # slider = swine.gui.Slider(scene_one, y=-70)
 # dropdown = swine.gui.Dropdown(scene_one, ["One", "Two", "Three"], x=-60, y=-20)
 
-window2 = swine.gui.Window(scene_one, "Window",
-                           kytten.VerticalLayout([
-                               kytten.Button("Click!", on_click=click)
-                           ]), 50, -50)
+# window2 = swine.gui.Window(scene_one, "Window",
+#                            kytten.VerticalLayout([
+#                                kytten.Button("Click!", on_click=click)
+#                            ]), 50, -50)
 
-right_click = ContextMenu(scene_one, ["One", "Two", "Three"])
+# right_click = ContextMenu(scene_one, ["One", "Two", "Three"])
+
+# physics = swine.PhysicsObject(scene_one, 0)
+# physics_sprite = swine.PhysicsSprite(scene_one, pyglet.image.load("swine/swine.png"))
 
 window.mainloop()

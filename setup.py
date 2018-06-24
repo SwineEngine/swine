@@ -18,4 +18,4 @@ with open("swine/info.json") as info:
           classifiers=info_json["classifiers"],
           keywords=info_json["keywords"],
           packages=info_json["packages"],
-          install_requires=["pyglet", "felyne"])
+          install_requires=["pyglet", "felyne", "pymunk"])

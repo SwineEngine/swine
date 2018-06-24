@@ -17,5 +17,3 @@ class Sprite(GameObject, pyglet.sprite.Sprite):
         self.scene = scene
         self.image = image
         self.scale = scale
-
-        self.scale = self.scale
