@@ -108,6 +108,7 @@ def click(event=None):
 
 button = swine.gui.Button(scene_one, "Click!", command=click, x=50)
 checkbox = swine.gui.Checkbox(scene_one, "Check", x=-50, y=50)
+entry = swine.gui.Entry(scene_one, "Entry", x=70, y=50)
 
 window2 = swine.gui.Window(scene_one, "Window",
                            kytten.VerticalLayout([
