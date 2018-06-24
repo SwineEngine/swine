@@ -4,7 +4,7 @@
 
 import pyglet
 
-from swine import FPS, Scene, Direction
+from swine import Globals, Scene, Direction
 
 
 class GameObject(object):
@@ -21,7 +21,7 @@ class GameObject(object):
         self.id = len(self.scene.object_list)
         self.tags = []
 
-        self._interval = pyglet.clock.schedule_interval(self.update, 1 / FPS)
+        self._interval = pyglet.clock.schedule_interval(self.update, 1 / Globals.FPS)
         # pyglet.clock.schedule(self.update)
 
         self.scene.object_list.append(self)

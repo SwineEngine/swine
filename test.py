@@ -57,7 +57,7 @@ class Pig(swine.Sprite):
         self.scale_x = 1
 
     def update(self, dt=None):
-        speed = dt * swine.FPS
+        speed = dt * swine.Globals.FPS
 
         if self.keys[key.LSHIFT]:
             speed *= 2

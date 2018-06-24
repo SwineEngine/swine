@@ -5,7 +5,7 @@
 import pyglet
 import os
 
-from swine import FPS_LIMIT
+from swine import Globals
 
 
 class Window(pyglet.window.Window):
@@ -22,6 +22,8 @@ class Window(pyglet.window.Window):
         self._min_size = (0, 0)
         self._max_size = (0, 0)
 
+        Globals.WINDOW = self
+
         self.keys = pyglet.window.key.KeyStateHandler()
         self.push_handlers(self.keys)
 
@@ -33,7 +35,7 @@ class Window(pyglet.window.Window):
         self.icon(pyglet.image.load(os.path.join(os.path.dirname(__file__), "swine.png")))
 
         self.clock = pyglet.clock.get_default()
-        self.clock.set_fps_limit(FPS_LIMIT)
+        self.clock.set_fps_limit(Globals.FPS_LIMIT)
 
     def title(self, title):
         # type: (str) -> str

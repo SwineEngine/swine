@@ -16,5 +16,3 @@ class Label(GameObject, pyglet.text.Label):
         self._text = text
         self._x = x
         self._y = y
-
-        self._scene.object_list.append(self)
