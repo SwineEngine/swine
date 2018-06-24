@@ -14,6 +14,8 @@ class Globals(object):
 
     WINDOW = None
 
+    WIDGETS = 0
+
 
 class Colour(enum.Enum):
     # Shades

@@ -2,6 +2,7 @@ import swine
 import swine.gui
 import swine.shape
 
+import kytten
 import pyglet
 from pyglet.window import key
 from pyglet.window import mouse
@@ -99,5 +100,21 @@ ell = swine.shape.Ellipse(scene_one, 50, 25, 25, True, 125, 150, 0, swine.GREEN)
 tra = swine.shape.Trapezoid(scene_one, 70, 50, 25, "out", True, 70, 200, 0, swine.RED)
 rho = swine.shape.Rhombus(scene_one, 50, 100, True, 50, 250, 0, swine.GREEN)
 pen = swine.shape.Pentagon(scene_one, 50, 50, True, 125, 280, 0, swine.RED)
+
+
+def click(event=None):
+    print("Click!")
+
+
+button = swine.gui.Button(scene_one, "Click!", command=click, x=50)
+checkbox = swine.gui.Checkbox(scene_one, "Check", x=-50, y=50)
+input_ = swine.gui.Input(scene_one, "Entry", x=70, y=50)
+slider = swine.gui.Slider(scene_one, y=-70)
+dropdown = swine.gui.Dropdown(scene_one, ["One", "Two", "Three"], x=-60, y=-20)
+
+window2 = swine.gui.Window(scene_one, "Window",
+                           kytten.VerticalLayout([
+                               kytten.Button("Click!", on_click=click)
+                           ]), 50, -50)
 
 window.mainloop()

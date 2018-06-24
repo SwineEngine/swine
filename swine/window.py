@@ -36,6 +36,9 @@ class Window(pyglet.window.Window):
 
         self.clock = pyglet.clock.get_default()
         self.clock.set_fps_limit(Globals.FPS_LIMIT)
+        self.clock.schedule(self.update)
+
+        self.register_event_type("on_update")
 
     def title(self, title):
         # type: (str) -> str
@@ -210,6 +213,9 @@ class Window(pyglet.window.Window):
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
         for item in self.scene_list[self.active_scene].object_list:
             item.mouse_scroll(x, y, scroll_x, scroll_y)
+
+    def update(self, dt):
+        self.dispatch_event("on_update", dt)
 
     def scene(self):
         return self.scene_list[self.active_scene]
