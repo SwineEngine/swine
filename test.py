@@ -90,16 +90,16 @@ class Pig(swine.Sprite):
 
 pig = Pig()
 
-line = swine.shape.Line(scene_one, 100, 5, 100, 50, 0, [swine.RED])
-rect = swine.shape.Rectangle(scene_one, 100, 50, True, 50, 50, 0, swine.GREEN)
-squ = swine.shape.Square(scene_one, 50, True, 25, 20, 0, [swine.BLUE, swine.RED])
-tri = swine.shape.Triangle(scene_one, 50, 70, "center", False, 20, 120, 0, [swine.RED, swine.GREEN, swine.BLUE])
-par = swine.shape.Parallelogram(scene_one, 70, 50, 10, "right", True, 200, 50, 0, [swine.BLUE])
-cir = swine.shape.Circle(scene_one, 50, 25, False, 180, 180, 0, [swine.RED, swine.BLUE, swine.GREEN, swine.BLUE, swine.RED] * (25 // 5))
-ell = swine.shape.Ellipse(scene_one, 50, 25, 25, True, 125, 150, 0, swine.GREEN)
-tra = swine.shape.Trapezoid(scene_one, 70, 50, 25, "out", True, 70, 200, 0, swine.RED)
-rho = swine.shape.Rhombus(scene_one, 50, 100, True, 50, 250, 0, swine.GREEN)
-pen = swine.shape.Pentagon(scene_one, 50, 50, True, 125, 280, 0, swine.RED)
+# line = swine.shape.Line(scene_one, 100, 5, 100, 50, 0, [swine.RED])
+# rect = swine.shape.Rectangle(scene_one, 100, 50, True, 50, 50, 0, swine.GREEN)
+# squ = swine.shape.Square(scene_one, 50, True, 25, 20, 0, [swine.BLUE, swine.RED])
+# tri = swine.shape.Triangle(scene_one, 50, 70, "center", False, 20, 120, 0, [swine.RED, swine.GREEN, swine.BLUE])
+# par = swine.shape.Parallelogram(scene_one, 70, 50, 10, "right", True, 200, 50, 0, [swine.BLUE])
+# cir = swine.shape.Circle(scene_one, 50, 25, False, 180, 180, 0, [swine.RED, swine.BLUE, swine.GREEN, swine.BLUE, swine.RED] * (25 // 5))
+# ell = swine.shape.Ellipse(scene_one, 50, 25, 25, True, 125, 150, 0, swine.GREEN)
+# tra = swine.shape.Trapezoid(scene_one, 70, 50, 25, "out", True, 70, 200, 0, swine.RED)
+# rho = swine.shape.Rhombus(scene_one, 50, 100, True, 50, 250, 0, swine.GREEN)
+# pen = swine.shape.Pentagon(scene_one, 50, 50, True, 125, 280, 0, swine.RED)
 
 
 class ContextMenu(swine.GameObject):
@@ -140,11 +140,11 @@ def click(event=None):
     print("Click!")
 
 
-button = swine.gui.Button(scene_one, "Click!", command=click, x=50)
-checkbox = swine.gui.Checkbox(scene_one, "Check", x=-50, y=50)
-input_ = swine.gui.Input(scene_one, "Entry", x=70, y=50)
-slider = swine.gui.Slider(scene_one, y=-70)
-dropdown = swine.gui.Dropdown(scene_one, ["One", "Two", "Three"], x=-60, y=-20)
+# button = swine.gui.Button(scene_one, "Click!", command=click, x=50)
+# checkbox = swine.gui.Checkbox(scene_one, "Check", x=-50, y=50)
+# input_ = swine.gui.Input(scene_one, "Entry", x=70, y=50)
+# slider = swine.gui.Slider(scene_one, y=-70)
+# dropdown = swine.gui.Dropdown(scene_one, ["One", "Two", "Three"], x=-60, y=-20)
 
 window2 = swine.gui.Window(scene_one, "Window",
                            kytten.VerticalLayout([

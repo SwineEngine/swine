@@ -4,7 +4,7 @@
 
 import pyglet
 
-from swine import Globals, Scene, Direction
+from swine import Globals, Scene, RIGHT
 
 
 class GameObject(object):
@@ -13,7 +13,7 @@ class GameObject(object):
         self.scene = scene
         self.layer = layer
 
-        self.direction = Direction.RIGHT
+        self.direction = RIGHT
 
         self.window = self.scene.window
         self.keys = self.window.keys
