@@ -9,9 +9,10 @@ from swine import Globals
 
 
 class Window(pyglet.window.Window):
-    def __init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
+    def __init__(self, background=(240, 240, 240), resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
         # type: (str) -> None
         pyglet.window.Window.__init__(self, resizable=resizable, vsync=vsync, style=style)
+        self.background = background
         self._resizeable = resizable
         self._vsync = vsync
         self._style = style
@@ -21,6 +22,8 @@ class Window(pyglet.window.Window):
         self._fullscreen = False
         self._min_size = (0, 0)
         self._max_size = (0, 0)
+
+        pyglet.gl.glClearColor(int(background[0]) / 255, int(background[1]) / 255, int(background[2]) / 255, 1)
 
         Globals.WINDOW = self
 
