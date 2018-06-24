@@ -102,6 +102,40 @@ rho = swine.shape.Rhombus(scene_one, 50, 100, True, 50, 250, 0, swine.GREEN)
 pen = swine.shape.Pentagon(scene_one, 50, 50, True, 125, 280, 0, swine.RED)
 
 
+class ContextMenu(swine.GameObject):
+    def __init__(self, scene, options):
+        swine.GameObject.__init__(self, scene)
+        self.scene = scene
+        self.options = options
+
+        self.menu = None
+        self.is_open = False
+
+    def mouse_press(self, x, y, button, modifiers):
+        if button == 4:
+            self.remove()
+            if self.is_open:
+                self.mouse_press(x, y, button, modifiers)
+
+            else:
+                pos = self.window.mouse_position()
+                self.menu = swine.gui.Menu(self.scene, self.options, command=self.select, x=pos[0] + 20, y=pos[1] - 30)
+                self.is_open = True
+
+        elif button == 1:
+            self.remove()
+
+    def select(self, event=None):
+        print(event)
+        self.remove()
+
+    def remove(self):
+        if self.is_open:
+            self.menu.teardown()
+            self.is_open = False
+            self.menu = None
+
+
 def click(event=None):
     print("Click!")
 
@@ -116,5 +150,7 @@ window2 = swine.gui.Window(scene_one, "Window",
                            kytten.VerticalLayout([
                                kytten.Button("Click!", on_click=click)
                            ]), 50, -50)
+
+right_click = ContextMenu(scene_one, ["One", "Two", "Three"])
 
 window.mainloop()
