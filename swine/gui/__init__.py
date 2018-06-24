@@ -10,4 +10,5 @@ from .checkbox import Checkbox
 from .input import Input
 from .slider import Slider
 from .dropdown import Dropdown
+from .menu import Menu
 from .window import Window
