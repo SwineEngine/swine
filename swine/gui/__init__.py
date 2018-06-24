@@ -6,4 +6,5 @@ from .label import Label
 
 from .widget import Widget
 from .button import Button
+from .checkbox import Checkbox
 from .window import Window
