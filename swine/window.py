@@ -165,43 +165,51 @@ class Window(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_key_press(symbol, modifiers)
+            item.key_press(symbol, modifiers)
 
     def on_key_release(self, symbol, modifiers):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_key_release(symbol, modifiers)
+            item.key_release(symbol, modifiers)
 
     def on_text(self, text):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_text(text)
+            try:
+                item.text(text)
+
+            except TypeError:
+                pass
 
     def on_text_motion(self, motion):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_text_motion(motion)
+            item.text_motion(motion)
 
     def on_mouse_motion(self, x, y, dx, dy):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_mouse_motion(x, y, dx, dy)
+            item.mouse_motion(x, y, dx, dy)
 
     def on_mouse_press(self, x, y, button, modifiers):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_mouse_press(x, y, button, modifiers)
+            item.mouse_press(x, y, button, modifiers)
 
     def on_mouse_release(self, x, y, button, modifiers):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_mouse_release(x, y, button, modifiers)
+            item.mouse_release(x, y, button, modifiers)
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_mouse_drag(x, y, dx, dy, buttons, modifiers)
+            item.mouse_drag(x, y, dx, dy, buttons, modifiers)
 
     def on_mouse_enter(self, x, y):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_mouse_enter(x, y)
+            item.mouse_enter(x, y)
+
+    def on_mouse_leave(self, x, y):
+        for item in self.scene_list[self.active_scene].object_list:
+            item.mouse_leave(x, y)
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
         for item in self.scene_list[self.active_scene].object_list:
-            item.on_mouse_scroll(x, y, scroll_x, scroll_y)
+            item.mouse_scroll(x, y, scroll_x, scroll_y)
 
     def scene(self):
         return self.scene_list[self.active_scene]
