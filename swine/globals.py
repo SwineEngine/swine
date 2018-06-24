@@ -8,6 +8,9 @@ class Globals(object):
     FONT_SIZE = 12
 
     FPS = 60
+    OBJECT_FPS = 60
+    GUI_FPS = 60
+    PHYSICS_FPS = -1
     FPS_LIMIT = 60
 
     WINDOW = None

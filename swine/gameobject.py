@@ -21,7 +21,12 @@ class GameObject(object):
         self.id = len(self.scene.object_list)
         self.tags = []
 
-        self._interval = pyglet.clock.schedule_interval(self.update, 1 / Globals.FPS)
+        if Globals.OBJECT_FPS != -1:
+            self._interval = pyglet.clock.schedule_interval(self.update, 1 / Globals.OBJECT_FPS)
+
+        else:
+            self._interval = pyglet.clock.schedule(self.update)
+
         # pyglet.clock.schedule(self.update)
 
         self.scene.object_list.append(self)

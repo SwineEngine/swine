@@ -43,9 +43,21 @@ class Window(pyglet.window.Window):
         self.icon(pyglet.image.load(os.path.join(os.path.dirname(__file__), "swine.png")))
 
         self.clock = pyglet.clock.get_default()
-        self.clock.set_fps_limit(Globals.FPS_LIMIT)
-        self.clock.schedule(self.update)
-        # self.clock.schedule_interval(self.update, 1 / Globals.FPS)
+
+        if Globals.FPS_LIMIT != -1:
+            self.clock.set_fps_limit(Globals.FPS_LIMIT)
+
+        if Globals.GUI_FPS != -1:
+            self.clock.schedule_interval(self.gui_update, 1 / Globals.GUI_FPS)
+
+        else:
+            self.clock.schedule(self.gui_update)
+
+        if Globals.PHYSICS_FPS != -1:
+            self.clock.schedule_interval(self.physics_update, 1 / Globals.PHYSICS_FPS)
+
+        else:
+            self.clock.schedule(self.physics_update)
 
         self.register_event_type("on_update")
 
@@ -226,9 +238,12 @@ class Window(pyglet.window.Window):
         for item in self.scene_list[self.active_scene].object_list:
             item.mouse_scroll(x, y, scroll_x, scroll_y)
 
-    def update(self, dt):
+    #####
+
+    def gui_update(self, dt):
         self.dispatch_event("on_update", dt)
 
+    def physics_update(self, dt):
         self.scene().space.step(dt)
 
     def scene(self):
