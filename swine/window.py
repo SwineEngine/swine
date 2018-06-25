@@ -65,6 +65,9 @@ class Window(pyglet.window.Window):
         else:
             self.clock.schedule(self.physics_update)
 
+        self._benchmark_timer = 0
+        self._benchmark_list = []
+
         self.register_event_type("on_update")
 
     def title(self, title):
@@ -260,3 +263,30 @@ class Window(pyglet.window.Window):
 
     def mouse_position(self):
         return -(self._middle[0] - self._mouse_x), -(self._middle[1] - self._mouse_y)
+
+    def benchmark(self, time):
+        self._benchmark_timer = time
+
+        print("Starting benchmark")
+
+        self.clock.schedule(self.benchmark_update)
+
+    def benchmark_update(self, event):
+        if self._benchmark_timer > 0:
+            self._benchmark_list.append(self.clock.get_fps())
+            self._benchmark_timer -= 1
+
+        else:
+            self.clock.unschedule(self.benchmark_update)
+
+            if 0 in self._benchmark_list:
+                self._benchmark_list.remove(0)
+
+            self.benchmark_end(min(self._benchmark_list), max(self._benchmark_list), sum(self._benchmark_list) / float(len(self._benchmark_list)))
+
+    def benchmark_end(self, min_, max_, average):
+        print(f"Minimum FPS: {min_}\nMaximum FPS: {max_}\nAverage FPS: {average}")
+
+        self.close()
+
+

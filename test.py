@@ -221,4 +221,6 @@ def click(event=None):
 # physics = swine.PhysicsObject(scene_one, 0)
 # physics_sprite = swine.PhysicsSprite(scene_one, pyglet.image.load("swine/swine.png"))
 
+# window.benchmark(time=100)
+
 window.mainloop()
