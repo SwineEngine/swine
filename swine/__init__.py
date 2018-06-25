@@ -12,8 +12,6 @@ from .gameobject import GameObject
 from .sprite import Sprite
 # from .gui import *
 # from .shape import *
-from .physicsobject import PhysicsObject
-from .physicssprite import PhysicsSprite
 
 with open(os.path.join(os.path.dirname(__file__), "info.json")) as info:
     info_json = json.load(info)
