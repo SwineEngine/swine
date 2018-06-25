@@ -10,6 +10,8 @@ class Trapezoid(Polygon):
     def __init__(self, scene, width, height, expand, expand_direction="out", fill=True, x=0, y=0, layer=0, colours=[]):
         # type: (Scene, int, int, int, str, bool, int, int, int, list[str]) -> None
         GameObject.__init__(self, scene=scene)
+        x += scene.window.width / 2
+        y += scene.window.height / 2
 
         if expand_direction == "out":
             tl = x

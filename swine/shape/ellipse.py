@@ -13,6 +13,8 @@ class Ellipse(Polygon):
         # type: (Scene, int, int, int, bool, int, int, int, list[str]) -> None
         GameObject.__init__(self, scene=scene)
         points = []
+        x += scene.window.width / 2
+        y += scene.window.height / 2
 
         for i in range(segments):
             angle = math.radians(float(i) / segments * 360)

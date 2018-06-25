@@ -10,6 +10,8 @@ class Parallelogram(Polygon):
     def __init__(self, scene, width, height, skew, skew_direction="right", fill=True, x=0, y=0, layer=0, colours=[]):
         # type: (Scene, int, int, int, str, bool, int, int, int, list[str]) -> None
         GameObject.__init__(self, scene=scene)
+        x += scene.window.width / 2
+        y += scene.window.height / 2
 
         if skew_direction == "left":
             tl = x + skew
