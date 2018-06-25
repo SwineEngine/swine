@@ -7,22 +7,9 @@ import pyglet
 from pyglet.window import key
 from pyglet.window import mouse
 import pymunk
-from pymunk.pyglet_util import DrawOptions
 
 window = swine.Window()
 window.title("Test")
-
-options = DrawOptions()
-
-window_draw = window.on_draw
-
-
-def on_draw():
-    window_draw()
-    scene_one.space.debug_draw(options)
-
-
-# window.on_draw = on_draw
 
 scene_one = swine.Scene(window, gravity=pymunk.Vec2d(0, -900), drag=0.1)
 # scene_two = swine.Scene(window)

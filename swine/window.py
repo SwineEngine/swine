@@ -9,9 +9,10 @@ from swine import Globals
 
 
 class Window(pyglet.window.Window):
-    def __init__(self, background=(240, 240, 240), resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
+    def __init__(self, background=(240, 240, 240), resizable=False, vsync=False, debug=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT):
         # type: (str) -> None
         pyglet.window.Window.__init__(self, resizable=resizable, vsync=vsync, style=style)
+        self.debug = debug
         self.background = background
         self._resizeable = resizable
         self._vsync = vsync
@@ -22,6 +23,11 @@ class Window(pyglet.window.Window):
         self._fullscreen = False
         self._min_size = (0, 0)
         self._max_size = (0, 0)
+
+        if self.debug:
+            from pymunk.pyglet_util import DrawOptions
+
+            self.options = DrawOptions()
 
         pyglet.gl.glClearColor(int(background[0]) / 255, int(background[1]) / 255, int(background[2]) / 255, 1)
 
@@ -186,6 +192,9 @@ class Window(pyglet.window.Window):
 
         for batch in self.scene_list[self.active_scene].batch_list:
             batch.draw()
+
+        if self.debug:
+            self.scene_list[self.active_scene].space.debug_draw(self.options)
 
     def on_key_press(self, symbol, modifiers):
         for item in self.scene_list[self.active_scene].object_list:
