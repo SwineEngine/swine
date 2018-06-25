@@ -11,11 +11,14 @@ from swine import PhysicsObject, Scene
 
 
 class PhysicsSprite(PhysicsObject, pyglet.sprite.Sprite):
-    def __init__(self, scene, image, scale=1, mass=1, friction=0, position=pymunk.Vec2d(0, 50), angle=0, static=False, rotation=True, layer=0):
+    def __init__(self, scene, image, scale=1, mass=1, friction=0, position=pymunk.Vec2d(0, 50), angle=0, vertices=[], static=False, rotation=True, layer=0):
         # type: (Scene, pyglet.image.AbstractImage) -> None
         self.layer = layer
         pyglet.sprite.Sprite.__init__(self, img=image, batch=scene.batch, group=scene.layers[self.layer])
-        PhysicsObject.__init__(self, scene, mass, friction, position, angle, [(-(self.width / 2) * scale, (self.height / 2)), ((self.width / 2) * scale, (self.height / 2)), ((self.width / 2) * scale, -(self.height / 2) * scale), (-(self.width / 2) * scale, -(self.height / 2) * scale)], static, rotation, layer)
+        if not vertices:
+            vertices = [(-(self.width / 2) * scale, (self.height / 2)), ((self.width / 2) * scale, (self.height / 2)), ((self.width / 2) * scale, -(self.height / 2) * scale), (-(self.width / 2) * scale, -(self.height / 2) * scale)]
+
+        PhysicsObject.__init__(self, scene, mass, friction, position, angle, vertices, static, rotation, layer)
         self.scene = scene
         self.image = image
         self.scale = scale
