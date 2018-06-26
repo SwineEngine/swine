@@ -40,7 +40,7 @@ class Scene(object):
     def collision_enter(self, arbiter, space, data):
         for shape in arbiter.shapes:
             try:
-                shape.parent.collision_enter(arbiter.shapes[not arbiter.shapes[arbiter.shapes.index(shape)]])
+                shape.parent.collision_enter(self.collision(arbiter, shape))
 
             except AttributeError:
                 pass
@@ -50,7 +50,7 @@ class Scene(object):
     def collision_stay(self, arbiter, space, data):
         for shape in arbiter.shapes:
             try:
-                shape.parent.collision_stay(arbiter.shapes[not arbiter.shapes[arbiter.shapes.index(shape)]])
+                shape.parent.collision_stay(self.collision(arbiter, shape))
 
             except AttributeError:
                 pass
@@ -60,11 +60,20 @@ class Scene(object):
     def collision_exit(self, arbiter, space, data):
         for shape in arbiter.shapes:
             try:
-                shape.parent.collision_exit(arbiter.shapes[not arbiter.shapes[arbiter.shapes.index(shape)]])
+                shape.parent.collision_exit(self.collision(arbiter, shape))
 
             except AttributeError:
                 pass
 
         pass
 
+    def collision(self, arbiter, shape):
+        col = None
 
+        try:
+            col = arbiter.shapes[not arbiter.shapes[arbiter.shapes.index(shape)]].parent
+
+        except AttributeError:
+            col = arbiter.shapes[not arbiter.shapes[arbiter.shapes.index(shape)]]
+
+        return col

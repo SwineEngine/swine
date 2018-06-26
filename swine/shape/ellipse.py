@@ -22,7 +22,7 @@ class Ellipse(Polygon):
             _x = width * math.cos(angle) + x
             _y = height * math.sin(angle) + y
 
-            points.append(int(_x))
-            points.append(int(_y))
+            points.append(_x)
+            points.append(_y)
 
         Polygon.__init__(self, scene, fill, segments, x, y, layer, points, colours=colours)

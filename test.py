@@ -1,6 +1,7 @@
 import swine
 import swine.gui
 import swine.shape
+import swine.physics
 
 import kytten
 import pyglet
@@ -46,16 +47,16 @@ class AnimatedLabel(swine.gui.Label):
 # anim_label = AnimatedLabel(scene_one, x=window.width // 2, y=window.height // 2 - 30)
 
 
-class Pig(swine.PhysicsSprite):
+class Pig(swine.physics.PhysicsSprite):
     image = pyglet.image.load("swine/swine.png")
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
     def __init__(self):
-        swine.PhysicsSprite.__init__(self, scene_one, Pig.image, 6, layer=1)
+        swine.physics.PhysicsSprite.__init__(self, scene_one, Pig.image, y=100, scale=6, layer=1)
         # self.x = self.window.width // 2
         # self.y = self.window.height // 2
-        self.body.position = self.window.width // 2, self.window.height // 2
+        # self.body.position = self.window.width // 2, self.window.height // 2
         self.shape.elasticity = 0.5
 
         self.scale_x = 1
@@ -140,7 +141,6 @@ class Pig(swine.PhysicsSprite):
 
 pig = Pig()
 
-box = pymunk.Segment(scene_one.space.static_body, (10, 80), (600, 80), 3)
 box.friction = 0.5
 box.elasticity = 0.8
 scene_one.space.add(box)
@@ -151,6 +151,7 @@ box.elasticity = 0.8
 scene_one.space.add(box)
 
 box = pymunk.Segment(scene_one.space.static_body, (100, 10), (10, 400), 3)
+box = pymunk.Segment(scene_one.space.static_body, (0, 80), (window.width, 80), 3)
 box.friction = 0.5
 box.elasticity = 0.8
 scene_one.space.add(box)

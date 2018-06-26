@@ -271,10 +271,10 @@ class Window(pyglet.window.Window):
 
         self.clock.schedule(self.benchmark_update)
 
-    def benchmark_update(self, event):
+    def benchmark_update(self, dt):
         if self._benchmark_timer > 0:
             self._benchmark_list.append(self.clock.get_fps())
-            self._benchmark_timer -= 1
+            self._benchmark_timer -= dt
 
         else:
             self.clock.unschedule(self.benchmark_update)

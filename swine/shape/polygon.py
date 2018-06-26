@@ -26,7 +26,7 @@ class Polygon(GameObject):
 
         self.batch = pyglet.graphics.Batch()
         self._shape = self.batch.add(point_total, mode, None,
-                                     ('v2i', self.points),
+                                     ('v2f', self.points),
                                      ('c3B', self.colours))
         self.scene.batch_list.append(self.batch)
 

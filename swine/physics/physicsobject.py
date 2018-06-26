@@ -16,7 +16,7 @@ class PhysicsObject(GameObject):
         y += scene.window.height / 2
         self.mass = mass
         self.friction = friction
-        self.position = pymunk.Vec2d(x, y)
+        self.obj_position = pymunk.Vec2d(x, y)
         self.angle = angle
         self.vertices = vertices
         self.static = static
@@ -33,7 +33,7 @@ class PhysicsObject(GameObject):
         self.shape.friction = self.friction
         self.shape.parent = self
 
-        self.body.position = self.position
+        self.body.position = self.obj_position
         self.body.angle = self.angle
 
         self.scene.space.add(self.body, self.shape)
