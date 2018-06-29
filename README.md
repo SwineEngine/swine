@@ -11,9 +11,9 @@ With Python installed, and added to your PATH, open up the terminal and type `pi
 | Window creation | 50% |
 | Sprites | 10% |
 | Sounds | 0% |
-| GUI | 3% |
+| GUI | 80% |
 | Shapes | 80% |
-| Physics | 0% |
+| Physics | 80% |
 | Game Objects | 20% |
 | Scenes | 100% |
 | Draw Automation | 100% |
@@ -22,7 +22,6 @@ With Python installed, and added to your PATH, open up the terminal and type `pi
 | Update Methods | 100% |
 | Start Method | 100% |
 | Render Layers | 100% |
-| Prefabs | 0% |
 | Children/Parents | 0% |
 | Tags | 1% |
 | GLSL Support | 0% |

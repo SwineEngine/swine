@@ -14,7 +14,7 @@
       "Programming Language :: Python :: 3.6"
   ],
   "keywords": ["swine", "game", "engine", "game engine"],
-  "packages": ["swine"],
+  "packages": ["swine", "swine/shape", "swine/gui", "swine/physics"],
 
   "copyright": "Copyright (c) 2018 Dibbo",
   "credits": ["DeflatedPickle/Dibbo"],
