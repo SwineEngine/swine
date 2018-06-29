@@ -9,12 +9,13 @@ from swine import Window
 
 
 class Scene(object):
-    def __init__(self, window, layer_count=25, gravity=pymunk.Vec2d(0, 0), drag=1):
+    def __init__(self, window, layer_count=25, gravity=pymunk.Vec2d(0, 0), drag=1, sleep_time=pymunk.inf):
         # type: (Window) -> None
         self.window = window
         self.layer_count = layer_count
         self.gravity = gravity
         self.drag = drag
+        self.sleep_time = sleep_time
 
         self.id = len(self.window.scene_list)
         self.batch = pyglet.graphics.Batch()
@@ -29,6 +30,7 @@ class Scene(object):
         self.space = pymunk.Space()
         self.space.gravity = self.gravity
         self.space.damping = self.drag
+        self.space.sleep_time_threshold = self.sleep_time
 
         self.handler = self.space.add_default_collision_handler()
         self.handler.begin = self.collision_enter

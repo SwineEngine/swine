@@ -10,10 +10,11 @@ from swine.gameobject import GameObject
 
 
 class PhysicsObject(GameObject):
-    def __init__(self, scene, x=0, y=0, mass=1, friction=0, angle=0, vertices=[(-5, 5), (5, 5), (5, -5), (-5, -5)], static=False, rotation=True, layer=0):
+    def __init__(self, scene, x=0, y=0, mass=1, friction=1, angle=0, vertices=[(-5, 5), (5, 5), (5, -5), (-5, -5)], static=False, rotation=True, layer=0, center=True):
         GameObject.__init__(self, scene, layer)
-        x += scene.window.width / 2
-        y += scene.window.height / 2
+        if center:
+            x += scene.window.width / 2
+            y += scene.window.height / 2
         self.mass = mass
         self.friction = friction
         self.obj_position = pymunk.Vec2d(x, y)

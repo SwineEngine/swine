@@ -14,10 +14,22 @@ class Polygon(GameObject):
         self.layer = layer
         self.scene = scene
         self.point_total = point_total
-        self.x = x + scene.window.width / 2
-        self.y = y + scene.window.height / 2
         self.points = points
         self.colours = self._colour_handler(colours)
+
+        self.x_points = []
+        self.y_points = []
+
+        for i in range(0, len(self.points)):
+            # If even
+            if i & 1:
+                self.y_points.append(self.points[i])
+
+            else:
+                self.x_points.append(self.points[i])
+
+        self.size = (max(self.x_points) - min(self.x_points), max(self.y_points) - min(self.y_points))
+        self.center = (self.size[0] / 2, self.size[1] / 2)
 
         if fill:
             mode = pyglet.gl.GL_POLYGON
@@ -25,7 +37,7 @@ class Polygon(GameObject):
             mode = pyglet.gl.GL_LINE_LOOP
 
         self.batch = pyglet.graphics.Batch()
-        self._shape = self.batch.add(point_total, mode, None,
+        self.shape = self.batch.add(point_total, mode, None,
                                      ('v2f', self.points),
                                      ('c3B', self.colours))
         self.scene.batch_list.append(self.batch)
@@ -44,6 +56,6 @@ class Polygon(GameObject):
         return colours
 
     def colour(self, colours=[]):
-        self._shape.colors = self._colour_handler(colours)
+        self.shape.colors = self._colour_handler(colours)
 
         return colours

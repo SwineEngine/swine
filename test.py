@@ -141,9 +141,14 @@ class Pig(swine.physics.PhysicsSprite):
 
 pig = Pig()
 
-box.friction = 0.5
-box.elasticity = 0.8
-scene_one.space.add(box)
+# box = pymunk.Segment(scene_one.space.static_body, (0, 80), (window.width, 80), 3)
+# box.friction = 0.5
+# box.elasticity = 0.8
+# scene_one.space.add(box)
+
+box = swine.physics.PhysicsShape(scene_one, swine.shape.Line(scene_one, 10, 700, colours=swine.RED), 0, -200, static=True)
+box.shape.friction = 0.5
+box.shape.elasticity = 0.8
 
 box = pymunk.Segment(scene_one.space.static_body, (500, 10), (600, 400), 3)
 box.friction = 0.5
@@ -151,7 +156,6 @@ box.elasticity = 0.8
 scene_one.space.add(box)
 
 box = pymunk.Segment(scene_one.space.static_body, (100, 10), (10, 400), 3)
-box = pymunk.Segment(scene_one.space.static_body, (0, 80), (window.width, 80), 3)
 box.friction = 0.5
 box.elasticity = 0.8
 scene_one.space.add(box)
@@ -222,6 +226,16 @@ def click(event=None):
 # physics = swine.PhysicsObject(scene_one, 0)
 # physics_sprite = swine.PhysicsSprite(scene_one, pyglet.image.load("swine/swine.png"))
 
-# window.benchmark(time=100)
+# shape = swine.shape.Circle(scene_one, 30, 25, colours=swine.RED)
+# physics_shape = swine.physics.PhysicsShape(scene_one, shape, 70)
+# physics_shape.shape.friction = 0.5
+# physics_shape.shape.elasticity = 0.8
+
+# physics_square = swine.physics.PhysicsShape(scene_one, swine.shape.Square(scene_one, 50, colours=[swine.RED, swine.BLUE]))
+# physics_square.shape.friction = 0.5
+# physics_square.shape.elasticity = 0.8
+
+
+# window.benchmark(time=10)
 
 window.mainloop()

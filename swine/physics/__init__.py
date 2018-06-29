@@ -4,3 +4,4 @@
 
 from .physicsobject import PhysicsObject
 from .physicssprite import PhysicsSprite
+from .physicsshape import PhysicsShape
