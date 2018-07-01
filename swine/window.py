@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 """"""
 
-import pyglet
 import os
+
+import pyglet
+import rabbyt
 
 from swine import Globals
 
@@ -29,7 +31,8 @@ class Window(pyglet.window.Window):
 
             self.options = DrawOptions()
 
-        pyglet.gl.glClearColor(int(background[0]) / 255, int(background[1]) / 255, int(background[2]) / 255, 1)
+        self.bg = [int(background[0]) / 255, int(background[1]) / 255, int(background[2]) / 255]
+        pyglet.gl.glClearColor(self.bg[0], self.bg[1], self.bg[2], 1)
 
         Globals.WINDOW = self
 
@@ -64,6 +67,14 @@ class Window(pyglet.window.Window):
 
         else:
             self.clock.schedule(self.physics_update)
+
+        if Globals.SPRITE_FPS != -1:
+            self.clock.schedule_interval(rabbyt.add_time, 1 / Globals.SPRITE_FPS)
+
+        else:
+            self.clock.schedule(rabbyt.add_time)
+
+        rabbyt.set_default_attribs()
 
         self._benchmark_timer = 0
         self._benchmark_list = []
@@ -195,6 +206,8 @@ class Window(pyglet.window.Window):
 
         for batch in self.scene_list[self.active_scene].batch_list:
             batch.draw()
+
+        rabbyt.render_unsorted(self.scene_list[self.active_scene].sprite_list)
 
         if self.debug:
             self.scene_list[self.active_scene].space.debug_draw(self.options)

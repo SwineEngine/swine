@@ -11,6 +11,7 @@ class Globals(object):
     OBJECT_FPS = 60
     GUI_FPS = 60
     PHYSICS_FPS = -1
+    SPRITE_FPS = 60
     FPS_LIMIT = 60
 
     WINDOW = None

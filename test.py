@@ -48,18 +48,19 @@ class AnimatedLabel(swine.gui.Label):
 
 
 class Pig(swine.physics.PhysicsSprite):
-    image = pyglet.image.load("swine/swine.png")
-    image.anchor_x = image.width // 2
-    image.anchor_y = image.height // 2
+    # image = pyglet.image.load("swine/swine.png")
+    # image.anchor_x = image.width // 2
+    # image.anchor_y = image.height // 2
 
     def __init__(self):
-        swine.physics.PhysicsSprite.__init__(self, scene_one, Pig.image, y=100, scale=6, layer=1)
+        swine.physics.PhysicsSprite.__init__(self, scene_one, "swine/swine.png", y=100, scale=6, layer=1)
         # self.x = self.window.width // 2
         # self.y = self.window.height // 2
         # self.body.position = self.window.width // 2, self.window.height // 2
         self.shape.elasticity = 0.5
 
-        self.scale_x = 1
+        # self.scale_x = 1
+        self.sprite.tex_shape = (0, 1, 1, 0)
 
         self.is_grounded = False
 
@@ -80,13 +81,15 @@ class Pig(swine.physics.PhysicsSprite):
             # print("A")
             # self.body.force = pymunk.Vec2d(-speed, 0)
             force.x = -speed
-            self.scale_x = -1
+            # self.scale_x = -1
+            self.sprite.tex_shape = (1, 1, 0, 0)
 
         if self.keys[key.D]:
             # print("D")
             # self.body.force = pymunk.Vec2d(speed, 0)
             force.x = speed
-            self.scale_x = 1
+            # self.scale_x = 1
+            self.sprite.tex_shape = (0, 1, 1, 0)
 
         if self.keys[key.SPACE]:
             # print("W")
