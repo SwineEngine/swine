@@ -10,7 +10,7 @@ from swine.gameobject import GameObject
 
 
 class PhysicsObject(GameObject):
-    def __init__(self, scene, x=0, y=0, mass=1, friction=1, angle=0, vertices=[(-5, 5), (5, 5), (5, -5), (-5, -5)], static=False, rotation=True, layer=0, center=True):
+    def __init__(self, scene, x=0, y=0, mass=1, friction=1, angle=0, collider=True, vertices=[(-5, 5), (5, 5), (5, -5), (-5, -5)], static=False, rotation=True, layer=0, center=True):
         GameObject.__init__(self, scene, layer)
         if center:
             x += scene.window.width / 2
@@ -19,6 +19,7 @@ class PhysicsObject(GameObject):
         self.friction = friction
         self.obj_position = pymunk.Vec2d(x, y)
         self.angle = angle
+        self.collider = collider
         self.vertices = vertices
         self.static = static
         self.rotation = rotation
@@ -30,14 +31,18 @@ class PhysicsObject(GameObject):
         if self.static:
             self.body.body_type = pymunk.Body.STATIC
 
-        self.shape = pymunk.Poly(body=self.body, vertices=self.vertices)
-        self.shape.friction = self.friction
-        self.shape.parent = self
+        if self.collider:
+            self.shape = pymunk.Poly(body=self.body, vertices=self.vertices)
+            self.shape.friction = self.friction
+            self.shape.parent = self
 
         self.body.position = self.obj_position
         self.body.angle = self.angle
 
-        self.scene.space.add(self.body, self.shape)
+        self.scene.space.add(self.body)
+
+        if self.collider:
+            self.scene.space.add(self.shape)
 
         self.scene.physics_list.append(self)
 

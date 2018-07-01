@@ -8,7 +8,7 @@ from .physicsobject import PhysicsObject
 class PhysicsShape(PhysicsObject):
     def __init__(self, scene, shape, x=0, y=0, mass=1, friction=0, angle=0, static=False, rotation=True, layer=0):
         points = [shape.points[i:i + 2] for i in range(0, len(shape.points), 2)]
-        PhysicsObject.__init__(self, scene, x, y, mass, friction, angle, points, static, rotation, layer, False)
+        PhysicsObject.__init__(self, scene, x, y, mass, friction, angle, True, points, static, rotation, layer, False)
         self._shape = shape
 
     def physics_update(self, dt=None):

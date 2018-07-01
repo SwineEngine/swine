@@ -1,6 +1,6 @@
 {
   "name": "swine",
-  "version": "1.36.8",
+  "version": "1.37.0",
   "description": "A Python game engine written atop of Pyglet.",
   "author": "DeflatedPickle/Dibbo",
   "author_email": "DeflatedPickle@gmail.com",
