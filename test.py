@@ -53,7 +53,7 @@ class Pig(swine.physics.PhysicsSprite):
     # image.anchor_y = image.height // 2
 
     def __init__(self):
-        swine.physics.PhysicsSprite.__init__(self, scene_one, "swine/swine.png", y=100, scale=6, layer=1)
+        swine.physics.PhysicsSprite.__init__(self, scene_one, frames=["swine/swine.png"], y=100, scale=6, layer=1)
         # self.x = self.window.width // 2
         # self.y = self.window.height // 2
         # self.body.position = self.window.width // 2, self.window.height // 2

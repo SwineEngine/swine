@@ -175,8 +175,6 @@ class Window(pyglet.window.Window):
         return self.get_location()
 
     def mainloop(self):
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST)
-
         while self._loop:
             pyglet.clock.tick()
 
@@ -203,11 +201,12 @@ class Window(pyglet.window.Window):
                 
     def on_draw(self):
         self.clear()
+        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST)
 
         for batch in self.scene_list[self.active_scene].batch_list:
             batch.draw()
 
-        rabbyt.render_unsorted(self.scene_list[self.active_scene].sprite_list)
+        rabbyt.render_unsorted([i.sprite for i in self.scene_list[self.active_scene].sprite_list])
 
         if self.debug:
             self.scene_list[self.active_scene].space.debug_draw(self.options)

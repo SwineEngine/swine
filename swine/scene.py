@@ -21,6 +21,7 @@ class Scene(object):
         self.batch = pyglet.graphics.Batch()
         self.batch_list = [self.batch]
         self.object_list = []
+        self.sprite_list = []
         self.physics_list = []
 
         self.layers = []

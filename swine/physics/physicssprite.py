@@ -13,19 +13,16 @@ from swine.physics import PhysicsObject
 
 
 class PhysicsSprite(PhysicsObject, Sprite):  # , pyglet.sprite.Sprite):
-    def __init__(self, scene, image, x=0, y=0, scale=1, mass=1, friction=0, angle=0, vertices=[], static=False, rotation=True, layer=0):
-        # type: (Scene, str) -> None
+    def __init__(self, scene, frames=[], fps=None, x=0, y=0, scale=1, mass=1, friction=0, angle=0, vertices=[], static=False, rotation=True, layer=0):
+        # type: (Scene, list) -> None
         self.layer = layer
         # pyglet.sprite.Sprite.__init__(self, img=image, batch=scene.batch, group=scene.layers[self.layer])
-        Sprite.__init__(self, scene, image, scale, layer)
+        Sprite.__init__(self, scene, frames, fps, scale, layer)
 
         if not vertices:
             # vertices = [(-(self.width / 2) * scale, (self.height / 2)), ((self.width / 2) * scale, (self.height / 2)), ((self.width / 2) * scale, -(self.height / 2) * scale), (-(self.width / 2) * scale, -(self.height / 2) * scale)]
             vertices = [(-(self.sprite.texture.width / 2) * scale, (self.sprite.texture.height / 2)), ((self.sprite.texture.width / 2) * scale, (self.sprite.texture.height / 2)), ((self.sprite.texture.width / 2) * scale, -(self.sprite.texture.height / 2) * scale), (-(self.sprite.texture.width / 2) * scale, -(self.sprite.texture.height / 2) * scale)]
         PhysicsObject.__init__(self, scene, x, y, mass, friction, angle, vertices, static, rotation, layer)
-        self.scene = scene
-        self.image = image
-        self.scale = scale
 
     def physics_update(self, dt=None):
         self.sprite.rot = math.degrees(self.body.angle)
