@@ -51,9 +51,12 @@ class Pig(swine.physics.PhysicsSprite):
     # image = pyglet.image.load("swine/swine.png")
     # image.anchor_x = image.width // 2
     # image.anchor_y = image.height // 2
+    path = "sprites/pig"
 
     def __init__(self):
-        swine.physics.PhysicsSprite.__init__(self, scene_one, frames=["swine/swine.png"], y=100, scale=6, layer=1)
+        swine.physics.PhysicsSprite.__init__(self, scene_one, frames={"idle": [f"{Pig.path}/idle/pig_idle_0.png", f"{Pig.path}/idle/pig_idle_1.png"],
+                                                                      "walking": [f"{Pig.path}/walk/pig_walk_0.png", f"{Pig.path}/walk/pig_walk_1.png", f"{Pig.path}/walk/pig_walk_2.png", f"{Pig.path}/walk/pig_walk_3.png"],
+                                                                      "running": [f"{Pig.path}/run/pig_run_0.png", f"{Pig.path}/run/pig_run_1.png", f"{Pig.path}/run/pig_run_2.png", f"{Pig.path}/run/pig_run_3.png"]}, begin="idle", y=100, scale=6, layer=1)
         # self.x = self.window.width // 2
         # self.y = self.window.height // 2
         # self.body.position = self.window.width // 2, self.window.height // 2
@@ -74,14 +77,20 @@ class Pig(swine.physics.PhysicsSprite):
 
         force = pymunk.Vec2d(0, 0)
 
+        running = False
+
         if self.keys[key.LSHIFT]:
             speed *= 2
+            self.play_animation("running")
+            running = True
 
         if self.keys[key.A]:
             # print("A")
             # self.body.force = pymunk.Vec2d(-speed, 0)
             force.x = -speed
             # self.scale_x = -1
+            if not running:
+                self.play_animation("walking")
             self.sprite.tex_shape = (1, 1, 0, 0)
 
         if self.keys[key.D]:
@@ -89,6 +98,8 @@ class Pig(swine.physics.PhysicsSprite):
             # self.body.force = pymunk.Vec2d(speed, 0)
             force.x = speed
             # self.scale_x = 1
+            if not running:
+                self.play_animation("walking")
             self.sprite.tex_shape = (0, 1, 1, 0)
 
         if self.keys[key.SPACE]:
@@ -98,6 +109,9 @@ class Pig(swine.physics.PhysicsSprite):
                 self.body.velocity = pymunk.Vec2d(force.x, speed)
 
         self.body.force = force
+
+        if self.body.force.x == 0:
+            self.play_animation("idle")
 
         if -4 < self.body.angle < -3 or 4 > self.body.angle > 3:
             # print("The pig has been flipped!")
