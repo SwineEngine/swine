@@ -66,6 +66,7 @@ class Pig(swine.physics.PhysicsSprite):
         self.sprite.tex_shape = (0, 1, 1, 0)
 
         self.is_grounded = False
+        self.is_jumping = False
 
         self.count_flip = False
         self.flip_counter = 60
@@ -108,6 +109,9 @@ class Pig(swine.physics.PhysicsSprite):
             if self.is_grounded:
                 self.body.velocity = pymunk.Vec2d(force.x, speed)
 
+                self.is_grounded = False
+                self.is_jumping = True
+
         self.body.force = force
 
         if self.body.force.x == 0:
@@ -141,8 +145,16 @@ class Pig(swine.physics.PhysicsSprite):
             elif self.body.angle > 0:
                 self.body.angle -= 0.05
 
+        if not self.is_grounded and self.is_jumping:
+            if not self.paused:
+                self.frame = 1
+                self.pause_animation(length=4)
+
     def collision_enter(self, collider):
         self.is_grounded = True
+        self.is_jumping = False
+
+        self.frame = 0
 
         self.is_flipping = False
 

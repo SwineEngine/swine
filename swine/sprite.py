@@ -6,8 +6,7 @@
 
 import rabbyt
 
-from swine import GameObject
-from swine import Scene
+from swine import GameObject, Scene, Globals
 
 
 class Sprite(GameObject):  #, pyglet.sprite.Sprite):
@@ -39,6 +38,11 @@ class Sprite(GameObject):  #, pyglet.sprite.Sprite):
 
         self.scene.window.clock.schedule_interval(self.animation_update, 1 / self.fps)
 
+        self.paused = False
+
+        self._wait_counter = 0
+        self._pause_counter = 0
+
     def animation_update(self, dt=None):
         try:
             self.sprite.texture = self.rabbyt_frames[self.frame]
@@ -65,3 +69,33 @@ class Sprite(GameObject):  #, pyglet.sprite.Sprite):
 
         if self.fps is None:
             self.fps = len(self.frames[self._current]) * 2
+
+    def pause_animation(self, length=-1):
+        if length == -1:
+            self.stop_animation()
+            return
+
+        else:
+            self.stop_animation()
+            self.paused = True
+
+            self._pause_counter = length
+            self.scene.window.clock.schedule_interval(self._tick_paused, 1 / Globals.SPRITE_FPS)
+
+    def _tick_paused(self, length):
+        if self._pause_counter > 0:
+            self._pause_counter -= 1
+
+        else:
+            self.scene.window.clock.unschedule(self._tick_paused)
+            self.unpause_animation()
+
+    def unpause_animation(self):
+        self.paused = False
+        self.scene.window.clock.schedule_interval(self.animation_update, 1 / self.fps)
+
+    def stop_animation(self):
+        self.scene.window.clock.unschedule(self.animation_update)
+
+    def reset_animation(self):
+        self.frame = 0
