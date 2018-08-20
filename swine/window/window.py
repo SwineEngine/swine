@@ -27,6 +27,7 @@ class Window(pyglet.window.Window):
                     try:
                         window.switch_to()
                         window.dispatch_events()
+                        window.dispatch_event('on_draw')
                         window.flip()
 
                         for obj in window.scene_list[window.active_scene].object_list:
@@ -44,3 +45,9 @@ class Window(pyglet.window.Window):
 
     def on_close(self):
         self.close()
+
+    def on_draw(self):
+        self.clear()
+
+        for batch in self.scene_list[self.active_scene].batch_list:
+            batch.draw()

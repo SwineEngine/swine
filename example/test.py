@@ -3,13 +3,15 @@
 
 import swine.window
 import swine.object
+import swine.component
+import swine.graphics
 
 window = swine.window.Window()
 
 scene_one = swine.window.Scene(window)
 
 
-class DebugPrint(swine.object.Behaviour):
+class DebugPrint(swine.object.Component):
     def start(self):
         print("Start")
 
@@ -17,6 +19,8 @@ class DebugPrint(swine.object.Behaviour):
         print("Update")
 
 
-debug = swine.object.GameObject(scene_one, [DebugPrint()])
+pig_sprite = swine.graphics.Sprite("pig_idle_0.png", swine.object.Anchor.MIDDLE_CENTER)
+debug = swine.object.GameObject(scene_one, [DebugPrint(),
+                                            swine.component.SpriteRenderer(pig_sprite, 6)])
 
 window.mainloop()
