@@ -3,20 +3,27 @@
 from typing import List
 
 import pyglet
+from pyglet.input import Joystick
 
 from swine.input import InputManager
 from swine.window import Scene
+from swine.input.handler import JoyStickStateHandler
+from swine.window.mainloop import Mainloop
 
 
 class Window(pyglet.window.Window):
     def __init__(self):
+
+        self.joystick = pyglet.input.get_joysticks()[0]
+        self.joystick.open()
+
         pyglet.window.Window.__init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT)
         self.scene_list: List[Scene] = []
         self.active_scene = 0
 
         self.clock = pyglet.clock.get_default()
 
-        self._loop = True
+        self._loop = None
         self.register_event_type("on_update")
 
         self.input_manager = InputManager(self, self.joystick)
@@ -35,29 +42,11 @@ class Window(pyglet.window.Window):
     # End of abstract methods
 
     def mainloop(self):
-        while self._loop:
-            pyglet.clock.tick()
-
-            try:
-                for window in pyglet.app.windows:
-                    try:
-                        window.switch_to()
-                        window.dispatch_events()
-                        window.dispatch_event('on_draw')
-                        window.flip()
-
-                        for obj in window.scene_list[window.active_scene].object_list:
-                            obj.update()
-                            obj.physics_update()
-
-                    except AttributeError:
-                        pass
-
-            except RuntimeError:
-                pass
+        self._loop = Mainloop()
+        self._loop.run()
 
     def close(self):
-        self._loop = False
+        self._loop.exit()
         pyglet.window.Window.close(self)
 
     def physics_update(self, dt):

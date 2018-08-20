@@ -9,6 +9,7 @@ import swine.object
 import swine.component
 import swine.component.physics
 import swine.graphics
+from swine.input.xbox_controller import XBoxController
 
 window = swine.window.Window()
 
@@ -24,13 +25,19 @@ class PlayerMove(swine.object.Component):
         self.input = self.parent.scene.window.input_manager
 
     def update(self):
-        if self.input.get_key(key.W):
-            print("W")
+        # Move Right
+        if self.input.get_key(key.D) or self.input.get_joystick_hat(XBoxController.DIRECTIONAL_PAD_RIGHT):
+            print("Moving right")
 
-        if self.input.get_mouse_button(mouse.LEFT):
-            print("Left")
+        if self.input.get_joystick_axis(XBoxController.LEFT_THUMBSTICK_X) and self.input.get_joystick_axis(XBoxController.LEFT_THUMBSTICK_X) > 0.1:
+            print("Moving right (Thumbstick)")
 
-        # print(self.input.get_joystick_button())
+        # Move Left
+        if self.input.get_key(key.A) or self.input.get_joystick_hat(XBoxController.DIRECTIONAL_PAD_LEFT):
+            print("Moving left")
+
+        if self.input.get_joystick_axis(XBoxController.LEFT_THUMBSTICK_X) and self.input.get_joystick_axis(XBoxController.LEFT_THUMBSTICK_X) < -0.1:
+            print("Moving left (Thumbstick)")
 
 
 pig_sprite = swine.graphics.Sprite("pig_idle_0.png", swine.object.Anchor.MIDDLE_CENTER)

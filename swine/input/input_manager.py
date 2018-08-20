@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Tuple
 
 import pyglet
 
-from swine.input import Input
-from swine.input.handler import MouseStateHandler
+from swine.input import Input, XBoxController
+from swine.input.handler import MouseStateHandler, JoyStickStateHandler
 
 
 class InputManager(object):
@@ -20,6 +20,9 @@ class InputManager(object):
 
         self.mouse_handler = MouseStateHandler()
         self.window.push_handlers(self.mouse_handler)
+
+        self.joystick_handler = JoyStickStateHandler()
+        self.joystick.push_handlers(self.joystick_handler)
 
     def get_key(self, key: int):
         return self.key_handler[key]
@@ -40,5 +43,24 @@ class InputManager(object):
 
         return x, y
 
-    def get_joystick_button(self):
-        print(self.joystick.buttons)
+    def get_joystick_button(self, button: int):
+        if isinstance(button, XBoxController):
+            button = button.value
+
+        return self.joystick_handler.button.get(button)
+
+    def get_joystick_hat(self, vector: Tuple[int]):
+        if isinstance(vector, XBoxController):
+            vector = vector.value
+
+        if self.joystick_handler.hat == vector:
+            return True
+
+        else:
+            return False
+
+    def get_joystick_axis(self, axis: str):
+        if isinstance(axis, XBoxController):
+            axis = axis.value
+
+        return self.joystick_handler.axis.get(axis)
