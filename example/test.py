@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from pyglet.window import key
-from pyglet.window import mouse
 import pymunk
 
 import swine.window
@@ -42,6 +41,7 @@ class PlayerMove(swine.object.Component):
 
 pig_sprite = swine.graphics.Sprite("pig_idle_0.png", swine.object.Anchor.MIDDLE_CENTER)
 debug = swine.object.GameObject(scene_one, [PlayerMove(),
+                                            swine.component.Transform(),
                                             swine.component.SpriteRenderer(pig_sprite, 6),
                                             swine.component.physics.RigidBody()])
 

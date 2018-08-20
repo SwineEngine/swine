@@ -14,7 +14,7 @@ class RigidBody(Component):
         self.rotation = rotation
 
         self.momentum = pymunk.moment_for_box(self.mass, (1, 1))
-        self.body = None
+        self.body: pymunk.Body = None
 
     def start(self):
         self.body = pymunk.Body(self.mass, self.momentum if self.rotation else pymunk.inf)

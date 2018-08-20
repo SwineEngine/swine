@@ -3,17 +3,14 @@
 from typing import List
 
 import pyglet
-from pyglet.input import Joystick
 
 from swine.input import InputManager
 from swine.window import Scene
-from swine.input.handler import JoyStickStateHandler
 from swine.window.mainloop import Mainloop
 
 
 class Window(pyglet.window.Window):
     def __init__(self):
-
         self.joystick = pyglet.input.get_joysticks()[0]
         self.joystick.open()
 

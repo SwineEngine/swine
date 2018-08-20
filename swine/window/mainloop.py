@@ -9,6 +9,9 @@ class Mainloop(EventLoop):
         EventLoop.__init__(self)
 
     def idle(self):
+        dt = self.clock.update_time()
+        self.clock.call_scheduled_functions(dt)
+
         try:
             for window in pyglet.app.windows:
                 try:
