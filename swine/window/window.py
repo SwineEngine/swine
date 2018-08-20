@@ -4,7 +4,8 @@ from typing import List
 
 import pyglet
 
-from .scene import Scene
+from swine.input import InputManager
+from swine.window import Scene
 
 
 class Window(pyglet.window.Window):
@@ -17,6 +18,8 @@ class Window(pyglet.window.Window):
 
         self._loop = True
         self.register_event_type("on_update")
+
+        self.input_manager = InputManager(self, self.joystick)
 
         self.clock.schedule(self.physics_update)
 
