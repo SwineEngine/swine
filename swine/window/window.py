@@ -18,6 +18,19 @@ class Window(pyglet.window.Window):
         self._loop = True
         self.register_event_type("on_update")
 
+        self.clock.schedule(self.physics_update)
+
+    def on_close(self):
+        self.close()
+
+    def on_draw(self):
+        self.clear()
+
+        for batch in self.scene_list[self.active_scene].batch_list:
+            batch.draw()
+
+    # End of abstract methods
+
     def mainloop(self):
         while self._loop:
             pyglet.clock.tick()
@@ -32,6 +45,7 @@ class Window(pyglet.window.Window):
 
                         for obj in window.scene_list[window.active_scene].object_list:
                             obj.update()
+                            obj.physics_update()
 
                     except AttributeError:
                         pass
@@ -43,11 +57,5 @@ class Window(pyglet.window.Window):
         self._loop = False
         pyglet.window.Window.close(self)
 
-    def on_close(self):
-        self.close()
-
-    def on_draw(self):
-        self.clear()
-
-        for batch in self.scene_list[self.active_scene].batch_list:
-            batch.draw()
+    def physics_update(self, dt):
+        self.scene_list[self.active_scene].space.step(dt)

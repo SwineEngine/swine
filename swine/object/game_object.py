@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Optional, Type
 
 from swine.object.component import Component
 from swine.window.layers import Layers
@@ -24,3 +24,14 @@ class GameObject(object):
     def update(self):
         for comp in self.components:
             comp.update()
+
+    def physics_update(self):
+        for comp in self.components:
+            comp.physics_update()
+
+    def get_component(self, type_: Component) -> Optional[Type[Component]]:
+        for comp in self.components:
+            if type(comp) == type_:
+                return comp
+
+        return None
