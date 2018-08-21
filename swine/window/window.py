@@ -12,7 +12,7 @@ from swine.window.mainloop import Mainloop
 class Window(pyglet.window.Window):
     def __init__(self):
         joysticks = pyglet.input.get_joysticks()
-        if len(joysticks) > 1:
+        if len(joysticks) > 0:
             self.joystick = pyglet.input.get_joysticks()[0]
             self.joystick.open()
         else:

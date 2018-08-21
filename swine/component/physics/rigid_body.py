@@ -23,3 +23,6 @@ class RigidBody(Component):
             self.body.body_type = pymunk.Body.STATIC
 
         self.parent.scene.space.add(self.body)
+
+    def add_force(self, x: float, y: float):
+        self.body.force = pymunk.Vec2d(x, y)

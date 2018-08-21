@@ -22,7 +22,7 @@ class SpriteRenderer(Component):
         self.sprite = Sprite(self.image.sprite, batch=self.parent.scene.batch)
         self.sprite.scale = self.scale
 
-    def physics_update(self):
+    def physics_update(self, dt):
         rigid = self.parent.get_component(RigidBody)
 
         if rigid is not None:

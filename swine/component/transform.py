@@ -18,7 +18,7 @@ class Transform(Component):
 
         self.first_update = True
 
-    def update(self):
+    def update(self, dt):
         if self.first_update:
             self.first_update = False
 

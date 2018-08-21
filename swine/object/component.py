@@ -9,8 +9,8 @@ class Component(object):
     def start(self):
         pass
 
-    def update(self):
+    def update(self, dt):
         pass
 
-    def physics_update(self):
+    def physics_update(self, dt):
         pass

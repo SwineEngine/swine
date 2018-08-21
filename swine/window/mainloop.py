@@ -20,10 +20,6 @@ class Mainloop(EventLoop):
                     window.dispatch_event('on_draw')
                     window.flip()
 
-                    for obj in window.scene_list[window.active_scene].object_list:
-                        obj.update()
-                        obj.physics_update()
-
                 except AttributeError:
                     pass
 
