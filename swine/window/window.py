@@ -3,6 +3,7 @@
 from typing import List
 
 import pyglet
+from pymunk.pyglet_util import DrawOptions
 
 from swine.input import InputManager
 from swine.window import Scene
@@ -10,7 +11,9 @@ from swine.window.mainloop import Mainloop
 
 
 class Window(pyglet.window.Window):
-    def __init__(self):
+    def __init__(self, debug: bool = False):
+        self.debug = debug
+
         joysticks = pyglet.input.get_joysticks()
         if len(joysticks) > 0:
             self.joystick = pyglet.input.get_joysticks()[0]
@@ -29,6 +32,9 @@ class Window(pyglet.window.Window):
 
         self.input_manager = InputManager(self, self.joystick)
 
+        if self.debug:
+            self.options = DrawOptions()
+
         self.clock.schedule(self.physics_update)
 
     def on_close(self):
@@ -39,6 +45,9 @@ class Window(pyglet.window.Window):
 
         for batch in self.scene_list[self.active_scene].batch_list:
             batch.draw()
+
+        if self.debug:
+            self.scene_list[self.active_scene].space.debug_draw(self.options)
 
     # End of abstract methods
 

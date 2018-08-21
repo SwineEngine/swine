@@ -36,7 +36,21 @@ class GameObject(object):
         for comp in self.components:
             comp.physics_update(dt)
 
-    def get_component(self, type_: Component) -> Optional[Type[Component]]:
+    def collision_enter(self, collider):
+        for comp in self.components:
+            comp.collision_enter(collider)
+
+    def collision_stay(self, collider):
+        for comp in self.components:
+            comp.collision_stay(collider)
+
+    def collision_exit(self, collider):
+        for comp in self.components:
+            comp.collision_exit(collider)
+
+    # Methods
+
+    def get_component(self, type_: Type[Component]) -> Optional[Component]:
         for comp in self.components:
             if type(comp) == type_:
                 return comp

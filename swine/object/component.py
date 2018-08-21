@@ -14,3 +14,12 @@ class Component(object):
 
     def physics_update(self, dt):
         pass
+
+    def collision_enter(self, collider):
+        pass
+
+    def collision_stay(self, collider):
+        pass
+
+    def collision_exit(self, collider):
+        pass

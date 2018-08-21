@@ -6,7 +6,7 @@ from swine.object import Anchor
 
 
 class Sprite(object):
-    def __init__(self, image: str, anchor: Anchor, anchor_x: int = None, anchor_y: int = None):
+    def __init__(self, image: str, anchor: Anchor, anchor_x: int = 0, anchor_y: int = 0):
         self.image = image
         self.anchor = anchor
         self.anchor_x = anchor_x
