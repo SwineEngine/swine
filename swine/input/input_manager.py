@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import pyglet
 
-from swine.input import Input, XBoxController
+from swine.input import XBoxController
 from swine.input.handler import MouseStateHandler, JoyStickStateHandler
 
 
@@ -13,16 +13,15 @@ class InputManager(object):
         self.window = window
         self.joystick = joystick
 
-        self.inputs: List[Input] = []
-
         self.key_handler = pyglet.window.key.KeyStateHandler()
         self.window.push_handlers(self.key_handler)
 
         self.mouse_handler = MouseStateHandler()
         self.window.push_handlers(self.mouse_handler)
 
-        self.joystick_handler = JoyStickStateHandler()
-        self.joystick.push_handlers(self.joystick_handler)
+        if self.joystick is not None:
+            self.joystick_handler = JoyStickStateHandler()
+            self.joystick.push_handlers(self.joystick_handler)
 
     def get_key(self, key: int):
         return self.key_handler[key]
@@ -50,17 +49,25 @@ class InputManager(object):
         return self.joystick_handler.button.get(button)
 
     def get_joystick_hat(self, vector: Tuple[int]):
-        if isinstance(vector, XBoxController):
-            vector = vector.value
+        if self.joystick is not None:
+            if isinstance(vector, XBoxController):
+                vector = vector.value
 
-        if self.joystick_handler.hat == vector:
-            return True
+            if self.joystick_handler.hat == vector:
+                return True
+
+            else:
+                return False
 
         else:
             return False
 
     def get_joystick_axis(self, axis: str):
-        if isinstance(axis, XBoxController):
-            axis = axis.value
+        if self.joystick is not None:
+            if isinstance(axis, XBoxController):
+                axis = axis.value
 
-        return self.joystick_handler.axis.get(axis)
+            return self.joystick_handler.axis.get(axis)
+
+        else:
+            return 0

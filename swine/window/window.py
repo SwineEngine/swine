@@ -11,8 +11,12 @@ from swine.window.mainloop import Mainloop
 
 class Window(pyglet.window.Window):
     def __init__(self):
-        self.joystick = pyglet.input.get_joysticks()[0]
-        self.joystick.open()
+        joysticks = pyglet.input.get_joysticks()
+        if len(joysticks) > 1:
+            self.joystick = pyglet.input.get_joysticks()[0]
+            self.joystick.open()
+        else:
+            self.joystick = None
 
         pyglet.window.Window.__init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT)
         self.scene_list: List[Scene] = []
