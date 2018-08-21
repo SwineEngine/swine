@@ -25,8 +25,11 @@ class Transform(Component):
             sprite = self.parent.get_component(SpriteRenderer)
             rigid = self.parent.get_component(RigidBody)
 
+            window = self.parent.scene.window
+            self.position = pymunk.Vec2d(self.position.x + (window.width / 2), self.position.y + (window.height / 2))
+
             if sprite is not None:
-                sprite.sprite.position = self.position[0], self.position[1]
+                sprite.sprite.position = self.position.x, self.position.y
                 sprite.sprite.rotation = math.degrees(-self.rotation)
 
                 sprite.sprite.scale_x = self.scale[0]
