@@ -14,7 +14,7 @@ from swine.component import SpriteRenderer
 from swine.component.physics import RigidBody
 from swine.input.xbox_controller import XBoxController
 
-window = swine.window.Window()
+window = swine.window.Window(False)
 
 scene_one = swine.window.Scene(window, pymunk.Vec2d(0, 0), 0.1)
 
@@ -82,15 +82,16 @@ class PlayerMove(swine.object.Component):
 
 
 pig_sprite = swine.graphics.Sprite("pig_idle_0.png", swine.object.Anchor.MIDDLE_CENTER)
-debug = swine.object.GameObject(scene_one, [PlayerMove(),
-                                            swine.component.Transform(Vec2d(300, 300)),
-                                            swine.component.SpriteRenderer(pig_sprite, 7),
-                                            swine.component.physics.RigidBody(),
-                                            swine.component.physics.collider.PolygonCollider()])
+pig = swine.object.GameObject(scene_one, [PlayerMove(),
+                                          swine.component.Transform(),
+                                          swine.component.SpriteRenderer(pig_sprite, 6),
+                                          swine.component.physics.RigidBody(1, False, False),
+                                          swine.component.physics.collider.BoxCollider()])
 
-debug2 = swine.object.GameObject(scene_one, [swine.component.Transform(Vec2d(100, 300)),
-                                             swine.component.SpriteRenderer(pig_sprite, 7),
-                                             swine.component.physics.RigidBody(),
-                                             swine.component.physics.collider.PolygonCollider()])
+box_sprite = swine.graphics.Sprite("metal_box.png", swine.object.Anchor.MIDDLE_CENTER)
+box = swine.object.GameObject(scene_one, [swine.component.Transform(Vec2d(150, 0)),
+                                          swine.component.SpriteRenderer(box_sprite, 4),
+                                          swine.component.physics.RigidBody(),
+                                          swine.component.physics.collider.BoxCollider()])
 
 window.mainloop()
