@@ -3,3 +3,4 @@
 
 from .sprite_renderer import SpriteRenderer
 from .transform import Transform
+from .viewport import Viewport

@@ -10,13 +10,26 @@ import swine.component
 import swine.component.physics
 import swine.component.physics.collider
 import swine.graphics
-from swine.component import SpriteRenderer
+from swine.component import SpriteRenderer, Transform
 from swine.component.physics import RigidBody
 from swine.input.xbox_controller import XBoxController
 
 window = swine.window.Window(False)
 
 scene_one = swine.window.Scene(window, pymunk.Vec2d(0, 0), 0.1)
+
+
+class FollowPlayer(swine.object.Component):
+    def update(self, dt=None):
+        transform: Transform = self.parent.get_component(Transform)
+
+        player = self.parent.scene.get_object("Player")
+        player_rigid = player.get_component(RigidBody)
+
+        transform.position = Vec2d(player_rigid.body.position.x, player_rigid.body.position.y)
+
+
+camera = swine.object.GameObject(scene_one, "Camera", [swine.component.Transform(), swine.component.Viewport(), FollowPlayer()])
 
 
 class PlayerMove(swine.object.Component):
@@ -82,16 +95,21 @@ class PlayerMove(swine.object.Component):
 
 
 pig_sprite = swine.graphics.Sprite("pig_idle_0.png", swine.object.Anchor.MIDDLE_CENTER)
-pig = swine.object.GameObject(scene_one, [PlayerMove(),
+pig = swine.object.GameObject(scene_one, "Player", [PlayerMove(),
                                           swine.component.Transform(),
                                           swine.component.SpriteRenderer(pig_sprite, 6),
                                           swine.component.physics.RigidBody(1, False, False),
                                           swine.component.physics.collider.BoxCollider()])
 
 box_sprite = swine.graphics.Sprite("metal_box.png", swine.object.Anchor.MIDDLE_CENTER)
-box = swine.object.GameObject(scene_one, [swine.component.Transform(Vec2d(150, 0)),
+box = swine.object.GameObject(scene_one, "Box1", [swine.component.Transform(Vec2d(150, 0)),
                                           swine.component.SpriteRenderer(box_sprite, 4),
                                           swine.component.physics.RigidBody(),
                                           swine.component.physics.collider.BoxCollider()])
+
+box2 = swine.object.GameObject(scene_one, "Box2", [swine.component.Transform(Vec2d(-150, 0)),
+                                           swine.component.SpriteRenderer(box_sprite, 4),
+                                           swine.component.physics.RigidBody(),
+                                           swine.component.physics.collider.BoxCollider()])
 
 window.mainloop()

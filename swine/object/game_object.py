@@ -9,8 +9,9 @@ from swine.window.scene import Scene
 
 
 class GameObject(object):
-    def __init__(self, scene: Scene, components: List[Component]):
+    def __init__(self, scene: Scene, name: str, components: List[Component]):
         self.scene = scene
+        self.name = name
         self.components = components
 
         self.id: int = 0
@@ -22,6 +23,8 @@ class GameObject(object):
         self.start()
         self._interval = pyglet.clock.schedule(self.update)
         self._interval = pyglet.clock.schedule(self.physics_update)
+
+    # Listeners
 
     def start(self):
         for comp in self.components:

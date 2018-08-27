@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Optional
 
 from pyglet.graphics import Batch
 import pymunk
@@ -35,6 +35,8 @@ class Scene(object):
 
         # Other
         self.window.scene_list.append(self)
+
+    # Listeners
 
     def collision_enter(self, arbiter, space, data):
         for shape in arbiter.shapes:
@@ -75,3 +77,12 @@ class Scene(object):
             col = arbiter.shapes[not arbiter.shapes[arbiter.shapes.index(shape)]]
 
         return col
+
+    # Methods
+
+    def get_object(self, name: str):  # -> Optional[GameObject]:
+        for obj in self.object_list:
+            if obj.name == name:
+                return obj
+
+        return None
