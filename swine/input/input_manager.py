@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import pyglet
 
-from swine.input import XBoxController
+from swine.input import EmptyController
 from swine.input.handler import MouseStateHandler, JoyStickStateHandler
 
 
@@ -43,14 +43,14 @@ class InputManager(object):
         return x, y
 
     def get_joystick_button(self, button: int):
-        if isinstance(button, XBoxController):
+        if isinstance(button, EmptyController):
             button = button.value
 
         return self.joystick_handler.button.get(button)
 
     def get_joystick_hat(self, vector: Tuple[int]):
         if self.joystick is not None:
-            if isinstance(vector, XBoxController):
+            if isinstance(vector, EmptyController):
                 vector = vector.value
 
             if self.joystick_handler.hat == vector:
@@ -64,7 +64,7 @@ class InputManager(object):
 
     def get_joystick_axis(self, axis: str):
         if self.joystick is not None:
-            if isinstance(axis, XBoxController):
+            if isinstance(axis, EmptyController):
                 axis = axis.value
 
             return self.joystick_handler.axis.get(axis)
