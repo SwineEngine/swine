@@ -20,6 +20,9 @@ class Scene(object):
         # Objects
         self.object_list = []
 
+        # Sounds
+        self.mixers = []
+
         # Physics
         self.space = pymunk.Space()
         self.space.gravity = self.gravity
