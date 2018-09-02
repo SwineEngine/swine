@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List, Tuple
+from typing import Tuple
 
 import pyglet
 
