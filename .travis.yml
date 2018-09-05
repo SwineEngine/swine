@@ -7,4 +7,8 @@ python:
 install:
   - pip install -r requirements.txt
   - python setup.py install
-script: pytest
+  - pip install coveralls
+script:
+  - coverage run --source=swine setup.py
+after_success:
+- coveralls
