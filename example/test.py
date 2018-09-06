@@ -12,6 +12,7 @@ import swine.component.physics.collider
 import swine.graphics
 from swine.component import SpriteRenderer, Transform
 from swine.component.physics import RigidBody
+from swine.gui import Button
 from swine.input.xbox_controller import XBoxController
 
 window = swine.window.Window(False)
@@ -111,5 +112,7 @@ box2 = swine.object.GameObject(scene_one, "Box2", [swine.component.Transform(Vec
                                            swine.component.SpriteRenderer(box_sprite, 4),
                                            swine.component.physics.RigidBody(),
                                            swine.component.physics.collider.BoxCollider()])
+
+button = Button(scene_one, "Next Scene", x=-240, y=-200)
 
 window.mainloop()

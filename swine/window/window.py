@@ -35,7 +35,7 @@ class Window(pyglet.window.Window):
         if self.debug:
             self.options = DrawOptions()
 
-        self.clock.schedule(self.physics_update)
+        self.clock.schedule(self.update)
 
     def on_close(self):
         self.close()
@@ -59,5 +59,6 @@ class Window(pyglet.window.Window):
         self._loop.exit()
         pyglet.window.Window.close(self)
 
-    def physics_update(self, dt):
+    def update(self, dt):
         self.scene_list[self.active_scene].space.step(dt)
+        self.dispatch_event("on_update", dt)

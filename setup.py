@@ -24,4 +24,4 @@ setup(name="swine",
                 "swine/input", "swine/input/handler",
                 "swine/object",
                 "swine/window"],
-      install_requires=["pyglet", "pymunk"])
+      install_requires=["pyglet", "pymunk", "felyne"])
