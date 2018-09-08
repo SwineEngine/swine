@@ -34,6 +34,8 @@ class Scene(object):
         self.handler.separate = self.collision_exit
 
         # Other
+        self.active_viewport = None
+
         self.window.scene_list.append(self)
 
     # Listeners
