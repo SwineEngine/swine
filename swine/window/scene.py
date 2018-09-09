@@ -33,6 +33,9 @@ class Scene(object):
 
         self.handler.separate = self.collision_exit
 
+        # Camera
+        self.camera = None
+
         # Other
         self.window.scene_list.append(self)
 

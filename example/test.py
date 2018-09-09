@@ -31,6 +31,7 @@ class FollowPlayer(swine.object.Component):
 
 
 camera = swine.object.GameObject(scene_one, "Camera", [swine.component.Transform(), swine.component.Viewport(), FollowPlayer()])
+scene_one.camera = camera
 
 
 class PlayerMove(swine.object.Component):
