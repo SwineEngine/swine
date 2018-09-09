@@ -28,5 +28,8 @@ class BoxCollider(BaseCollider):
         else:
             body = None
 
+        self.width = abs(self.left[0]) + self.right[0]
+        self.height = abs(self.left[1]) + self.right[1]
+
         self.collider = pymunk.Segment(body, self.left, self.right, self.edge_radius)
         BaseCollider.start(self)

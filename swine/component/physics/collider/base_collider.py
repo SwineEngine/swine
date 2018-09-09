@@ -14,6 +14,8 @@ class BaseCollider(Component):
         self.elasticity = elasticity
 
         self.collider: pymunk.Shape = None
+        self.width = 0
+        self.height = 0
 
     def start(self):
         self.collider.friction = self.friction
