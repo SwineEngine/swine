@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import kytten
 from pyglet.window import key
 import pymunk
 from pymunk import Vec2d
@@ -12,7 +13,7 @@ import swine.component.physics.collider
 import swine.graphics
 from swine.component import SpriteRenderer, Transform
 from swine.component.physics import RigidBody
-from swine.gui import Button
+from swine.gui import Button, Label, Checkbox, Canvas, Dropdown, Input, Menu, Slider, Window
 from swine.input.xbox_controller import XBoxController
 
 window = swine.window.Window(False)
@@ -158,6 +159,15 @@ box2 = swine.object.GameObject(scene_one, "Box2", [swine.component.Transform(Vec
 
 canvas = Canvas(scene_one, "Canvas", [swine.component.Transform(Vec2d(0, 0))])
 
-button = Button(scene_one, "Next Scene", x=-240, y=-200)
+button = Button(canvas, "Button", [swine.component.Transform(Vec2d(-240, -200))], text="Next Scene", command=lambda: print("Hello, World!"))
+# label = Label(canvas, "Label", [swine.component.Transform(Vec2d(-240, -200))], "Label")
+# checkbox = Checkbox(canvas, "Check", [swine.component.Transform(Vec2d(-240, -200))], "Check")
+# dropdown = Dropdown(canvas, "Dropdown", [swine.component.Transform(Vec2d(-240, -200))], options=["One", "Two", "Three"])
+# input_ = Input(canvas, "Input", [swine.component.Transform(Vec2d(-240, -200))], "")
+# menu = Menu(canvas, "Menu", [swine.component.Transform(Vec2d(-240, -200))], options=["One", "Two", "Three"])
+# slider = Slider(canvas, "Slider", [swine.component.Transform(Vec2d(-240, -200))])
+# window_ = Window(canvas, "Window", [swine.component.Transform(Vec2d(-240, -200))], "Window", kytten.VerticalLayout([
+#                                 kytten.Button("Click!", on_click=None)
+#                             ]))
 
 window.mainloop()

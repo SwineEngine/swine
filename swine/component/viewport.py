@@ -24,10 +24,6 @@ class Viewport(Component):
 
                 glViewport(0, 0, self.size.x, self.size.y)
 
-            # canvas = self.parent.scene.get_object("Canvas")
-            # if canvas is not None:
-            #     canvas.batch.draw()
-
             transform = self.parent.get_component(Transform)
 
             pos_x = 0
@@ -38,12 +34,18 @@ class Viewport(Component):
                 pos_y = transform.position.y
                 rotation = transform.rotation
 
-            glLoadIdentity()
-
             self.angle = rotation
-            glRotatef(self.angle, 0, 0, -1)
 
             self.x = -pos_x + (self.size.x / 2)
             self.y = -pos_y + (self.size.y / 2)
-            glTranslatef(self.x, self.y, 0)
+
+    def draw(self):
+        glLoadIdentity()
+
+        canvas = self.parent.scene.get_object("Canvas")
+        if canvas is not None:
+            canvas.batch.draw()
+
+        glRotatef(self.angle, 0, 0, -1)
+        glTranslatef(self.x, self.y, 0)
 

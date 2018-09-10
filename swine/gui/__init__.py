@@ -9,3 +9,6 @@ from .slider import Slider
 from .dropdown import Dropdown
 from .menu import Menu
 from .window import Window
+from .label import Label
+
+from .canvas import Canvas

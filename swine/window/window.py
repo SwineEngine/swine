@@ -46,6 +46,10 @@ class Window(pyglet.window.Window):
         for batch in self.scene_list[self.active_scene].batch_list:
             batch.draw()
 
+        for obj in self.scene_list[self.active_scene].object_list:
+            for component in obj.components:
+                component.draw()
+
         if self.debug:
             self.scene_list[self.active_scene].space.debug_draw(self.options)
 

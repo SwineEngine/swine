@@ -23,3 +23,6 @@ class Component(object):
 
     def collision_exit(self, collider):
         pass
+
+    def draw(self):
+        pass

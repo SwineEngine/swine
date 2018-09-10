@@ -29,9 +29,14 @@ class Transform(Component):
         if self.first_update:
             self.first_update = False
 
+            from swine.gui import Widget
+            if self.parent.parent is None and isinstance(self.parent, Widget):
+                self.parent.offset = (self.position.x,
+                                      self.position.y)
+                self.parent.do_layout()
+
             window = self.parent.scene.window
             self.position = pymunk.Vec2d(self.position.x + (window.width / 2), self.position.y + (window.height / 2))
-
 
             if self.rigid is not None:
                 self.rigid.body.angle = math.radians(self.rotation)
@@ -78,11 +83,3 @@ class Transform(Component):
                 new_y = (-child_position.y + parent_position.y) + (window.height / 2)
 
             self.rigid.body.position = pymunk.Vec2d(new_x, new_y)
-
-                sprite.sprite.scale_x = self.scale[0]
-                sprite.sprite.scale_y = self.scale[1]
-
-            if rigid is not None:
-                rigid.body.angle = math.radians(self.rotation)
-                rigid.body.position = self.position
-
