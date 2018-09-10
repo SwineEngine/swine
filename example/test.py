@@ -10,6 +10,7 @@ import swine.object
 import swine.component
 import swine.component.physics
 import swine.component.physics.collider
+import swine.component.quicktime
 import swine.graphics
 from swine.component import SpriteRenderer, Transform
 from swine.component.physics import RigidBody
@@ -144,7 +145,9 @@ pig = swine.object.GameObject(scene_one, "Player", [PlayerMove(), GrabBox(),
                                           swine.component.Transform(),
                                           swine.component.SpriteRenderer(pig_sprite, 6),
                                           swine.component.physics.RigidBody(1, False, False),
-                                          swine.component.physics.collider.PolygonCollider()])
+                                          swine.component.physics.collider.PolygonCollider(),
+                                                    swine.component.quicktime.QuickTimeHold(key.X, 60, reset="slow", command=lambda: print("X was held")),
+                                                    swine.component.quicktime.QuickTimeMash(key.F, times=5, command=lambda: print("F was mashed"))])
 
 box_sprite = swine.graphics.Sprite("metal_box.png", swine.object.Anchor.MIDDLE_CENTER)
 box = swine.object.GameObject(scene_one, "Box1", [swine.component.Transform(Vec2d(85, -20)),
