@@ -6,6 +6,7 @@ import pyglet
 from pymunk.pyglet_util import DrawOptions
 
 from swine.input import InputManager
+from swine.terminal.window import TerminalWindow
 from swine.window import Scene
 from swine.window.mainloop import Mainloop
 
@@ -31,6 +32,8 @@ class Window(pyglet.window.Window):
         self.register_event_type("on_update")
 
         self.input_manager = InputManager(self, self.joystick)
+
+        self.terminal = None
 
         if self.debug:
             self.options = DrawOptions()
@@ -66,3 +69,6 @@ class Window(pyglet.window.Window):
     def update(self, dt):
         self.scene_list[self.active_scene].space.step(dt)
         self.dispatch_event("on_update", dt)
+
+        if self.terminal is not None:
+            self.terminal.update()

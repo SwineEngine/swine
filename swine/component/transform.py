@@ -30,7 +30,8 @@ class Transform(Component):
             self.first_update = False
 
             from swine.gui import Widget
-            if self.parent.parent is None and isinstance(self.parent, Widget):
+            from swine.gui import Window
+            if self.parent.parent is None and isinstance(self.parent, Widget) or isinstance(self.parent, Window):
                 self.parent.offset = (self.position.x,
                                       self.position.y)
                 self.parent.do_layout()

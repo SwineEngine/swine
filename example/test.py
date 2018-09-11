@@ -16,6 +16,7 @@ from swine.component import SpriteRenderer, Transform
 from swine.component.physics import RigidBody
 from swine.gui import Button, Label, Checkbox, Canvas, Dropdown, Input, Menu, Slider, Window
 from swine.input.xbox_controller import XBoxController
+from swine.terminal.window import TerminalWindow
 
 window = swine.window.Window(False)
 
@@ -172,5 +173,7 @@ button = Button(canvas, "Button", [swine.component.Transform(Vec2d(-240, -200))]
 # window_ = Window(canvas, "Window", [swine.component.Transform(Vec2d(-240, -200))], "Window", kytten.VerticalLayout([
 #                                 kytten.Button("Click!", on_click=None)
 #                             ]))
+
+tw = TerminalWindow(canvas)
 
 window.mainloop()
