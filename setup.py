@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(name="swine",
-      version="2.0.1",
+      version="2.4.2",
       description="A Python game engine",
       author="DeflatedPickle",
       url="https://github.com/SwineProject/swine",
@@ -20,8 +20,13 @@ setup(name="swine",
       packages=["swine",
                 "swine/component",
                 "swine/component/physics", "swine/component/physics/collider",
+                "swine/component/quicktime",
                 "swine/graphics",
+                "swine/gui",
                 "swine/input", "swine/input/handler",
                 "swine/object",
+                "swine/terminal", "swine/terminal/commands",
+                "swine/terminal/commands/standard",
+                "swine/terminal/window",
                 "swine/window"],
       install_requires=["pyglet", "pymunk", "felyne"])
