@@ -30,7 +30,8 @@ class FollowPlayer(swine.object.Component):
         player = self.parent.scene.get_object("Player")
         player_rigid = player.get_component(RigidBody)
 
-        transform.position = Vec2d(player_rigid.body.position.x, player_rigid.body.position.y)
+        if player_rigid is not None:
+            transform.position = Vec2d(player_rigid.body.position.x, player_rigid.body.position.y)
 
 
 camera = swine.object.GameObject(scene_one, "Camera", [swine.component.Transform(), swine.component.Viewport(), FollowPlayer()])
@@ -101,6 +102,16 @@ class PlayerMove(swine.object.Component):
         elif left_thumb == 0:
             self.increase = 0
 
+        # Move Up
+        if self.input.get_key(key.W):
+            # print("Moving up")
+            force.y = self.speed
+
+        # Move Down
+        if self.input.get_key(key.S):
+            # print("Moving down")
+            force.y = -self.speed
+
         if self.rigid is not None:
             self.rigid.add_force(force.x, force.y)
 
@@ -163,7 +174,7 @@ box2 = swine.object.GameObject(scene_one, "Box2", [swine.component.Transform(Vec
 
 canvas = Canvas(scene_one, "Canvas", [swine.component.Transform(Vec2d(0, 0))])
 
-button = Button(canvas, "Button", [swine.component.Transform(Vec2d(-240, -200))], text="Next Scene", command=lambda: print("Hello, World!"))
+# button = Button(canvas, "Button", [swine.component.Transform(Vec2d(-240, -200))], text="Next Scene", command=lambda: print("Hello, World!"))
 # label = Label(canvas, "Label", [swine.component.Transform(Vec2d(-240, -200))], "Label")
 # checkbox = Checkbox(canvas, "Check", [swine.component.Transform(Vec2d(-240, -200))], "Check")
 # dropdown = Dropdown(canvas, "Dropdown", [swine.component.Transform(Vec2d(-240, -200))], options=["One", "Two", "Three"])

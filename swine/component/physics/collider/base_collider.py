@@ -17,10 +17,13 @@ class BaseCollider(Component):
         self.width = 0
         self.height = 0
 
-    def start(self):
+    def load(self):
         self.collider.friction = self.friction
         self.collider.elasticity = self.elasticity
 
         self.collider.parent = self
 
         self.parent.scene.space.add(self.collider)
+
+    def unload(self):
+        self.parent.scene.space.remove(self.collider)

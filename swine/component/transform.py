@@ -12,11 +12,13 @@ from swine.object.component import Component
 class Transform(Component):
     def __init__(self, position: pymunk.Vec2d = pymunk.Vec2d(0, 0), rotation: int = 0, scale: pymunk.Vec2d = pymunk.Vec2d(1, 1)):
         Component.__init__(self)
+        # TODO: Set the width and height of the transform to the width and height of a connected component with width and height
         self.position = position
         self.rotation = rotation
         self.scale = scale
 
         self.first_update = True
+        self.move_to_rigid = False
 
         self.sprite = None
         self.rigid = None
@@ -24,6 +26,9 @@ class Transform(Component):
     def start(self):
         self.sprite = self.parent.get_component(SpriteRenderer)
         self.rigid = self.parent.get_component(RigidBody)
+
+    def load(self):
+        self.move_to_rigid = True
 
     def update(self, dt):
         if self.first_update:
@@ -39,6 +44,10 @@ class Transform(Component):
             window = self.parent.scene.window
             self.position = pymunk.Vec2d(self.position.x + (window.width / 2), self.position.y + (window.height / 2))
 
+            self.move_to_rigid = True
+
+        if self.move_to_rigid:
+            self.move_to_rigid = False
             if self.rigid is not None:
                 self.rigid.body.angle = math.radians(self.rotation)
                 self.rigid.body.position = self.position

@@ -16,9 +16,9 @@ class SpriteRenderer(Component):
         self.image = image
         self.scale = scale
 
-        self.sprite: swine.graphics.Sprite = None
+        self.sprite: pyglet.sprite.Sprite = None
 
-    def start(self):
+    def load(self):
         self.sprite = pyglet.sprite.Sprite(self.image.sprite, batch=self.parent.scene.batch)
         self.sprite.scale = self.scale
 
@@ -29,3 +29,6 @@ class SpriteRenderer(Component):
             body = rigid.body
             self.sprite.rotation = math.degrees(-body.angle)
             self.sprite.position = pymunk.Vec2d(body.position.x, body.position.y)
+
+    def unload(self):
+        self.sprite.delete()

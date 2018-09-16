@@ -16,13 +16,16 @@ class RigidBody(Component):
         self.momentum = pymunk.moment_for_box(self.mass, (1, 1))
         self.body: pymunk.Body = None
 
-    def start(self):
+    def load(self):
         self.body = pymunk.Body(self.mass, self.momentum if self.rotation else pymunk.inf)
 
         if self.static:
             self.body.body_type = pymunk.Body.STATIC
 
         self.parent.scene.space.add(self.body)
+
+    def unload(self):
+        self.parent.scene.space.remove(self.body)
 
     def add_force(self, x: float, y: float):
         self.body.force = pymunk.Vec2d(x, y)

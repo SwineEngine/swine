@@ -8,9 +8,11 @@ from swine.object.component import Component
 
 
 class Viewport(Component):
-    def __init__(self, size: pymunk.Vec2d = pymunk.Vec2d(640, 480)):
+    def __init__(self, size: pymunk.Vec2d = pymunk.Vec2d(640, 480), border=64):
         Component.__init__(self)
         self.size = size
+        self.border = border
+
         self.x = 0
         self.y = 0
         self.angle = 0

@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List, Optional
+from typing import List, Optional, Type
 
 from pyglet.graphics import Batch
 import pymunk
+
+from swine.object import Component
 
 
 class Scene(object):
@@ -87,5 +89,13 @@ class Scene(object):
         for obj in self.object_list:
             if obj.name == name:
                 return obj
+
+        return None
+
+    def get_object_with_component(self, type_: Type[Component]):
+        for obj in self.object_list:
+            for comp in obj.components:
+                if type(comp) == type_:
+                    return obj
 
         return None

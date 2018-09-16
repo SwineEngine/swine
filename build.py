@@ -7,7 +7,10 @@ import subprocess
 import pip
 import shutil
 
-from pip._internal.utils.misc import get_installed_distributions
+try:
+    from pip._internal.utils.misc import get_installed_distributions
+except ImportError:
+    from pip import get_installed_distributions
 
 if __name__ == "__main__":
     # Remove the built files
@@ -32,4 +35,6 @@ if __name__ == "__main__":
             subprocess.call(["pip3", "install", f"dist/{match.string}", "--upgrade"])
 
     # Upload the package
-    subprocess.call(["twine", "upload", "dist/*"])
+    upload = input("Upload package? ")
+    if upload.lower() in ["1", "true", "yes"]:
+        subprocess.call(["twine", "upload", "dist/*"])
