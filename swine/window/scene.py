@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List, Optional, Type
-
 from pyglet.graphics import Batch
 import pymunk
 
-from swine.object import Component
-
 
 class Scene(object):
-    def __init__(self, window, gravity: pymunk.Vec2d = pymunk.Vec2d(0, 0), drag: float = 1, sleep_time: float = pymunk.inf):
+    def __init__(self, window, gravity=pymunk.Vec2d(0, 0), drag=1, sleep_time=pymunk.inf):
         self.window = window
         self.gravity = gravity
         self.drag = drag
@@ -17,7 +13,7 @@ class Scene(object):
 
         # Graphics
         self.batch = Batch()
-        self.batch_list: List[Batch] = [self.batch]
+        self.batch_list = [self.batch]
 
         # Objects
         self.object_list = []
@@ -85,14 +81,14 @@ class Scene(object):
 
     # Methods
 
-    def get_object(self, name: str):  # -> Optional[GameObject]:
+    def get_object(self, name):
         for obj in self.object_list:
             if obj.name == name:
                 return obj
 
         return None
 
-    def get_object_with_component(self, type_: Type[Component]):
+    def get_object_with_component(self, type_):
         for obj in self.object_list:
             for comp in obj.components:
                 if type(comp) == type_:

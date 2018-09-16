@@ -17,7 +17,7 @@ class SpriteRenderer(Component):
         self.layer = layer
         self.scale = scale
 
-        self.sprite: pyglet.sprite.Sprite = None
+        self.sprite = None
 
     def load(self):
         self.sprite = pyglet.sprite.Sprite(self.image.sprite, batch=self.parent.scene.batch, group=self.layer.group)

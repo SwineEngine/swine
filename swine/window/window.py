@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List
-
 import pyglet
 from pymunk.pyglet_util import DrawOptions
 
 from swine.input import InputManager
-from swine.terminal.window import TerminalWindow
-from swine.window import Scene
 from swine.window.mainloop import Mainloop
 
 
 class Window(pyglet.window.Window):
-    def __init__(self, debug: bool = False):
+    def __init__(self, debug=False):
         self.debug = debug
 
         joysticks = pyglet.input.get_joysticks()
@@ -23,7 +19,7 @@ class Window(pyglet.window.Window):
             self.joystick = None
 
         pyglet.window.Window.__init__(self, resizable=False, vsync=False, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT)
-        self.scene_list: List[Scene] = []
+        self.scene_list = []
         self.active_scene = 0
 
         self.clock = pyglet.clock.get_default()
@@ -75,7 +71,7 @@ class Window(pyglet.window.Window):
         if self.terminal is not None:
             self.terminal.update()
 
-    def get_layer_by_name(self, name: str):
+    def get_layer_by_name(self, name):
         for layer in self.layers:
             if layer.name == name:
                 return layer

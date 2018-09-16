@@ -4,7 +4,7 @@ from swine.object import Component
 
 
 class QuickTimeMash(Component):
-    def __init__(self, key, times: int, press_cooldown=70, command=None):
+    def __init__(self, key, times, press_cooldown=70, command=None):
         Component.__init__(self)
         self.key = key
         self.times = times

@@ -10,7 +10,7 @@ from swine.object.component import Component
 
 
 class Transform(Component):
-    def __init__(self, position: pymunk.Vec2d = pymunk.Vec2d(0, 0), rotation: int = 0, scale: pymunk.Vec2d = pymunk.Vec2d(1, 1)):
+    def __init__(self, position=pymunk.Vec2d(0, 0), rotation=0, scale=pymunk.Vec2d(1, 1)):
         Component.__init__(self)
         # TODO: Set the width and height of the transform to the width and height of a connected component with width and height
         self.position = position
@@ -77,8 +77,8 @@ class Transform(Component):
             self.move_rigid_to_parent()
 
     def move_rigid_to_parent(self):
-        parent_transform: Transform = self.parent.parent.get_component(Transform)
-        child_transform: Transform = self.parent.get_component(Transform)
+        parent_transform = self.parent.parent.get_component(Transform)
+        child_transform = self.parent.get_component(Transform)
 
         if parent_transform is not None and child_transform is not None:
             window = self.parent.scene.window

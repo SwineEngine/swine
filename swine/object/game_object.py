@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import List, Optional, Type
-
 import pyglet
-import pymunk
-
-from swine.object.component import Component
 
 
 class GameObject(object):
-    def __init__(self, scene, name: str, components: List[Component], tags: List[str] = (), parent=None, never_reload=False):
+    def __init__(self, scene, name, components, tags=(), parent=None, never_reload=False):
         self.scene = scene
         self.name = name
         self.components = components
@@ -21,9 +16,9 @@ class GameObject(object):
         self.parent = parent
         self.children = []
 
-        self.id: int = 0
+        self.id = 0
 
-        self.tags: List[str] = tags
+        self.tags = tags
 
         self.scene.object_list.append(self)
 
@@ -139,14 +134,14 @@ class GameObject(object):
         if self.parent is not None:
             self.scene.object_list[self.scene.object_list.index(self.parent)].children.append(self)
 
-    def get_component(self, type_: Type[Component]) -> Optional[Component]:
+    def get_component(self, type_):
         for comp in self.components:
             if type(comp) == type_:
                 return comp
 
         return None
 
-    def get_multiple_components(self, type_: Type[Component]) -> List[Component]:
+    def get_multiple_components(self, type_):
         comp_list = []
 
         for comp in self.components:

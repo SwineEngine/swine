@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import Tuple
-
 import pyglet
 
 from swine.input import EmptyController
@@ -23,10 +21,10 @@ class InputManager(object):
             self.joystick_handler = JoyStickStateHandler()
             self.joystick.push_handlers(self.joystick_handler)
 
-    def get_key(self, key: int):
+    def get_key(self, key):
         return self.key_handler[key]
 
-    def get_mouse_button(self, button: int):
+    def get_mouse_button(self, button):
         return self.mouse_handler.buttons.get(button)
 
     def get_mouse_position(self):
@@ -42,13 +40,13 @@ class InputManager(object):
 
         return x, y
 
-    def get_joystick_button(self, button: int):
+    def get_joystick_button(self, button):
         if isinstance(button, EmptyController):
             button = button.value
 
         return self.joystick_handler.button.get(button)
 
-    def get_joystick_hat(self, vector: Tuple[int]):
+    def get_joystick_hat(self, vector):
         if self.joystick is not None:
             if isinstance(vector, EmptyController):
                 vector = vector.value
@@ -62,7 +60,7 @@ class InputManager(object):
         else:
             return False
 
-    def get_joystick_axis(self, axis: str):
+    def get_joystick_axis(self, axis):
         if self.joystick is not None:
             if isinstance(axis, EmptyController):
                 axis = axis.value

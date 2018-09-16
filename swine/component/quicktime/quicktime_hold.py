@@ -4,7 +4,7 @@ from swine.object import Component
 
 
 class QuickTimeHold(Component):
-    def __init__(self, key, length: int, reset="instant", command=None):
+    def __init__(self, key, length, reset="instant", command=None):
         Component.__init__(self)
         self.key = key
         self.length = length

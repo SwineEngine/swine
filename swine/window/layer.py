@@ -4,7 +4,7 @@ import pyglet
 
 
 class Layer(object):
-    def __init__(self, window, name: str, index=-1):
+    def __init__(self, window, name, index=-1):
         self.window = window
         self.name = name
 

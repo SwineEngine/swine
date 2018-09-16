@@ -8,7 +8,7 @@ from swine.object import GameObject, Component
 
 
 class Canvas(GameObject):
-    def __init__(self, scene, name, components: List[Component], tags: List[str]=()):
+    def __init__(self, scene, name, components, tags=()):
         GameObject.__init__(self, scene, name, components, tags)
 
         self.batch = Batch()

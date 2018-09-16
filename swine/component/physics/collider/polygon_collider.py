@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import Tuple, List
-
 import pymunk
 
 from swine.component import SpriteRenderer
@@ -10,7 +8,7 @@ from swine.component.physics.collider import BaseCollider
 
 
 class PolygonCollider(BaseCollider):
-    def __init__(self, vertices: List[Tuple[float, float]] = None, trigger: bool = False, edge_radius: int = 0, friction: float = 0, elasticity: float = 0):
+    def __init__(self, vertices=None, trigger=False, edge_radius=0, friction=0, elasticity=0):
         BaseCollider.__init__(self, trigger, edge_radius, friction, elasticity)
         self.vertices = vertices
 

@@ -9,6 +9,6 @@ from .widget import Widget
 
 
 class Dropdown(Widget, GameObject):
-    def __init__(self, canvas, name, components: List[Component], options, tags: List[str]=(), parent=None, command=None, selected=None, max_height=400, disabled=False):
+    def __init__(self, canvas, name, components, options, tags=(), parent=None, command=None, selected=None, max_height=400, disabled=False):
         Widget.__init__(self, canvas, KDropdown(options, selected=selected, max_height=max_height, on_select=command, disabled=disabled), 0, 0)
         GameObject.__init__(self, canvas.scene, name, components, tags, parent)

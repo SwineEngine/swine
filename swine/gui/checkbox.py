@@ -9,6 +9,6 @@ from .widget import Widget
 
 
 class Checkbox(Widget, GameObject):
-    def __init__(self, canvas, name, components: List[Component], text, tags: List[str]=(), parent=None, command=None, is_checked=False, disabled=False):
+    def __init__(self, canvas, name, components, text, tags=(), parent=None, command=None, is_checked=False, disabled=False):
         Widget.__init__(self, canvas, KCheckbox(text, on_click=command, is_checked=is_checked, disabled=disabled), 0, 0)
         GameObject.__init__(self, canvas.scene, name, components, tags, parent)

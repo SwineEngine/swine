@@ -10,6 +10,6 @@ from .widget import Widget
 
 
 class Menu(Widget, GameObject):
-    def __init__(self, canvas, name, components: List[Component], options, tags: List[str]=(), parent=None, command=None, align=HALIGN_CENTER):
+    def __init__(self, canvas, name, components, options, tags=(), parent=None, command=None, align=HALIGN_CENTER):
         Widget.__init__(self, canvas, KMenu(options, align, on_select=command), 0, 0)
         GameObject.__init__(self, canvas.scene, name, components, tags, parent)

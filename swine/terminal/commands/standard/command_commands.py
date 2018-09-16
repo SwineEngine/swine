@@ -12,7 +12,7 @@ class CommandCommands(Command):
     def perform(self, terminal, output=None, arguments=None):
         for c in terminal.command_manager.commands.keys():
             command = terminal.command_manager.commands[c]
-            output.content.append(Label(f"{c} - {command.name}"))
+            output.content.append(Label("{} - {}".format(c, command.name)))
 
     def help(self):
         return "Lists all registered commands"

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 import kytten
 from pyglet.window import key
 import pymunk
@@ -25,7 +27,7 @@ scene_one = swine.window.Scene(window, pymunk.Vec2d(0, 0), 0.1)
 
 class FollowPlayer(swine.object.Component):
     def update(self, dt=None):
-        transform: Transform = self.parent.get_component(Transform)
+        transform = self.parent.get_component(Transform)
 
         player = self.parent.scene.get_object("Player")
         player_rigid = player.get_component(RigidBody)
@@ -52,8 +54,8 @@ class PlayerMove(swine.object.Component):
     def start(self):
         self.input = self.parent.scene.window.input_manager
 
-        self.transform: Transform = self.parent.get_component(Transform)
-        self.rigid: RigidBody = self.parent.get_component(RigidBody)
+        self.transform = self.parent.get_component(Transform)
+        self.rigid = self.parent.get_component(RigidBody)
 
     def update(self, dt):
         # sprite = self.parent.get_component(SpriteRenderer)
@@ -130,7 +132,7 @@ class GrabBox(swine.object.Component):
     def start(self):
         self.input = self.parent.scene.window.input_manager
 
-        self.player_move: PlayerMove = self.parent.get_component(PlayerMove)
+        self.player_move = self.parent.get_component(PlayerMove)
         self.original_speed = self.player_move.speed
 
     def update(self, dt):
