@@ -152,10 +152,15 @@ class GrabBox(swine.object.Component):
             self.collided_box = collider
 
 
+back = swine.window.Layer(window, "Back")
+player = swine.window.Layer(window, "Player")
+forward = swine.window.Layer(window, "Forward")
+
+
 pig_sprite = swine.graphics.Sprite("pig_idle_0.png", swine.object.Anchor.MIDDLE_CENTER)
 pig = swine.object.GameObject(scene_one, "Player", [PlayerMove(), GrabBox(),
                                           swine.component.Transform(),
-                                          swine.component.SpriteRenderer(pig_sprite, 6),
+                                          swine.component.SpriteRenderer(pig_sprite, player, 6),
                                           swine.component.physics.RigidBody(1, False, False),
                                           swine.component.physics.collider.PolygonCollider(),
                                                     swine.component.quicktime.QuickTimeHold(key.X, 60, reset="slow", command=lambda: print("X was held")),
@@ -163,12 +168,12 @@ pig = swine.object.GameObject(scene_one, "Player", [PlayerMove(), GrabBox(),
 
 box_sprite = swine.graphics.Sprite("metal_box.png", swine.object.Anchor.MIDDLE_CENTER)
 box = swine.object.GameObject(scene_one, "Box1", [swine.component.Transform(Vec2d(85, -20)),
-                                          swine.component.SpriteRenderer(box_sprite, 4),
+                                          swine.component.SpriteRenderer(box_sprite, back, 4),
                                           swine.component.physics.RigidBody(4),
                                           swine.component.physics.collider.PolygonCollider()], ["Box"])
 
 box2 = swine.object.GameObject(scene_one, "Box2", [swine.component.Transform(Vec2d(-150, 0)),
-                                           swine.component.SpriteRenderer(box_sprite, 4),
+                                           swine.component.SpriteRenderer(box_sprite, forward, 4),
                                            swine.component.physics.RigidBody(4),
                                            swine.component.physics.collider.PolygonCollider()], ["Box"])
 

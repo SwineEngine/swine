@@ -145,3 +145,12 @@ class GameObject(object):
                 return comp
 
         return None
+
+    def get_multiple_components(self, type_: Type[Component]) -> List[Component]:
+        comp_list = []
+
+        for comp in self.components:
+            if type(comp) == type_:
+                comp_list.append(comp)
+
+        return comp_list

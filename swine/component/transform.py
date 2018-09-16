@@ -20,11 +20,13 @@ class Transform(Component):
         self.first_update = True
         self.move_to_rigid = False
 
-        self.sprite = None
+        # self.sprite = None
+        self.sprites = None
         self.rigid = None
 
     def start(self):
-        self.sprite = self.parent.get_component(SpriteRenderer)
+        # self.sprite = self.parent.get_component(SpriteRenderer)
+        self.sprites = self.parent.get_multiple_components(SpriteRenderer)
         self.rigid = self.parent.get_component(RigidBody)
 
     def load(self):
@@ -52,17 +54,18 @@ class Transform(Component):
                 self.rigid.body.angle = math.radians(self.rotation)
                 self.rigid.body.position = self.position
 
-        if self.sprite is not None:
-            self.sprite.sprite.position = self.position.x, self.position.y
-            self.sprite.sprite.rotation = math.degrees(-self.rotation)
+        if self.parent.parent is not None:
+            parent_transform = self.parent.parent.get_component(Transform)
+            if parent_transform is not None:
+                self.scale = parent_transform.scale
 
-            if self.parent.parent is not None:
-                parent_transform = self.parent.parent.get_component(Transform)
-                if parent_transform is not None:
-                    self.scale = parent_transform.scale
+        if self.sprites is not None:
+            for sprite in self.sprites:
+                sprite.sprite.position = self.position.x, self.position.y
+                sprite.sprite.rotation = math.degrees(-self.rotation)
 
-            self.sprite.sprite.scale_x = self.scale[0]
-            self.sprite.sprite.scale_y = self.scale[1]
+                sprite.sprite.scale_x = self.scale[0]
+                sprite.sprite.scale_y = self.scale[1]
 
         # Rigid Body
         if self.rigid is not None and self.parent.parent is None:

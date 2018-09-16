@@ -35,6 +35,8 @@ class Window(pyglet.window.Window):
 
         self.terminal = None
 
+        self.layers = []
+
         if self.debug:
             self.options = DrawOptions()
 
@@ -72,3 +74,10 @@ class Window(pyglet.window.Window):
 
         if self.terminal is not None:
             self.terminal.update()
+
+    def get_layer_by_name(self, name: str):
+        for layer in self.layers:
+            if layer.name == name:
+                return layer
+
+        return None
