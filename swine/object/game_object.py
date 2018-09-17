@@ -115,6 +115,8 @@ class GameObject(object):
             pyglet.clock.unschedule(self.update)
             pyglet.clock.unschedule(self.physics_update)
 
+            self.scene.object_list.remove(self)
+
         for comp in self.components:
             comp.finish()
             comp.is_loaded = False
