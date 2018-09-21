@@ -4,3 +4,4 @@
 from .base_collider import BaseCollider
 from .polygon_collider import PolygonCollider
 from .box_collider import BoxCollider
+from .circle_collider import CircleCollider

@@ -20,7 +20,7 @@ from swine.gui import Button, Label, Checkbox, Canvas, Dropdown, Input, Menu, Sl
 from swine.input.xbox_controller import XBoxController
 from swine.terminal.window import TerminalWindow
 
-window = swine.window.Window(False)
+window = swine.window.Window()
 
 scene_one = swine.window.Scene(window, pymunk.Vec2d(0, 0), 0.1)
 

@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(name="swine",
-      version="2.6.1",
+      version="2.7.2",
       description="A Python game engine",
       author="DeflatedPickle",
       url="https://github.com/SwineProject/swine",

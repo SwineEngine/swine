@@ -3,7 +3,6 @@
 import pymunk
 
 from swine.component import SpriteRenderer
-from swine.component.physics import RigidBody
 from swine.component.physics.collider import BaseCollider
 
 
@@ -14,12 +13,14 @@ class BoxCollider(BaseCollider):
         self.right = right
 
     def start(self):
+        from swine.component.physics import RigidBody
+
         rigid = self.parent.get_component(RigidBody)
         sprite = self.parent.get_component(SpriteRenderer)
 
         if sprite is not None and self.left is None and self.right is None and self.edge_radius is None:
-            self.left = pymunk.Vec2d(0, sprite.sprite.height / 2)
-            self.right = pymunk.Vec2d(0, -sprite.sprite.height / 2)
+            self.left = pymunk.Vec2d(-sprite.sprite.width / 2, sprite.sprite.height / 2)
+            self.right = pymunk.Vec2d(sprite.sprite.width / 2, -sprite.sprite.height / 2)
             self.edge_radius = sprite.sprite.width / 2
 
         if rigid is not None:
@@ -28,8 +29,7 @@ class BoxCollider(BaseCollider):
         else:
             body = None
 
-        self.width = abs(self.left[0]) + self.right[0]
-        self.height = abs(self.left[1]) + self.right[1]
+        self.width = abs(self.left[0]) + abs(self.right[0])
+        self.height = abs(self.left[1]) + abs(self.right[1])
 
         self.collider = pymunk.Segment(body, self.left, self.right, self.edge_radius)
-        BaseCollider.start(self)

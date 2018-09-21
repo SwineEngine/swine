@@ -5,7 +5,6 @@ import math
 import pymunk
 
 from swine.component import SpriteRenderer
-from swine.component.physics import RigidBody
 from swine.object.component import Component
 
 
@@ -25,6 +24,8 @@ class Transform(Component):
         self.rigid = None
 
     def start(self):
+        from swine.component.physics import RigidBody
+
         # self.sprite = self.parent.get_component(SpriteRenderer)
         self.sprites = self.parent.get_multiple_components(SpriteRenderer)
         self.rigid = self.parent.get_component(RigidBody)

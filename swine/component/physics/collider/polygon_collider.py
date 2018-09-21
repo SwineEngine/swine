@@ -3,12 +3,11 @@
 import pymunk
 
 from swine.component import SpriteRenderer
-from swine.component.physics import RigidBody
 from swine.component.physics.collider import BaseCollider
 
 
 class PolygonCollider(BaseCollider):
-    def __init__(self, vertices=None, trigger=False, edge_radius=0, friction=0, elasticity=0):
+    def __init__(self, vertices=(), trigger=False, edge_radius=0, friction=0, elasticity=0):
         BaseCollider.__init__(self, trigger, edge_radius, friction, elasticity)
         self.vertices = vertices
 
@@ -16,6 +15,8 @@ class PolygonCollider(BaseCollider):
         self.height_verts = None
 
     def start(self):
+        from swine.component.physics import RigidBody
+
         rigid = self.parent.get_component(RigidBody)
         sprite = self.parent.get_component(SpriteRenderer)
 
@@ -37,8 +38,10 @@ class PolygonCollider(BaseCollider):
         else:
             body = None
 
-        self.width = abs(min(n for n in self.width_verts if n < 0)) + max(n for n in self.width_verts if n > 0)
-        self.height = abs(min(n for n in self.height_verts if n < 0)) + max(n for n in self.height_verts if n > 0)
+        positive_width = [abs(n) for n in self.width_verts]
+        positive_height = [abs(n) for n in self.height_verts]
+
+        self.width = min(positive_width) + max(positive_width)
+        self.height = min(positive_height) + max(positive_height)
 
         self.collider = pymunk.Poly(body, self.vertices, None, self.edge_radius)
-        BaseCollider.start(self)

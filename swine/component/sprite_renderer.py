@@ -5,7 +5,6 @@ import math
 import pymunk
 import pyglet.sprite
 
-from swine.component.physics import RigidBody
 from swine.object.component import Component
 import swine.graphics
 
@@ -24,6 +23,7 @@ class SpriteRenderer(Component):
         self.sprite.scale = self.scale
 
     def physics_update(self, dt):
+        from swine.component.physics import RigidBody
         rigid = self.parent.get_component(RigidBody)
 
         if rigid is not None:
