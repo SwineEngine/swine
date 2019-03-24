@@ -1,0 +1,15 @@
+[package]
+name = "swine"
+version = "0.1.0"
+authors = ["DeflatedPickle"]
+edition = "2019"
+
+[dependencies]
+sdl2 = "0.32"
+# Physics
+ncollide3d = "0.18.4"
+nalgebra = "0.17.3"
+nphysics3d = "0.10.3"
+# Python
+# pyo3 = "0.6.0-alpha.4"
+cpython = "0.2.1"
