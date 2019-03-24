@@ -99,3 +99,17 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+#Added by cargo
+#
+#already existing elements are commented out
+
+/target
+**/*.rs.bk
+Cargo.lock
