@@ -1,15 +1,22 @@
 [package]
 name = "swine"
-version = "0.1.0"
+version = "3.0.0"
 authors = ["DeflatedPickle"]
-edition = "2019"
+edition = "2018"
+
+[lib]
+name = "swine"
+crate-type = ["dylib"]
 
 [dependencies]
-sdl2 = "0.32"
+# sdl2 = "0.32"
 # Physics
-ncollide3d = "0.18.4"
-nalgebra = "0.17.3"
-nphysics3d = "0.10.3"
+# ncollide3d = "0.18.4"
+# nalgebra = "0.17.3"
+# nphysics3d = "0.10.3"
 # Python
 # pyo3 = "0.6.0-alpha.4"
-cpython = "0.2.1"
+
+[dependencies.cpython]
+version = "0.2.1"
+features = ["extension-module"]
