@@ -2,26 +2,35 @@
 extern crate cpython;
 extern crate glutin;
 
-use std::{cell, sync};
-use cpython::{Python, PyResult, PyObject};
+use std::cell;
+use cpython::{PyResult, PyObject, PyTuple, PyFloat};
 use glutin::dpi::*;
 use glutin::ContextTrait;
 
 py_class!(class Window |py| {
     data running: cell::RefCell<bool>;
     data title: String;
+    data size: PyTuple;
     data vsync: bool;
 
-    def __new__(_cls, title: String, vsync: bool) -> PyResult<Window> {
-        Window::create_instance(py, cell::RefCell::new(false), title, vsync)
+    def __new__(_cls, title: String, size: PyTuple, vsync: bool) -> PyResult<Window> {
+        Window::create_instance(py, cell::RefCell::new(false), title, size, vsync)
     }
 
     def mainloop(&self) -> PyResult<PyObject> {
         self.running(py).replace(true);
 
+        let size_x: f64;
+        let size_y: f64;
+
+        unsafe {
+            size_x = (*self.size(py)).get_item(py, 0).unchecked_cast_into::<PyFloat>().value(py);
+            size_y = (*self.size(py)).get_item(py, 1).unchecked_cast_into::<PyFloat>().value(py);
+        }
+
         let mut event_loop = glutin::EventsLoop::new();
         // TODO: Make the size a class variable, either a tuple or a vector
-        let window_builder = glutin::WindowBuilder::new().with_title(&self.title(py)[..]).with_dimensions(LogicalSize::new(1024.0, 768.0));
+        let window_builder = glutin::WindowBuilder::new().with_title(&self.title(py)[..]).with_dimensions(LogicalSize::new(size_x, size_y));
         let windowed_context = glutin::ContextBuilder::new().with_vsync(*self.vsync(py)).build_windowed(window_builder, &event_loop).unwrap();
 
         unsafe {

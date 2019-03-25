@@ -3,7 +3,7 @@ def test():
 
 
 class Window(object):
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, title, size, vsync):
         pass
 
     def mainloop(self):
