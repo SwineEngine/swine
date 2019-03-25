@@ -9,7 +9,9 @@ name = "swine"
 crate-type = ["dylib"]
 
 [dependencies]
-# sdl2 = "0.32"
+# Windowing
+glutin = "0.20.0"
+gl = "0.11.0"
 # Physics
 # ncollide3d = "0.18.4"
 # nalgebra = "0.17.3"
