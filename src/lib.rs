@@ -2,8 +2,8 @@
 extern crate cpython;
 extern crate glutin;
 
-use std::cell;
-use cpython::{PyResult, PyObject, PyTuple, PyFloat};
+use std::{cell, mem, vec};
+use cpython::*;
 use glutin::dpi::*;
 use glutin::ContextTrait;
 
@@ -24,12 +24,12 @@ py_class!(class Window |py| {
         let size_y: f64;
 
         unsafe {
+            // This can probably be done better
             size_x = (*self.size(py)).get_item(py, 0).unchecked_cast_into::<PyFloat>().value(py);
             size_y = (*self.size(py)).get_item(py, 1).unchecked_cast_into::<PyFloat>().value(py);
         }
 
         let mut event_loop = glutin::EventsLoop::new();
-        // TODO: Make the size a class variable, either a tuple or a vector
         let window_builder = glutin::WindowBuilder::new().with_title(&self.title(py)[..]).with_dimensions(LogicalSize::new(size_x, size_y));
         let windowed_context = glutin::ContextBuilder::new().with_vsync(*self.vsync(py)).build_windowed(window_builder, &event_loop).unwrap();
 
@@ -74,7 +74,83 @@ py_class!(class Window |py| {
     }
 });
 
+py_class!(class Scene |py| {
+    data window: cell::RefCell<Option<PyObject>>;
+    data object_list: *mut vec::Vec<PyObject>;
+
+    def __new__(_cls, window: PyObject, object_list: &mut vec::Vec<PyObject>) -> PyResult<Scene> {
+        Scene::create_instance(py, cell::RefCell::new(Some(window)), object_list)
+    }
+
+    def __traverse__(&self, visit) {
+        if let Some(ref obj) = *self.window(py).borrow() {
+            visit.call(obj);
+        }
+        Ok(())
+    }
+
+    def __clear__(&self) {
+        let old_window = mem::replace(&mut *self.window(py).borrow_mut(), None);
+        old_window.release_ref(py);
+    }
+
+    def add_object(&self, object: PyObject) -> PyResult<PyObject> {
+        // TODO: Push to the object_list
+
+        Ok(py.None())
+    }
+});
+
+py_class!(class GameObject |py| {
+    data scene: cell::RefCell<Option<PyObject>>;
+    data name: String;
+    data component_list: *mut vec::Vec<PyObject>;
+
+    def __new__(_cls, name: String) -> PyResult<GameObject> {
+        GameObject::create_instance(py, cell::RefCell::new(None), name, &mut vec::Vec::new())
+    }
+
+    def __traverse__(&self, visit) {
+        if let Some(ref obj) = *self.scene(py).borrow() {
+            visit.call(obj);
+        }
+        Ok(())
+    }
+
+    def __clear__(&self) {
+        let old_scene = mem::replace(&mut *self.scene(py).borrow_mut(), None);
+        old_scene.release_ref(py);
+    }
+
+    def add_component(&self, component: PyObject) -> PyResult<PyObject> {
+        // TODO: Push to the component_list
+
+        Ok(py.None())
+    }
+});
+
+py_class!(class Component |py| {
+    def __new__(_cls) -> PyResult<Component> {
+        Component::create_instance(py)
+    }
+
+    def start(&self) -> PyResult<PyObject> {
+        Ok(py.None())
+    }
+
+    def update(&self, delta_time) -> PyResult<PyObject> {
+        Ok(py.None())
+    }
+
+    def finish(&self) -> PyResult<PyObject> {
+        Ok(py.None())
+    }
+});
+
 py_module_initializer!(swine, initswine, PyInit_swine, |py, m| {
     m.add_class::<Window>(py)?;
+    m.add_class::<Scene>(py)?;
+    m.add_class::<GameObject>(py)?;
+    m.add_class::<Component>(py)?;
     Ok(())
 });
