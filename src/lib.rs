@@ -73,7 +73,7 @@ py_class!(class Window |py| {
             unsafe {
                 // Loop the scenes
                 for py_scene in self.scene_list(py).borrow().iter() {
-                    println!("Scene: {}", py_scene);
+                    // println!("Scene: {}", py_scene);
 
                     let rust_scene = match py_scene.extract::<Scene>(py) {
                         Ok(rust_scene) => rust_scene,
@@ -81,7 +81,7 @@ py_class!(class Window |py| {
                     };
                     // Loop the objects
                     for py_object in rust_scene.object_list(py).borrow().iter() {
-                        println!("Object: {}", py_object);
+                        // println!("Object: {}", py_object);
 
                         let rust_object = match py_object.extract::<GameObject>(py) {
                             Ok(rust_object) => rust_object,
@@ -90,7 +90,15 @@ py_class!(class Window |py| {
 
                         // Loop the components
                         for py_component in rust_object.component_list(py).borrow().iter() {
-                            println!("Component: {}", py_component);
+                            // println!("Component: {}", py_component);
+
+                            let rust_component = match py_component.extract::<Component>(py) {
+                                Ok(rust_component) => rust_component,
+                                Err(e) => return Err(e)
+                            };
+
+                            // TODO: Calculate the delta time
+                            rust_component.update(py, 0f64);
                         }
                     }
                 }
@@ -172,7 +180,7 @@ py_class!(class Component |py| {
         Ok(py.None())
     }
 
-    def update(&self, delta_time) -> PyResult<PyObject> {
+    def update(&self, delta_time: f64) -> PyResult<PyObject> {
         Ok(py.None())
     }
 
