@@ -2,6 +2,9 @@ class Window(object):
     def __init__(self, title, size, vsync):
         pass
 
+    def add_scene(self, scene):
+        pass
+
     def mainloop(self):
         pass
 

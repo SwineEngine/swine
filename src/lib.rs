@@ -13,8 +13,16 @@ py_class!(class Window |py| {
     data size: PyTuple;
     data vsync: bool;
 
+    data scene_list: cell::RefCell<vec::Vec<PyObject>>;
+
     def __new__(_cls, title: String, size: PyTuple, vsync: bool) -> PyResult<Window> {
-        Window::create_instance(py, cell::RefCell::new(false), title, size, vsync)
+        Window::create_instance(py, cell::RefCell::new(false), title, size, vsync, cell::RefCell::new(vec::Vec::new()))
+    }
+
+    def add_scene(&self, scene: PyObject) -> PyResult<PyObject> {
+        self.scene_list(py).borrow_mut().push(scene);
+
+        Ok(py.None())
     }
 
     def mainloop(&self) -> PyResult<PyObject> {
@@ -62,6 +70,32 @@ py_class!(class Window |py| {
                 gl::Clear(gl::COLOR_BUFFER_BIT);
             }
 
+            unsafe {
+                // Loop the scenes
+                for py_scene in self.scene_list(py).borrow().iter() {
+                    println!("Scene: {}", py_scene);
+
+                    let rust_scene = match py_scene.extract::<Scene>(py) {
+                        Ok(rust_scene) => rust_scene,
+                        Err(e) => return Err(e)
+                    };
+                    // Loop the objects
+                    for py_object in rust_scene.object_list(py).borrow().iter() {
+                        println!("Object: {}", py_object);
+
+                        let rust_object = match py_object.extract::<GameObject>(py) {
+                            Ok(rust_object) => rust_object,
+                            Err(e) => return Err(e)
+                        };
+
+                        // Loop the components
+                        for py_component in rust_object.component_list(py).borrow().iter() {
+                            println!("Component: {}", py_component);
+                        }
+                    }
+                }
+            }
+
             windowed_context.swap_buffers().unwrap();
         }
 
@@ -76,10 +110,10 @@ py_class!(class Window |py| {
 
 py_class!(class Scene |py| {
     data window: cell::RefCell<Option<PyObject>>;
-    data object_list: *mut vec::Vec<PyObject>;
+    data object_list: cell::RefCell<vec::Vec<PyObject>>;
 
-    def __new__(_cls, window: PyObject, object_list: &mut vec::Vec<PyObject>) -> PyResult<Scene> {
-        Scene::create_instance(py, cell::RefCell::new(Some(window)), object_list)
+    def __new__(_cls, window: PyObject) -> PyResult<Scene> {
+        Scene::create_instance(py, cell::RefCell::new(Some(window)), cell::RefCell::new(vec::Vec::new()))
     }
 
     def __traverse__(&self, visit) {
@@ -95,7 +129,7 @@ py_class!(class Scene |py| {
     }
 
     def add_object(&self, object: PyObject) -> PyResult<PyObject> {
-        // TODO: Push to the object_list
+        self.object_list(py).borrow_mut().push(object);
 
         Ok(py.None())
     }
@@ -104,10 +138,10 @@ py_class!(class Scene |py| {
 py_class!(class GameObject |py| {
     data scene: cell::RefCell<Option<PyObject>>;
     data name: String;
-    data component_list: *mut vec::Vec<PyObject>;
+    data component_list: cell::RefCell<vec::Vec<PyObject>>;
 
     def __new__(_cls, name: String) -> PyResult<GameObject> {
-        GameObject::create_instance(py, cell::RefCell::new(None), name, &mut vec::Vec::new())
+        GameObject::create_instance(py, cell::RefCell::new(None), name, cell::RefCell::new(vec::Vec::new()))
     }
 
     def __traverse__(&self, visit) {
@@ -123,7 +157,7 @@ py_class!(class GameObject |py| {
     }
 
     def add_component(&self, component: PyObject) -> PyResult<PyObject> {
-        // TODO: Push to the component_list
+        self.component_list(py).borrow_mut().push(component);
 
         Ok(py.None())
     }
