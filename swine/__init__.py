@@ -1,5 +1,5 @@
 class Window(object):
-    def __init__(self, title, size, vsync):
+    def __init__(self, title, x, y, vsync):
         pass
 
     def add_scene(self, scene):

@@ -19,6 +19,6 @@ gl = "0.11.0"
 # Python
 # pyo3 = "0.6.0-alpha.4"
 
-[dependencies.cpython]
-version = "0.2.1"
+[dependencies.pyo3]
+version = "0.6.0-alpha.4"
 features = ["extension-module"]
