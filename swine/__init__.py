@@ -1,5 +1,5 @@
 class Window(object):
-    def __init__(self, title, x, y, vsync):
+    def __init__(self, title, size, vsync):
         pass
 
     def add_scene(self, scene):
@@ -40,3 +40,8 @@ class Component(object):
 
     def finish(self):
         pass
+
+
+class Transform(Component):
+    def __init__(self, position, rotation, scale):
+        super().__init__()

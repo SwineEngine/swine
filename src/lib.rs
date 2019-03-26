@@ -1,4 +1,5 @@
 extern crate glutin;
+extern crate nalgebra;
 
 use std::{cell, mem, vec};
 
@@ -8,11 +9,13 @@ use pyo3::types::*;
 use glutin::dpi::*;
 use glutin::ContextTrait;
 
+use nalgebra::{Vector3, Rotation3};
+use nalgebra::geometry::{Translation3, Quaternion};
+
 #[pyclass(gc)]
 struct Window {
     title: String,
-    x: f64,
-    y: f64,
+    size: vec::Vec<f64>,
     vsync: bool,
 
     running: cell::RefCell<bool>,
@@ -23,8 +26,8 @@ struct Window {
 #[pymethods]
 impl Window {
     #[new]
-    fn __new__(obj: &PyRawObject, title: String, x: f64, y: f64, vsync: bool) -> PyResult<()> {
-        Ok(obj.init({ Window { title, x, y, vsync, running: cell::RefCell::new(false), scene_list: cell::RefCell::new(vec::Vec::new()) } }))
+    fn __new__(obj: &PyRawObject, title: String, size: &PyTuple, vsync: bool) -> PyResult<()> {
+        Ok(obj.init({ Window { title, size: vec!(size.get_item(0).extract()?, size.get_item(1).extract()?), vsync, running: cell::RefCell::new(false), scene_list: cell::RefCell::new(vec::Vec::new()) } }))
     }
 
     fn add_scene(&self, scene: PyObject) {
@@ -35,7 +38,7 @@ impl Window {
         self.running.replace(true);
 
         let mut event_loop = glutin::EventsLoop::new();
-        let window_builder = glutin::WindowBuilder::new().with_title(&self.title[..]).with_dimensions(LogicalSize::new(self.x, self.y));
+        let window_builder = glutin::WindowBuilder::new().with_title(&self.title[..]).with_dimensions(LogicalSize::new(self.size[0], self.size[1]));
         let windowed_context = glutin::ContextBuilder::new().with_vsync(self.vsync).build_windowed(window_builder, &event_loop).unwrap();
 
         unsafe {
@@ -83,10 +86,10 @@ impl Window {
                         for py_component in rust_object.component_list.borrow().iter() {
                             // println!("Component: {:#?}", py_component);
 
-                            let rust_component: &Component =  py_component.extract(py)?;
+                            let rust_component: &Component = py_component.extract(py)?;
 
                             // TODO: Calculate the delta time
-                            rust_component.update(0f64);
+                            rust_component.update(0f32);
                         }
                     }
                 }
@@ -156,11 +159,34 @@ impl Component {
         Ok(())
     }
 
-    fn update(&self, delta_time: f64) -> PyResult<()> {
+    fn update(&self, delta_time: f32) -> PyResult<()> {
         Ok(())
     }
 
     fn finish(&self) -> PyResult<()> {
+        Ok(())
+    }
+}
+
+#[pyclass(gc, extends = Component)]
+struct Transform {
+    position: Translation3<f32>,
+    rotation: Quaternion<f32>,
+    scale: Vector3<f32>,
+}
+
+#[pymethods]
+impl Transform {
+    #[new]
+    fn __new__(obj: &PyRawObject, position: &PyTuple, rotation: &PyTuple, scale: &PyTuple) -> PyResult<()> {
+        obj.init({
+            Transform {
+                position: Translation3::new(position.get_item(0).extract()?, position.get_item(1).extract()?, position.get_item(2).extract()?),
+                rotation: Quaternion::new(rotation.get_item(0).extract()?, rotation.get_item(1).extract()?, rotation.get_item(2).extract()?, rotation.get_item(3).extract()?),
+                scale: Vector3::new(scale.get_item(0).extract()?, scale.get_item(1).extract()?, scale.get_item(2).extract()?),
+            }
+        });
+        Component::__new__(obj);
         Ok(())
     }
 }
@@ -171,5 +197,6 @@ fn swine(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Scene>()?;
     m.add_class::<GameObject>()?;
     m.add_class::<Component>()?;
+    m.add_class::<Transform>()?;
     Ok(())
 }
