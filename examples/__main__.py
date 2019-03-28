@@ -14,7 +14,8 @@ if __name__ == "__main__":
     # component = TestComponent()
     # game_object.add_component(component)
 
-    game_object.add_component(swine.Transform((0, 0, 0), (0, 0, 0, 0), (1, 1, 1)))
+    # game_object.add_component(swine.Transform((0, 0, 0), (0, 0, 0, 0), (1, 1, 1)))
+    game_object.add_component(swine.SquareRender())
 
     window.add_scene(scene)
     scene.add_object(game_object)

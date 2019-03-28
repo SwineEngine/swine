@@ -86,6 +86,8 @@ impl Window {
                         for py_component in rust_object.component_list.borrow().iter() {
                             // println!("Component: {:#?}", py_component);
 
+                            py_component.call_method1(py, "update", ());
+
                             let rust_component: &Component = py_component.extract(py)?;
 
                             // TODO: Calculate the delta time
@@ -191,6 +193,38 @@ impl Transform {
     }
 }
 
+#[pyclass(gc, extends = Component)]
+struct ShapeRender {
+}
+
+#[pymethods]
+impl ShapeRender {
+    #[new]
+    fn __new__(obj: &PyRawObject, position: &PyTuple, rotation: &PyTuple, scale: &PyTuple) -> PyResult<()> {
+        obj.init({ ShapeRender { } });
+        Component::__new__(obj);
+        Ok(())
+    }
+}
+
+#[pyclass(gc, extends = ShapeRender)]
+struct SquareRender {
+}
+
+#[pymethods]
+impl SquareRender {
+    #[new]
+    fn __new__(obj: &PyRawObject) -> PyResult<()> {
+        obj.init({ ShapeRender { } });
+        Component::__new__(obj);
+        Ok(())
+    }
+
+    fn update(&self, delta_time: f32) -> PyResult<()> {
+        Ok(())
+    }
+}
+
 #[pymodule]
 fn swine(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Window>()?;
@@ -198,5 +232,7 @@ fn swine(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<GameObject>()?;
     m.add_class::<Component>()?;
     m.add_class::<Transform>()?;
+    m.add_class::<ShapeRender>()?;
+    m.add_class::<SquareRender>()?;
     Ok(())
 }
