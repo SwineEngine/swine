@@ -1,16 +1,25 @@
-extern crate glutin;
+// extern crate glutin;
+#[macro_use]
+extern crate glium;
 extern crate nalgebra;
+// extern crate gl;
 
-use std::{cell, mem, vec};
+use std::{cell, vec};
 
 use pyo3::prelude::*;
 use pyo3::types::*;
 
-use glutin::dpi::*;
-use glutin::ContextTrait;
+use glium::{glutin, Surface};
 
-use nalgebra::{Vector3, Rotation3};
+use nalgebra::{Vector2, Vector3};
 use nalgebra::geometry::{Translation3, Quaternion};
+
+#[derive(Copy, Clone)]
+struct Vertex {
+    position: [f32; 2],
+}
+
+implement_vertex!(Vertex, position);
 
 #[pyclass(gc)]
 struct Window {
@@ -38,14 +47,16 @@ impl Window {
         self.running.replace(true);
 
         let mut event_loop = glutin::EventsLoop::new();
-        let window_builder = glutin::WindowBuilder::new().with_title(&self.title[..]).with_dimensions(LogicalSize::new(self.size[0], self.size[1]));
-        let windowed_context = glutin::ContextBuilder::new().with_vsync(self.vsync).build_windowed(window_builder, &event_loop).unwrap();
+        let window_builder = glutin::WindowBuilder::new().with_title(&self.title[..]).with_dimensions(glutin::dpi::LogicalSize::new(self.size[0], self.size[1]));
+        let windowed_context = glutin::ContextBuilder::new();// .with_vsync(self.vsync).build_windowed(window_builder, &event_loop).unwrap();
+
+        let display = glium::Display::new(window_builder, windowed_context, &event_loop).unwrap();
 
         unsafe {
-            windowed_context.make_current().unwrap();
+            // windowed_context.make_current().unwrap();
 
-            gl::load_with(|symbol| windowed_context.get_proc_address(symbol) as *const _);
-            gl::ClearColor(1.0, 1.0, 1.0, 1.0);
+            // gl::load_with(|symbol| windowed_context.get_proc_address(symbol) as *const _);
+            // gl::ClearColor(1.0, 1.0, 1.0, 1.0);
         }
 
         while self.running.clone().into_inner() {
@@ -57,8 +68,8 @@ impl Window {
                             ()
                         }
                         glutin::WindowEvent::Resized(logical_size) => {
-                            let dpi_factor = windowed_context.get_hidpi_factor();
-                            windowed_context.resize(logical_size.to_physical(dpi_factor));
+                            // let dpi_factor = windowed_context.get_hidpi_factor();
+                            // windowed_context.resize(logical_size.to_physical(dpi_factor));
                         }
                         _ => ()
                     },
@@ -67,7 +78,7 @@ impl Window {
             });
 
             unsafe {
-                gl::Clear(gl::COLOR_BUFFER_BIT);
+                // gl::Clear(gl::COLOR_BUFFER_BIT);
             }
 
             unsafe {
@@ -86,18 +97,22 @@ impl Window {
                         for py_component in rust_object.component_list.borrow().iter() {
                             // println!("Component: {:#?}", py_component);
 
-                            py_component.call_method1(py, "update", ());
-
-                            let rust_component: &Component = py_component.extract(py)?;
-
                             // TODO: Calculate the delta time
-                            rust_component.update(0f32);
+                            py_component.call_method1(py, "update", ())?;
+                            let draw_structs = py_component.call_method1(py, "draw", ())?;
+
+                            println!("{:#?}", draw_structs);
                         }
                     }
                 }
             }
 
-            windowed_context.swap_buffers().unwrap();
+            let mut target = display.draw();
+            target.clear_color(0.0, 0.0, 0.0, 1.0);
+            target.finish().unwrap();
+
+            // windowed_context.swap_buffers().unwrap();
+            // display.swap_buffers().unwrap();
         }
 
         Ok(())
@@ -157,14 +172,25 @@ impl Component {
         Ok(obj.init({ Component {} }))
     }
 
+    // Called when the object is created
     fn start(&self) -> PyResult<()> {
         Ok(())
     }
 
-    fn update(&self, delta_time: f32) -> PyResult<()> {
+    // Called once every frame
+    fn update(&self) -> PyResult<()> {
         Ok(())
     }
 
+    // Called once every frame, after the update
+    fn draw(&self, py: Python) -> Py<PyTuple> {
+        PyTuple::new(py, &[DrawStruct {
+            vertices: vec![],
+            indices: glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan),
+            shader_name: "" }])
+    }
+
+    // Called when the object is destroyed
     fn finish(&self) -> PyResult<()> {
         Ok(())
     }
@@ -188,40 +214,78 @@ impl Transform {
                 scale: Vector3::new(scale.get_item(0).extract()?, scale.get_item(1).extract()?, scale.get_item(2).extract()?),
             }
         });
-        Component::__new__(obj);
+        Component::__new__(obj)?;
         Ok(())
     }
 }
 
-#[pyclass(gc, extends = Component)]
-struct ShapeRender {
+struct DrawStruct {
+    vertices: vec::Vec<Vertex>,
+    indices: glium::index::NoIndices,
+    shader_name: *const str,
 }
+
+impl pyo3::ToPyObject for DrawStruct {
+    fn to_object(&self, py: Python) -> PyObject {
+        unimplemented!()
+    }
+}
+
+#[pyclass(gc, extends = Component)]
+struct ShapeRender {}
 
 #[pymethods]
 impl ShapeRender {
     #[new]
     fn __new__(obj: &PyRawObject, position: &PyTuple, rotation: &PyTuple, scale: &PyTuple) -> PyResult<()> {
-        obj.init({ ShapeRender { } });
-        Component::__new__(obj);
+        obj.init({ ShapeRender {} });
+        Component::__new__(obj)?;
         Ok(())
     }
 }
 
 #[pyclass(gc, extends = ShapeRender)]
-struct SquareRender {
+struct RectangleRender {
+    size: Vector2<f32>,
 }
 
 #[pymethods]
-impl SquareRender {
+impl RectangleRender {
     #[new]
-    fn __new__(obj: &PyRawObject) -> PyResult<()> {
-        obj.init({ ShapeRender { } });
-        Component::__new__(obj);
+    fn __new__(obj: &PyRawObject, size: &PyTuple) -> PyResult<()> {
+        obj.init({
+            RectangleRender {
+                size: Vector2::new(size.get_item(0).extract()?,
+                                   size.get_item(1).extract()?)
+            }
+        });
+        Component::__new__(obj)?;
         Ok(())
     }
 
-    fn update(&self, delta_time: f32) -> PyResult<()> {
+    fn update(&self) -> PyResult<()> {
         Ok(())
+    }
+
+    fn draw(&self, py: Python) -> Py<PyTuple> {
+        let bottom_left = Vertex { position: [-&self.size.x, -&self.size.y] };
+        let top_left = Vertex { position: [-&self.size.x, (&self.size).y] };
+        let top_right = Vertex { position: [(&self.size).x, (&self.size).y] };
+        let bottom_right = Vertex { position: [(&self.size).x, -&self.size.y] };
+
+        let shape = vec![bottom_left, top_left, top_right, bottom_right];
+
+        // let vertex_buffer = glium::VertexBuffer::new(, &shape).unwrap();
+
+        let indices = glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan);
+
+        // let program = glium::Program::from_source()
+
+        // https://github.com/glium/glium/blob/master/book/tuto-02-triangle.md
+        PyTuple::new(py, &[DrawStruct {
+            vertices: shape,
+            indices,
+            shader_name: "rectangle" }])
     }
 }
 
@@ -233,6 +297,6 @@ fn swine(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Component>()?;
     m.add_class::<Transform>()?;
     m.add_class::<ShapeRender>()?;
-    m.add_class::<SquareRender>()?;
+    m.add_class::<RectangleRender>()?;
     Ok(())
 }

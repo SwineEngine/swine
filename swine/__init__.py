@@ -35,7 +35,7 @@ class Component(object):
     def start(self):
         pass
 
-    def update(self, delta_time):
+    def update(self):
         pass
 
     def finish(self):
@@ -44,4 +44,14 @@ class Component(object):
 
 class Transform(Component):
     def __init__(self, position, rotation, scale):
-        super().__init__()
+        Component.__init__(self)
+
+
+class ShapeRender(Component):
+    def __init__(self):
+        Component.__init__(self)
+
+
+class RectangleRender(Component):
+    def __init__(self, size):
+        Component.__init__(self)

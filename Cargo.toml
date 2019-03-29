@@ -11,14 +11,20 @@ crate-type = ["dylib"]
 [dependencies]
 # Windowing
 glutin = "0.20.0"
+
+# OpenGL
 gl = "0.11.0"
+glium = "0.23.0"
+
 # Physics
 # ncollide3d = "0.18.4"
 nalgebra = "0.17.3"
 # nphysics3d = "0.10.3"
-# Python
-# pyo3 = "0.6.0-alpha.4"
 
+# Input
+gilrs = "0.7.1"
+
+# Python
 [dependencies.pyo3]
 version = "0.6.0-alpha.4"
 features = ["extension-module"]
