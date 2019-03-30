@@ -4,7 +4,9 @@ extern crate glium;
 extern crate nalgebra;
 // extern crate gl;
 
-use std::{cell, vec};
+use std::{cell, vec, fs, io, string};
+use std::borrow::Borrow;
+use std::io::prelude::*;
 
 use pyo3::prelude::*;
 use pyo3::types::*;
@@ -18,13 +20,21 @@ use nalgebra::geometry::{Translation3, Quaternion};
 struct Vertex {
     position: [f32; 2],
 }
-
 implement_vertex!(Vertex, position);
+
+impl ToPyObject for Vertex {
+    fn to_object(&self, py: Python) -> PyObject {
+        PyTuple::new(py, &[self.position[0], self.position[1]]).to_object(py)
+    }
+}
 
 #[pyclass(gc)]
 struct Window {
+    #[pyo3(get)]
     title: String,
+    #[pyo3(get)]
     size: vec::Vec<f64>,
+    #[pyo3(get)]
     vsync: bool,
 
     running: cell::RefCell<bool>,
@@ -48,7 +58,7 @@ impl Window {
 
         let mut event_loop = glutin::EventsLoop::new();
         let window_builder = glutin::WindowBuilder::new().with_title(&self.title[..]).with_dimensions(glutin::dpi::LogicalSize::new(self.size[0], self.size[1]));
-        let windowed_context = glutin::ContextBuilder::new();// .with_vsync(self.vsync).build_windowed(window_builder, &event_loop).unwrap();
+        let windowed_context = glutin::ContextBuilder::new(); // .with_vsync(self.vsync).build_windowed(window_builder, &event_loop).unwrap();
 
         let display = glium::Display::new(window_builder, windowed_context, &event_loop).unwrap();
 
@@ -81,6 +91,9 @@ impl Window {
                 // gl::Clear(gl::COLOR_BUFFER_BIT);
             }
 
+            let mut target = display.draw();
+            target.clear_color(0.0, 0.0, 0.0, 1.0);
+
             unsafe {
                 for py_scene in self.scene_list.borrow().iter() {
                     // println!("Scene: {:#?}", py_scene);
@@ -99,16 +112,70 @@ impl Window {
 
                             // TODO: Calculate the delta time
                             py_component.call_method1(py, "update", ())?;
-                            let draw_structs = py_component.call_method1(py, "draw", ())?;
 
-                            println!("{:#?}", draw_structs);
+                            let draw_structs = py_component.call_method1(py, "draw", ())?;
+                            let draw_structs_list: &PyList = draw_structs.cast_as::<PyList>(py)?;
+                            // println!("{:#?}", draw_structs_list);
+
+                            let mut vector: vec::Vec<Vertex> = vec::Vec::new();
+                            let mut name: String = String::from("");
+
+                            let mut index = 0;
+                            for list_item in draw_structs_list.iter() {
+                                // println!("{}", list_item);
+
+                                if index == 0 {
+                                    // FIXME: Could probably check if the struct was None rather than expecting an error
+                                    let rust_item: &PyList = match list_item.try_into() {
+                                        Ok(rust_item) => rust_item,
+                                        Err(error) => break
+                                    };
+
+                                    for vertex in rust_item.iter() {
+                                        let vertex_tuple: &PyTuple = vertex.try_into()?;
+                                        let rust_vertex = Vertex {
+                                            position: [vertex_tuple.get_item(0).extract()?,
+                                                vertex_tuple.get_item(1).extract()?]
+                                        };
+
+                                        // println!("{:#?}", vertex_tuple);
+                                        vector.push(rust_vertex)
+                                    }
+                                }
+
+                                if index == 1 {
+                                    let py_string: &PyString = list_item.try_into()?;
+
+                                    name = py_string.to_string()?.to_string();
+                                }
+
+                                index += 1;
+                            }
+
+                            let vertex_buffer = glium::VertexBuffer::new(&display, &vector).unwrap();
+                            let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+
+                            // TODO: Gather all the shaders when the game begins and store them somewhere
+                            let vertex_file = fs::File::open(format!("../resources/shaders/{}.vert", name))?;
+                            let mut vertex_contents = String::new();
+
+                            let mut buf_reader = io::BufReader::new(vertex_file);
+                            buf_reader.read_to_string(&mut vertex_contents)?;
+
+                            let fragment_file = fs::File::open(format!("../resources/shaders/{}.frag", name))?;
+                            let mut fragment_contents = String::new();
+
+                            buf_reader = io::BufReader::new(fragment_file);
+                            buf_reader.read_to_string(&mut fragment_contents)?;
+
+                            let program = glium::Program::from_source(&display, &vertex_contents, &fragment_contents, None).unwrap();
+
+                            target.draw(&vertex_buffer, &indices, &program, &glium::uniforms::EmptyUniforms, &Default::default()).unwrap();
                         }
                     }
                 }
             }
 
-            let mut target = display.draw();
-            target.clear_color(0.0, 0.0, 0.0, 1.0);
             target.finish().unwrap();
 
             // windowed_context.swap_buffers().unwrap();
@@ -183,11 +250,8 @@ impl Component {
     }
 
     // Called once every frame, after the update
-    fn draw(&self, py: Python) -> Py<PyTuple> {
-        PyTuple::new(py, &[DrawStruct {
-            vertices: vec![],
-            indices: glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan),
-            shader_name: "" }])
+    fn draw(&self, py: Python) -> PyResult<Option<Py<PyDict>>> {
+        Ok(None)
     }
 
     // Called when the object is destroyed
@@ -219,18 +283,6 @@ impl Transform {
     }
 }
 
-struct DrawStruct {
-    vertices: vec::Vec<Vertex>,
-    indices: glium::index::NoIndices,
-    shader_name: *const str,
-}
-
-impl pyo3::ToPyObject for DrawStruct {
-    fn to_object(&self, py: Python) -> PyObject {
-        unimplemented!()
-    }
-}
-
 #[pyclass(gc, extends = Component)]
 struct ShapeRender {}
 
@@ -256,7 +308,7 @@ impl RectangleRender {
         obj.init({
             RectangleRender {
                 size: Vector2::new(size.get_item(0).extract()?,
-                                   size.get_item(1).extract()?)
+                                   size.get_item(1).extract()?),
             }
         });
         Component::__new__(obj)?;
@@ -267,25 +319,20 @@ impl RectangleRender {
         Ok(())
     }
 
-    fn draw(&self, py: Python) -> Py<PyTuple> {
+    fn draw(&self, py: Python) -> PyResult<vec::Vec<PyObject>> {
         let bottom_left = Vertex { position: [-&self.size.x, -&self.size.y] };
         let top_left = Vertex { position: [-&self.size.x, (&self.size).y] };
         let top_right = Vertex { position: [(&self.size).x, (&self.size).y] };
         let bottom_right = Vertex { position: [(&self.size).x, -&self.size.y] };
 
-        let shape = vec![bottom_left, top_left, top_right, bottom_right];
+        let vertices = vec![bottom_left, top_left, bottom_right, bottom_right, top_right, top_left];
+        let shader_name = "rectangle";
 
-        // let vertex_buffer = glium::VertexBuffer::new(, &shape).unwrap();
+        let dict = PyDict::new(py);
+        dict.set_item("vertices", vertices);
+        dict.set_item("shader_name", shader_name);
 
-        let indices = glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan);
-
-        // let program = glium::Program::from_source()
-
-        // https://github.com/glium/glium/blob/master/book/tuto-02-triangle.md
-        PyTuple::new(py, &[DrawStruct {
-            vertices: shape,
-            indices,
-            shader_name: "rectangle" }])
+        Ok(dict.values().extract()?)
     }
 }
 

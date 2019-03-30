@@ -6,18 +6,17 @@ if __name__ == "__main__":
 
     game_object = swine.GameObject("Pig")
 
-    game_object.add_component(swine.Transform((0, 0, 0), (0, 0, 0, 0), (1, 1, 1)))
+    # game_object.add_component(swine.Transform((0, 0, 0), (0, 0, 0, 0), (1, 1, 1)))
 
     # FIXME: The library ignores overridden methods
     class TestComponent(swine.Component):
         def update(self):
             print("It just works.")
 
-    component = TestComponent()
-    game_object.add_component(component)
+    # game_object.add_component(TestComponent())
 
     # game_object.add_component(swine.Transform((0, 0, 0), (0, 0, 0, 0), (1, 1, 1)))
-    game_object.add_component(swine.RectangleRender((5, 10)))
+    game_object.add_component(swine.RectangleRender((0.15, 0.15)))
 
     window.add_scene(scene)
     scene.add_object(game_object)

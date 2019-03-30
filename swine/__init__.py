@@ -1,6 +1,8 @@
 class Window(object):
     def __init__(self, title, size, vsync):
-        pass
+        self.title = str
+        self.size = tuple
+        self.vsync = bool
 
     def add_scene(self, scene):
         pass
