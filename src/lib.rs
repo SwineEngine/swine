@@ -7,6 +7,7 @@ extern crate nalgebra;
 use std::{cell, vec, fs, io, string};
 use std::borrow::Borrow;
 use std::io::prelude::*;
+use std::f64::consts::PI;
 
 use pyo3::prelude::*;
 use pyo3::types::*;
@@ -114,8 +115,12 @@ impl Window {
                             py_component.call_method1(py, "update", ())?;
 
                             let draw_structs = py_component.call_method1(py, "draw", ())?;
-                            let draw_structs_list: &PyList = draw_structs.cast_as::<PyList>(py)?;
-                            // println!("{:#?}", draw_structs_list);
+                            // println!("{:#?}", draw_structs);
+
+                            let draw_structs_list: &PyList = match draw_structs.cast_as::<PyList>(py) {
+                                Ok(draw_structs_list) => draw_structs_list,
+                                Err(error) => continue
+                            };
 
                             let mut vector: vec::Vec<Vertex> = vec::Vec::new();
                             let mut name: String = String::from("");
@@ -128,7 +133,7 @@ impl Window {
                                     // FIXME: Could probably check if the struct was None rather than expecting an error
                                     let rust_item: &PyList = match list_item.try_into() {
                                         Ok(rust_item) => rust_item,
-                                        Err(error) => break
+                                        Err(error) => continue
                                     };
 
                                     for vertex in rust_item.iter() {
@@ -153,7 +158,7 @@ impl Window {
                             }
 
                             let vertex_buffer = glium::VertexBuffer::new(&display, &vector).unwrap();
-                            let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+                            let indices = glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan);
 
                             // TODO: Gather all the shaders when the game begins and store them somewhere
                             let vertex_file = fs::File::open(format!("../resources/shaders/{}.vert", name))?;
@@ -208,19 +213,42 @@ impl Scene {
         self.object_list.borrow_mut().push(object);
         Ok(())
     }
+
+    fn get_object(&self, py: Python, name: String) -> PyResult<PyObject> {
+        let list: &vec::Vec<PyObject> = &self.object_list.borrow();
+
+        let mut index = 0;
+        for obj in list {
+            if obj.getattr(py, "name")?.extract::<String>(py)? == name {
+                let item = match list.get(index) {
+                    Some(item) => (*item).to_object(py),
+                    None => py.None()
+                };
+
+                return Ok(item)
+            }
+            index += 1;
+        }
+
+        return Ok(py.None())
+    }
+
+    fn get_object_with_component(&self, type_: PyObject) {}
 }
 
 #[pyclass(gc, subclass)]
 struct GameObject {
     scene: cell::RefCell<Option<PyObject>>,
+    #[pyo3(get)]
+    name: String,
     component_list: cell::RefCell<vec::Vec<PyObject>>,
 }
 
 #[pymethods]
 impl GameObject {
     #[new]
-    fn __new__(obj: &PyRawObject) -> PyResult<()> {
-        Ok(obj.init({ GameObject { scene: cell::RefCell::new(None), component_list: cell::RefCell::new(vec::Vec::new()) } }))
+    fn __new__(obj: &PyRawObject, name: String) -> PyResult<()> {
+        Ok(obj.init({ GameObject { scene: cell::RefCell::new(None), name, component_list: cell::RefCell::new(vec::Vec::new()) } }))
     }
 
     fn add_component(&self, component: PyObject) -> PyResult<()> {
@@ -278,6 +306,28 @@ impl Transform {
                 scale: Vector3::new(scale.get_item(0).extract()?, scale.get_item(1).extract()?, scale.get_item(2).extract()?),
             }
         });
+        Component::__new__(obj)?;
+        Ok(())
+    }
+}
+
+#[pyclass(gc, extends = Component)]
+struct Camera {
+    size: vec::Vec<f32>,
+    aspect_ration: f32,
+    fov: f32,
+    z_plane: vec::Vec<f32>,
+}
+
+#[pymethods]
+impl Camera {
+    #[new]
+    fn __new__(obj: &PyRawObject,
+               size: vec::Vec<f32>,
+               aspect_ration: f32,
+               fov: f32,
+               z_plane: vec::Vec<f32> ) -> PyResult<()> {
+        obj.init({ Camera { size, aspect_ration, fov, z_plane } });
         Component::__new__(obj)?;
         Ok(())
     }
@@ -343,6 +393,7 @@ fn swine(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<GameObject>()?;
     m.add_class::<Component>()?;
     m.add_class::<Transform>()?;
+    m.add_class::<Camera>()?;
     m.add_class::<ShapeRender>()?;
     m.add_class::<RectangleRender>()?;
     Ok(())
