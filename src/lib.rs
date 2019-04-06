@@ -233,7 +233,9 @@ impl Scene {
         return Ok(py.None())
     }
 
-    fn get_object_with_component(&self, type_: PyObject) {}
+    fn get_object_with_component(&self, type_: PyObject) {
+        // println!("{:#?}", component.getattr(py, "__class__")?.getattr(py, "__name__")?.extract::<String>(py)?);
+    }
 }
 
 #[pyclass(gc, subclass)]
@@ -254,6 +256,18 @@ impl GameObject {
     fn add_component(&self, component: PyObject) -> PyResult<()> {
         self.component_list.borrow_mut().push(component);
         Ok(())
+    }
+
+    fn get_components(&self, py: Python) -> PyResult<PyObject> {
+        let mut list = vec::Vec::new();
+
+        let comp_list = self.component_list.borrow();
+
+        for component in comp_list.iter() {
+            list.push(component);
+        }
+
+        Ok(PyList::new(py, list).to_object(py))
     }
 }
 
@@ -279,6 +293,11 @@ impl Component {
 
     // Called once every frame, after the update
     fn draw(&self, py: Python) -> PyResult<Option<Py<PyDict>>> {
+        Ok(None)
+    }
+
+    // Called once every frame, by an editor (if one is being used)
+    fn draw_editor(&self, py: Python) -> PyResult<Option<Py<PyDict>>> {
         Ok(None)
     }
 

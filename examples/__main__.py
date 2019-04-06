@@ -26,6 +26,7 @@ if __name__ == "__main__":
 
     game_object.add_component(swine.Transform((0, 0, 0), (0, 0, 0, 0), (1, 1, 1)))
     game_object.add_component(swine.RectangleRender((0.15, 0.15)))
+    print(game_object.get_components())
 
     window.add_scene(scene)
     scene.add_object(game_object)

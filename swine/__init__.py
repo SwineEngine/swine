@@ -35,6 +35,9 @@ class GameObject(object):
     def add_component(self, component):
         pass
 
+    def get_components(self):
+        pass
+
 
 class Component(object):
     def __init__(self):
