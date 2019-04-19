@@ -71,3 +71,6 @@ class ShapeRender(Component):
 class RectangleRender(ShapeRender):
     def __init__(self, size):
         ShapeRender.__init__(self)
+
+
+from .swine import *
